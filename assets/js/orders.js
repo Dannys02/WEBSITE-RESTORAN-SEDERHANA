@@ -17,12 +17,24 @@ if (status) {
     }, 5000);
 }
 
-// FUNGSI HANDLE KONFIRMASI & WA
-function handleSetuju(url, waLink) {
-    if (confirm("Apakah Anda yakin ingin MENYETUJUI pesanan ini?")) {
-        // 1. Buka WhatsApp di tab baru
-        window.open(waLink, "_blank");
-        // 2. Redirect halaman utama untuk proses database
-        window.location.href = url;
+/**
+ * File: order-handler.js
+ * Fungsi untuk menangani konfirmasi pesanan (Setuju/Tolak)
+ */
+
+function gasKonfirmasi(urlDatabase, linkWhatsApp, pesanKonfirmasi) {
+    // Munculkan alert konfirmasi sesuai parameter
+    if (confirm(pesanKonfirmasi)) {
+        // 1. Buka link WhatsApp di tab baru
+        const waWindow = window.open(linkWhatsApp, '_blank');
+        
+        // 2. Jika browser berhasil buka tab baru atau bahkan diblokir popup, 
+        // kita tetap paksa halaman utama untuk update database
+        if (waWindow) {
+            waWindow.focus();
+        }
+
+        // 3. Eksekusi redirect ke PHP untuk proses MySQL (UPDATE status)
+        window.location.href = urlDatabase;
     }
 }

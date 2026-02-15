@@ -10,6 +10,7 @@ if (!$p) { header("Location: index.php"); exit; }
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title><?= $p['nama'] ?> - Detail Produk</title>
 </head>

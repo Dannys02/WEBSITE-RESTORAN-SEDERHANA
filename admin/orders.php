@@ -1,180 +1,114 @@
 <?php
-/**
-* PROTEKSI AKSES
-*/
+// Cek session admin
 if (!isset($_SESSION['admin_logged_in'])) {
-  header("Location: login.php");
-  exit;
+  echo "<script>window.location.href='login.php';</script>"; exit;
 }
 
-/**
-* LOGIKA PEMROSESAN (CONTROLLER)
-*/
 $action = $_GET['action'] ?? null;
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
+// --- LOGIKA PROSES DATABASE (PASTI JALAN) ---
 if ($action && $id) {
   if ($action === 'setuju') {
-    // 1. Mulai Transaksi Database
-    $koneksi->begin_transaction();
-
-    try {
-      // 2. Ambil data stok yang dipesan dan produk_id terlebih dahulu
-      $stmt_info = $koneksi->prepare("SELECT produk_id, stok FROM pesanan WHERE id = ?");
-      $stmt_info->bind_param("i", $id);
-      $stmt_info->execute();
-      $result_info = $stmt_info->get_result();
-      $order_data = $result_info->fetch_assoc();
-
-      if ($order_data) {
-        $produk_id = $order_data['produk_id'];
-        $jumlah_beli = $order_data['stok'];
-
-        // 3. Update status pesanan jadi 'setuju'
-        $update_order = $koneksi->prepare("UPDATE pesanan SET status = 'setuju' WHERE id = ?");
-        $update_order->bind_param("i", $id);
-        $update_order->execute();
-
-        // 4. Kurangi stok di tabel produk
-        // Query ini langsung mengurangi nilai stok yang ada di database
-        $update_stock = $koneksi->prepare("UPDATE produk SET stok = stok - ? WHERE id = ?");
-        $update_stock->bind_param("ii", $jumlah_beli, $produk_id);
-        $update_stock->execute();
-
-        // 5. Jika semua berhasil, simpan perubahan (commit)
-        $koneksi->commit();
-
-        header("Location: orders.php?status=success");
-        exit;
-      }
-    } catch (Exception $e) {
-      // 6. Jika ada error, batalkan semua perubahan
-      $koneksi->rollback();
-      header("Location: orders.php?status=error");
-      exit;
+    $res = mysqli_query($koneksi, "SELECT produk_id, stok FROM pesanan WHERE id = $id");
+    $order = mysqli_fetch_assoc($res);
+    if ($order) {
+      mysqli_query($koneksi, "UPDATE pesanan SET status = 'setuju' WHERE id = $id");
+      mysqli_query($koneksi, "UPDATE produk SET stok = stok - {$order['stok']} WHERE id = {$order['produk_id']}");
+      echo "<script>window.location.href='index.php?page=orders';</script>"; exit;
     }
-
   } elseif ($action === 'tolak') {
-    // ... kode tolak Anda tetap sama ...
-    $update = $koneksi->prepare("UPDATE pesanan SET status = 'tolak' WHERE id = ?");
-    $update->bind_param("i", $id);
-    $update->execute();
-    header("Location: orders.php?status=rejected");
-    exit;
+    mysqli_query($koneksi, "UPDATE pesanan SET status = 'tolak' WHERE id = $id");
+    echo "<script>window.location.href='index.php?page=orders';</script>"; exit;
   }
 }
 
-/**
-* PENGAMBILAN DATA
-*/
-$query = "SELECT p.*, pr.nama as nama_produk FROM pesanan p JOIN produk pr ON p.produk_id = pr.id ORDER BY p.id DESC";
+// Ambil data pesanan
+$query = "SELECT p.*, pr.nama as nama_produk, pr.harga FROM pesanan p
+          JOIN produk pr ON p.produk_id = pr.id
+          ORDER BY p.id DESC";
 $all_orders = mysqli_query($koneksi, $query);
-$count = mysqli_num_rows($all_orders);
 ?>
-<div class="max-w-6xl mx-auto">
-  <header class="flex justify-between items-center mb-8">
-    <div>
-      <h1 class="text-3xl font-extrabold text-slate-800">Daftar Pesanan</h1>
-      <p class="text-slate-500">
-        Kelola konfirmasi pembayaran dan pengiriman
-      </p>
-    </div>
-  </header>
 
-  <?php if (isset($_GET['status'])): ?>
-  <div id="status_sukses" class="mb-4 p-4 rounded-lg bg-green-100 text-green-700 border border-green-200">
-    Aksi berhasil diproses!
-  </div>
-  <?php endif; ?>
-
-  <div class="overflow-hidden">
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
-      <table class="w-full text-left border-collapse">
-        <thead class="bg-slate-100 border-b border-slate-200">
-          <tr>
-            <th class="p-4 font-semibold text-slate-700">Pembeli</th>
-            <th class="p-4 font-semibold text-slate-700">Produk</th>
-            <th class="p-4 font-semibold text-slate-700">Stok</th>
-            <th class="p-4 font-semibold text-slate-700">Harga</th>
-            <th class="p-4 font-semibold text-slate-700">Status</th>
-            <th class="p-4 font-semibold text-slate-700 text-center">Aksi</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-100">
-          <?php if ($count > 0): ?>
-          <?php while ($row = mysqli_fetch_assoc($all_orders)): ?>
-          <tr class="hover:bg-slate-50 transition-colors">
-            <td class="p-4">
-              <div class="font-medium text-slate-900">
-                <?= htmlspecialchars($row['nama_pembeli']) ?>
-              </div>
-              <div class="text-sm text-slate-500">
-                <?= htmlspecialchars($row['whatsapp']) ?>
-              </div>
-            </td>
-            <td class="p-4 text-slate-700"><?= htmlspecialchars($row['nama_produk']) ?></td>
-            <td class="p-4 text-slate-700"><?= htmlspecialchars($row['stok']) ?></td>
-            <td class="p-4 text-slate-700">Rp <?= number_format($row['harga']) ?></td>
-            <td class="p-4">
-              <?php
-              $statusStyle = [
-                'pending' => 'bg-amber-100 text-amber-700',
-                'setuju' => 'bg-emerald-100 text-emerald-700',
-                'tolak' => 'bg-rose-100 text-rose-700'
-              ];
-              $currentStatus = $row['status'] ?? 'pending';
-              ?>
-              <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider <?= $statusStyle[$currentStatus] ?>">
-                <?= htmlspecialchars($currentStatus) ?>
-              </span>
-            </td>
-            <td class="p-4 text-center">
-              <?php if ($currentStatus === 'pending'): ?>
-              <?php
-              // Persiapan Link WhatsApp
-              $clean_phone = preg_replace('/[^0-9]/', '', $row['whatsapp']);
-              if (substr($clean_phone, 0, 1) === '0') {
-                $clean_phone = '62' . substr($clean_phone, 1);
-              }
-
-              $pesan = "*KONFIRMASI PESANAN - " . strtoupper($row['nama_toko'] ?? 'TOKO KAMI') . "*\n"
-              . "--------------------------\n"
-              . "Halo *" . $row['nama_pembeli'] . "*, pesanan Anda telah kami *SETUJUI*.\n\n"
-              . "📦 *Detail Produk:*\n"
-              . "Nama: " . $row['nama_produk'] . "\n"
-              . "Jumlah: " . $row['stok'] . " pcs\n"
-              . "Total: Rp " . number_format($row['harga'] * $row['stok'], 0, ',', '.') . "\n"
-              . "--------------------------\n"
-              . "✅ *Status:* Siap Dikirim\n\n"
-              . "Mohon tunggu informasi selanjutnya. Terima kasih sudah berbelanja!";
-
-              $wa_link = "https://api.whatsapp.com/send?phone=" . $clean_phone . "&text=" . urlencode($pesan);
-              $db_url = "?action=setuju&id=" . (int)$row['id'];
-              ?>
-              <div class="flex justify-center gap-2">
-                <button type="button"
-                  onclick="handleSetuju('<?= $db_url ?>', '<?= $wa_link ?>')"
-                  class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-all">
-                  Setujui & WA
-                </button>
-
-                <a href="?action=tolak&id=<?= (int)$row['id'] ?>"
-                  onclick="return confirm('Tolak pesanan ini?')"
-                  class="bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 px-4 py-1.5 rounded-lg text-sm font-medium transition-all">
-                  Tolak
-                </a>
-              </div>
-              <?php else : ?>
-              <span class="text-slate-400 italic text-sm">Selesai diproses</span>
-              <?php endif; ?>
-            </td>
-          </tr>
-          <?php endwhile; ?>
-          <?php else : ?>
-          <tr><td colspan="6" class="p-12 text-center text-slate-400">Tidak ada pesanan masuk</td></tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="mb-6">
+  <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">Daftar Pesanan Masuk</h1>
 </div>
+
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+  <table class="w-full text-left border-collapse">
+    <thead class="bg-slate-50 border-b border-slate-200">
+      <tr>
+        <th class="p-4 text-xs font-bold uppercase text-slate-500">Pembeli</th>
+        <th class="p-4 text-xs font-bold uppercase text-slate-500">Produk</th>
+        <th class="p-4 text-xs font-bold uppercase text-slate-500 text-center">Aksi</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+      <?php while ($row = mysqli_fetch_assoc($all_orders)): ?>
+      <?php
+      $clean_phone = preg_replace('/[^0-9]/', '', $row['whatsapp']);
+      if (substr($clean_phone, 0, 1) === '0') {
+        $clean_phone = '62' . substr($clean_phone, 1);
+      }
+
+      $url_setuju = "index.php?page=orders&action=setuju&id={$row['id']}";
+      $url_tolak = "index.php?page=orders&action=tolak&id={$row['id']}";
+
+      $txt_setuju = urlencode("✅ *PESANAN TELAH DISETUJUI*\n"
+    . "------------------------------------------\n"
+    . "⚠️ *NOTIFIKASI SISTEM - SIAP DIKIRIM*\n\n"
+    . "Detail Order Yang Harus Diproses:\n"
+    . "📦 *Menu:* {$row['nama_produk']}\n"
+    . "🔢 *Jumlah:* {$row['stok']} Unit\n"
+    . "💰 *Total Pembayaran:* Rp " . number_format($row['harga'] * $row['stok'], 0, ',', '.') . "\n"
+    . "------------------------------------------\n"
+    . "📊 *Status Aktif:* SIAP DIKIRIM\n"
+    . "🕒 *Log Time:* " . date('d/m/Y H:i') . "\n"
+    . "------------------------------------------\n"
+    . "👉 _Segera lakukan pengemasan dan update nomor resi melalui dashboard admin._"
+); // <--- TUTUP KURUNG UNTUK urlencode ADA DI SINI!
+
+        $txt_tolak = urlencode("*PEMBATALAN PESANAN*\n--------------------------\nMohon maaf *{$row['nama_pembeli']}*,\n\n📦 *Produk:* {$row['nama_produk']}\n❌ *Status:* DITOLAK\n⚠️ *Alasan:* Stok Habis.");
+
+        $wa_setuju = "https://api.whatsapp.com/send?phone=$clean_phone&text=$txt_setuju";
+        $wa_tolak = "https://api.whatsapp.com/send?phone=$clean_phone&text=$txt_tolak";
+        ?>
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="p-4 text-sm">
+            <div class="font-bold">
+              <?= htmlspecialchars($row['nama_pembeli']) ?>
+            </div>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-tighter
+              <?= $row['status'] == 'setuju' ? 'bg-green-100 text-green-700' : ($row['status'] == 'tolak' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700') ?>">
+              <?= $row['status'] ?>
+            </span>
+          </td>
+          <td class="p-4 text-sm">
+            <?= $row['nama_produk'] ?> (<?= $row['stok'] ?>)
+          </td>
+          <td class="p-4 text-center">
+            <?php if ($row['status'] == 'pending'): ?>
+            <div class="flex flex-col gap-2 max-w-[120px] mx-auto">
+
+              <button type="button"
+                onclick="if(confirm('SETUJUI PESANAN?')){ window.open('<?= $wa_setuju ?>', '_blank'); window.location.href='<?= $url_setuju ?>'; }"
+                class="bg-emerald-500 text-white py-2 rounded-lg text-[10px] font-black shadow-sm">
+                SETUJUI
+              </button>
+
+              <button type="button"
+                onclick="if(confirm('TOLAK PESANAN?')){ window.open('<?= $wa_tolak ?>', '_blank'); window.location.href='<?= $url_tolak ?>'; }"
+                class="bg-white border-2 border-red-500 text-red-500 py-2 rounded-lg text-[10px] font-black">
+                TOLAK
+              </button>
+
+            </div>
+            <?php else : ?>
+            <span class="text-[10px] text-slate-300 font-bold italic uppercase">Selesai</span>
+            <?php endif; ?>
+          </td>
+        </tr>
+        <?php endwhile; ?>
+      </tbody>
+    </table>
+  </div>

@@ -52,21 +52,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Setup WhatsApp
     $nomor_admin = "6285645837298";
-    $pesan = "*PESANAN BARU DARI WEB*\n"
-    . "--------------------------\n"
-    . "📦 *Produk:* " . $nama_produk . "\n"
+    $pesan = "🙏 *TERIMA KASIH TELAH MEMESAN*\n"
+    . "------------------------------------------\n"
+    . "Halo, *" . $nama . "*\n"
+    . "Pesanan Anda telah kami terima dan sedang dalam antrean verifikasi tim kami.\n\n"
+    . "📑 *RINGKASAN PESANAN*\n"
+    . "━━━━━━━━━━━━━━━━━━━━\n"
+    . "📦 *Menu:* " . $nama_produk . "\n"
     . "🔢 *Jumlah:* " . $stok . " pcs\n"
-    . "💰 *Total:* Rp " . number_format($harga, 0, ',', '.') . "\n"
-    . "--------------------------\n"
-    . "👤 *Nama:* " . $nama . "\n"
-    . "📱 *WA:* " . $wa_pembeli . "\n"
-    . "📍 *Alamat:* " . $alamat;
+    . "💰 *Total Pembayaran:* Rp " . number_format($harga, 0, ',', '.') . "\n"
+    . "━━━━━━━━━━━━━━━━━━━━\n\n"
+    . "🚚 *DETAIL PENGIRIMAN*\n"
+    . "📍 *Alamat:* " . $alamat . "\n"
+    . "📱 *WhatsApp:* " . $wa_pembeli . "\n\n"
+    . "------------------------------------------\n"
+    . "📢 *Info:* Mohon tunggu sebentar, admin kami akan segera menghubungi Anda untuk langkah selanjutnya.";
+
 
     $url_wa = "https://api.whatsapp.com/send?phone=" . $nomor_admin . "&text=" . urlencode($pesan);
 
     echo "<script>
                 alert('Pesanan Berhasil Disimpan!');
                 window.location.href='$url_wa';
+                window.location.href = '../index.php';
               </script>";
   } else {
     echo "Error: " . mysqli_error($koneksi);

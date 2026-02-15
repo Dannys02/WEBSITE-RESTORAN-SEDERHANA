@@ -16,30 +16,34 @@ include 'config/db.php';
     <h1 class="text-xl font-bold">Toko Saya</h1>
   </nav>
 
-  <div class="container mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div class="container mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-6">
     <?php
     $query = mysqli_query($koneksi, "SELECT * FROM produk");
     while ($row = mysqli_fetch_assoc($query)):
     ?>
-    <div class="bg-white p-4 rounded-lg shadow-md">
-      <!--<img src="assets/img/<?= $row['gambar'] ?>" class="w-full h-48 object-cover rounded">-->
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAGuMZRXIMk_6JJ_CBwRVZ9nurSZfes0l9-ow3TFragmk3_tJuXuRkBWYN&s=10" class="w-full h-48 object-cover rounded">
-      <h2 class="text-xl font-bold mt-2"><?= $row['nama'] ?></h2>
+    <div class="bg-white p-4 rounded-lg shadow-md flex flex-col h-full">
+      <img src="<?= (!empty($row['gambar'])) ? 'assets/img/' . $row['gambar'] : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAGuMZRXIMk_6JJ_CBwRVZ9nurSZfes0l9-ow3TFragmk3_tJuXuRkBWYN&s=10' ?>"
+      alt="<?= $row['nama'] ?>" class="w-full h-48 object-cover rounded">
+      <!--<img src="" class="w-full h-48 object-cover rounded">-->
+      <h2 class="text-xl font-bold mt-2 mb-4"><?= $row['nama'] ?></h2>
       <div class="text-start mb-2">
-        <p>
+        <p class="truncate">
           <?= $row['deskripsi'] ?>
         </p>
       </div>
-      <p class="mb-4 font-bold">
-        Stok : <?= $row['stok'] ?>
-      </p>
-      <p class="text-green-600 font-semibold">
-        Rp <?= number_format($row['harga']) ?>
-      </p>
-      
-      <div class="flex items-center gap-2">
-        <button onclick="openModal(<?= $row['id'] ?>, '<?= $row['nama'] ?>', <?= $row['harga'] ?>)" class="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Pesan Sekarang</button>
-        <a href="detail.php&id=<? $row['id'] ?>" class="mt-4 text-center w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Detail</a>
+
+      <div class="flex justify-between items-center">
+        <p class="text-green-600 font-semibold">
+          Rp <?= number_format($row['harga']) ?>
+        </p>
+        <p class="font-bold truncate">
+          Stok : <?= $row['stok'] ?>
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 mt-auto">
+        <button onclick="openModal(<?= $row['id'] ?>, '<?= $row['nama'] ?>', <?= $row['harga'] ?>)" class="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Pesan </button>
+        <a href="detail.php?id=<?= $row['id'] ?>" class="mt-4 text-center w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Detail</a>
       </div>
     </div>
     <?php endwhile; ?>
