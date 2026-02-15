@@ -16,3 +16,13 @@ if (status) {
         }, 500);
     }, 5000);
 }
+
+// FUNGSI HANDLE KONFIRMASI & WA
+function handleSetuju(url, waLink) {
+    if (confirm("Apakah Anda yakin ingin MENYETUJUI pesanan ini?")) {
+        // 1. Buka WhatsApp di tab baru
+        window.open(waLink, "_blank");
+        // 2. Redirect halaman utama untuk proses database
+        window.location.href = url;
+    }
+}

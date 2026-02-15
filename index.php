@@ -36,8 +36,11 @@ include 'config/db.php';
       <p class="text-green-600 font-semibold">
         Rp <?= number_format($row['harga']) ?>
       </p>
-
-      <button onclick="openModal(<?= $row['id'] ?>, '<?= $row['nama'] ?>', <?= $row['harga'] ?>)" class="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Pesan Sekarang</button>
+      
+      <div class="flex items-center gap-2">
+        <button onclick="openModal(<?= $row['id'] ?>, '<?= $row['nama'] ?>', <?= $row['harga'] ?>)" class="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Pesan Sekarang</button>
+        <a href="detail.php&id=<? $row['id'] ?>" class="mt-4 text-center w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Detail</a>
+      </div>
     </div>
     <?php endwhile; ?>
   </div>

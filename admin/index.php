@@ -34,7 +34,7 @@ $page = $_GET['page'] ?? 'dashboard';
         case 'produk':
           include 'crud_produk.php';
           break;
-        case 'edit_produk':
+        case 'edit':
           include 'edit_produk.php';
           break;
         case 'orders':
@@ -47,6 +47,6 @@ $page = $_GET['page'] ?? 'dashboard';
       ?>
     </div>
   </main>
-
+  <script src="../assets/js/orders.js"></script>
 </body>
 </html>
