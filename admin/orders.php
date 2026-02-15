@@ -1,7 +1,4 @@
 <?php
-session_start();
-require_once '../config/db.php';
-
 /**
 * PROTEKSI AKSES
 */
@@ -82,7 +79,6 @@ $count = mysqli_num_rows($all_orders);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Admin Dashboard - Kelola Pesanan</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <script>
     // FUNGSI HANDLE KONFIRMASI & WA
     function handleSetuju(url, waLink) {
@@ -105,7 +101,6 @@ $count = mysqli_num_rows($all_orders);
           Kelola konfirmasi pembayaran dan pengiriman
         </p>
       </div>
-      <a href="logout.php" class="text-red-600 hover:underline font-medium">Keluar</a>
     </header>
 
     <?php if (isset($_GET['status'])): ?>
@@ -205,7 +200,6 @@ $count = mysqli_num_rows($all_orders);
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="../assets/js/orders.js"></script>
 </body>
 </html>

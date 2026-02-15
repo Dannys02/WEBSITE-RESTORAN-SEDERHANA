@@ -10,7 +10,7 @@ if (isset($_POST['login'])) {
   // Di dunia nyata, ini harusnya mengambil dari tabel 'users' di database
   if ($username == "Admin" && $password == "admin123") {
     $_SESSION['admin_logged_in'] = true;
-    header("Location: orders.php");
+    header("Location: index.php");
     exit;
   } else {
     $error = "Username atau Password salah!";
