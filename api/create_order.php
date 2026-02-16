@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $user_ip = $_SERVER['REMOTE_ADDR'];
   $last_sub = isset($_SESSION['last_submit']) ? $_SESSION['last_submit'] : 0;
   if (isset($_SESSION['last_ip']) && $_SESSION['last_ip'] == $user_ip && (time() - $last_sub < 30)) {
-    die("Mohon tunggu 30 detik sebelum memesan lagi.");
+    echo "<script>(Mohon tunggu 30 detik sebelum memesan lagi.)</script>";
   }
 
   // Sanitasi Input
@@ -36,9 +36,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit;
   }
 
-  // SIMPAN KE DATABASE
-  $query = "INSERT INTO pesanan (nama_pembeli, whatsapp, stok, harga, alamat, produk_id)
-              VALUES ('$nama', '$wa_pembeli', '$stok', '$harga', '$alamat', '$produk_id')";
+  // CEK APAKAH STOK MASIH ADA (CUMA CEK, GAK NGURANGIN) ---
+  $cek_stok = mysqli_query($koneksi, "SELECT stok FROM produk WHERE id = '$produk_id'");
+  $data_produk = mysqli_fetch_assoc($cek_stok);
+
+  if (!$data_produk || $data_produk['stok'] < $stok) {
+    echo "<script>alert('Maaf, stok tidak mencukupi!'); window.location.href='../index.php';</script>";
+    exit;
+  }
+
+  // SIMPAN PESANAN (INSERT BIASA) ---
+  $query = "INSERT INTO pesanan (nama_pembeli, whatsapp, stok, harga, alamat, produk_id, status)
+            VALUES ('$nama', '$wa_pembeli', '$stok', '$harga', '$alamat', '$produk_id', 'pending')";
 
   if (mysqli_query($koneksi, $query)) {
     // Update session untuk cegah spam
@@ -52,30 +61,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Setup WhatsApp
     $nomor_admin = "6285645837298";
-    $pesan = "🙏 *TERIMA KASIH TELAH MEMESAN*\n"
+    $pesan = "Halo Admin, saya ingin memesan 🙋‍♂️\n"
     . "------------------------------------------\n"
-    . "Halo, *" . $nama . "*\n"
-    . "Pesanan Anda telah kami terima dan sedang dalam antrean verifikasi tim kami.\n\n"
-    . "📑 *RINGKASAN PESANAN*\n"
+    . "Berikut adalah data pesanan saya:\n\n"
+    . "📑 *DETAIL PESANAN*\n"
     . "━━━━━━━━━━━━━━━━━━━━\n"
-    . "📦 *Menu:* " . $nama_produk . "\n"
+    . "🍱 *Menu:* " . $nama_produk . "\n"
     . "🔢 *Jumlah:* " . $stok . " pcs\n"
-    . "💰 *Total Pembayaran:* Rp " . number_format($harga, 0, ',', '.') . "\n"
+    . "💰 *Total Estimasi:* Rp " . number_format($harga, 0, ',', '.') . "\n"
     . "━━━━━━━━━━━━━━━━━━━━\n\n"
-    . "🚚 *DETAIL PENGIRIMAN*\n"
+    . "🚚 *DATA PENGIRIMAN*\n"
+    . "👤 *Nama:* " . $nama . "\n"
     . "📍 *Alamat:* " . $alamat . "\n"
     . "📱 *WhatsApp:* " . $wa_pembeli . "\n\n"
     . "------------------------------------------\n"
-    . "📢 *Info:* Mohon tunggu sebentar, admin kami akan segera menghubungi Anda untuk langkah selanjutnya.";
-
+    . "Mohon segera diproses ya Min. Terima kasih! 🙏";
 
     $url_wa = "https://api.whatsapp.com/send?phone=" . $nomor_admin . "&text=" . urlencode($pesan);
 
     echo "<script>
-                alert('Pesanan Berhasil Disimpan!');
-                window.location.href='$url_wa';
-                window.location.href = '../index.php';
-              </script>";
+                  alert('Pesanan Berhasil Disimpan!');
+                  window.location.href='$url_wa';
+                  window.location.href = '../index.php';
+                </script>";
   } else {
     echo "Error: " . mysqli_error($koneksi);
   }

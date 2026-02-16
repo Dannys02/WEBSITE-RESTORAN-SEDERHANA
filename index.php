@@ -36,8 +36,8 @@ include 'config/db.php';
         <p class="text-green-600 font-semibold">
           Rp <?= number_format($row['harga']) ?>
         </p>
-        <p class="font-bold truncate">
-          Stok : <?= $row['stok'] ?>
+        <p class="font-bold truncate <?= ($row['stok'] == 0) ? 'text-red-500' : '' ?>">
+          Stok : <?= $row['stok'] ?> <?= ($row['stok'] == 0 ? '(stok habis)' : '') ?>
         </p>
       </div>
 
