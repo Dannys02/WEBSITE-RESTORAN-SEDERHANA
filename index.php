@@ -4,66 +4,313 @@ $_SESSION['load_time'] = time();
 include 'config/db.php';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Katalog Produk UMKM Terbaik - Segar, Lezat, dan Berkualitas.">
+  <title>Toko Saya | Katalog UMKM Pilihan</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Katalog UMKM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .orange-gradient {
+      background: linear-gradient(135deg, #FF7E5F 0%, #FEB47B 100%);
+    }
+  </style>
 </head>
-<body class="bg-gray-100">
-  <nav class="bg-blue-600 p-4 text-white shadow-lg">
-    <h1 class="text-xl font-bold">Toko Saya</h1>
-  </nav>
+<body class="bg-gray-50 text-slate-800">
 
-  <div class="container mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-    <?php
-    $query = mysqli_query($koneksi, "SELECT * FROM produk");
-    while ($row = mysqli_fetch_assoc($query)):
-    ?>
-    <div class="bg-white p-4 rounded-lg shadow-md flex flex-col h-full">
-      <img src="<?= (!empty($row['gambar'])) ? 'assets/img/' . $row['gambar'] : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAGuMZRXIMk_6JJ_CBwRVZ9nurSZfes0l9-ow3TFragmk3_tJuXuRkBWYN&s=10' ?>"
-      alt="<?= $row['nama'] ?>" class="w-full h-48 object-cover rounded">
-      <!--<img src="" class="w-full h-48 object-cover rounded">-->
-      <h2 class="text-xl font-bold mt-2 mb-4"><?= $row['nama'] ?></h2>
-      <div class="text-start mb-2">
-        <p class="truncate">
-          <?= $row['deskripsi'] ?>
-        </p>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <p class="text-green-600 font-semibold">
-          Rp <?= number_format($row['harga']) ?>
-        </p>
-        <p class="font-bold truncate <?= ($row['stok'] == 0) ? 'text-red-500' : '' ?>">
-          Stok : <?= $row['stok'] ?> <?= ($row['stok'] == 0 ? '(stok habis)' : '') ?>
-        </p>
-      </div>
-
-      <div class="flex items-center gap-2 mt-auto">
-        <button onclick="openModal(<?= $row['id'] ?>, '<?= $row['nama'] ?>', <?= $row['harga'] ?>)" class="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Pesan </button>
-        <a href="detail.php?id=<?= $row['id'] ?>" class="mt-4 text-center w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Detail</a>
+  <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-orange-100">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="#" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya</span></a>
+      <div class="hidden md:flex items-center gap-8 font-medium">
+        <a href="#beranda" class="hover:text-orange-500 transition">Beranda</a>
+        <a href="#tentang" class="hover:text-orange-500 transition">Tentang</a>
+        <a href="#produk" class="hover:text-orange-500 transition">Produk</a>
+        <a href="#kontak" class="hover:text-orange-500 transition">Kontak</a>
+        <button class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-md">
+          Hubungi Kami
+        </button>
       </div>
     </div>
-    <?php endwhile; ?>
-  </div>
+  </nav>
 
-  <div id="orderModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-lg w-96">
-      <h3 id="modalTitle" class="text-lg font-bold mb-4">Form Order</h3>
-      <form action="api/create_order.php" method="POST">
+  <section id="beranda" class="relative overflow-hidden bg-white py-16 md:py-24">
+    <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+          Rasakan Kelezatan <span class="text-orange-500">Autentik</span> di Setiap Gigitan.
+        </h2>
+        <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+          Kami menghadirkan produk UMKM pilihan yang dibuat dengan bahan baku premium dan resep warisan yang menggugah selera.
+        </p>
+        <a href="#produk" class="inline-block orange-gradient text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-orange-200 hover:scale-105 transition-transform">
+          Lihat Katalog Produk
+        </a>
+      </div>
+      <div class="relative">
+        <div class="absolute -z-10 w-72 h-72 bg-orange-200 rounded-full blur-3xl opacity-50 top-0 right-0"></div>
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800" alt="Hero Image" class="rounded-3xl shadow-2xl">
+      </div>
+    </div>
+  </section>
+
+  <section id="tentang" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="md:w-1/2 relative">
+          <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-100 rounded-2xl -z-10"></div>
+          <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&q=80&w=800" alt="Tim Kami" class="rounded-[2.5rem] shadow-2xl object-cover h-[400px] w-full">
+        </div>
+        <div class="md:w-1/2">
+          <span class="text-orange-500 font-bold uppercase tracking-wider text-sm">Cerita Kami</span>
+          <h3 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 mb-6">Berawal dari Dapur Rumah, Menuju Meja Anda.</h3>
+          <p class="text-gray-600 leading-relaxed mb-6">
+            TokoSaya lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap produk memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
+          </p>
+          <div class="grid grid-cols-2 gap-6">
+            <div>
+              <h4 class="text-2xl font-bold text-orange-600">500+</h4>
+              <p class="text-gray-500 text-sm">
+                Pelanggan Puas
+              </p>
+            </div>
+            <div>
+              <h4 class="text-2xl font-bold text-orange-600">100%</h4>
+              <p class="text-gray-500 text-sm">
+                Bahan Alami
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="produk" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h3 class="text-3xl font-bold mb-4">Produk Unggulan Kami</h3>
+        <div class="w-20 h-1.5 bg-orange-500 mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <?php
+        $query = mysqli_query($koneksi, "SELECT * FROM produk");
+        while ($row = mysqli_fetch_assoc($query)):
+        $isOut = ($row['stok'] <= 0);
+        ?>
+        <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+          <div class="relative overflow-hidden">
+            <img src="<?= (!empty($row['gambar'])) ? 'assets/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
+            alt="<?= htmlspecialchars($row['nama']) ?>"
+            class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+            <?php if ($isOut): ?>
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
+              <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">Stok Habis</span>
+            </div>
+            <?php endif; ?>
+          </div>
+
+          <div class="p-6">
+            <h4 class="text-xl font-bold mb-2 group-hover:text-orange-600 transition-colors"><?= $row['nama'] ?></h4>
+            <p class="text-gray-500 text-sm line-clamp-2 mb-4 leading-relaxed">
+              <?= $row['deskripsi'] ?>
+            </p>
+
+            <div class="flex items-center justify-between mb-6">
+              <span class="text-xl font-extrabold text-slate-900">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>
+              <span class="text-xs font-medium px-2 py-1 bg-gray-100 rounded text-gray-600">Stok: <?= $row['stok'] ?></span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <button onclick='openModal(<?= json_encode($row) ?>)'
+                class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition shadow-md shadow-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                <?= $isOut ? 'disabled' : '' ?>>
+                Pesan
+              </button>
+              <a href="detail.php?id=<?= $row['id'] ?>" class="border border-orange-200 text-orange-600 hover:bg-orange-50 py-3 rounded-xl font-bold text-sm text-center transition">
+                Detail
+              </a>
+            </div>
+          </div>
+        </article>
+        <?php endwhile; ?>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimoni" class="py-20 bg-orange-50/50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h3 class="text-3xl font-bold mb-4">Apa Kata Mereka?</h3>
+        <p class="text-gray-500">
+          Kepuasan pelanggan adalah prioritas utama kami.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100">
+          <div class="flex text-orange-400 mb-4">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-.11.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+          </div>
+          <p class="text-gray-600 italic mb-6">
+            "Rasanya benar-benar juara! Pengiriman cepat dan kemasannya sangat rapi. Bakal jadi langganan tetap di sini."
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-600">
+              S
+            </div>
+            <div>
+              <h5 class="font-bold text-slate-900">Siti Rahma</h5>
+              <p class="text-xs text-gray-400">
+                Ibu Rumah Tangga
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100 scale-105">
+          <div class="flex text-orange-400 mb-4 text-center">
+            <span class="mx-auto flex">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-.11.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+            </span>
+          </div>
+          <p class="text-gray-600 italic mb-6 text-center">
+            "Produk UMKM tapi kualitas bintang lima. Harga sangat terjangkau untuk kualitas rasa se-premium ini."
+          </p>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center font-bold text-white shadow-lg">
+              A
+            </div>
+            <h5 class="font-bold text-slate-900">Andi Wijaya</h5>
+            <p class="text-xs text-gray-400">
+              Karyawan Swasta
+            </p>
+          </div>
+        </div>
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100">
+          <div class="flex text-orange-400 mb-4">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-.11.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+          </div>
+          <p class="text-gray-600 italic mb-6">
+            "Cocok banget buat oleh-oleh. Adminnya juga ramah dan fast respon waktu ditanya stok. Mantap!"
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-600">
+              R
+            </div>
+            <div>
+              <h5 class="font-bold text-slate-900">Rina Melati</h5>
+              <p class="text-xs text-gray-400">
+                Food Blogger
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="kontak" class="bg-slate-900 text-white pt-20 pb-10">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+        <div>
+          <h4 class="text-2xl font-bold text-orange-500 mb-6">TokoSaya.</h4>
+          <p class="text-slate-400 leading-relaxed mb-6">
+            Membawa kebahagiaan ke rumah Anda melalui hidangan lokal yang autentik dan higienis.
+          </p>
+          <div class="flex gap-4">
+            <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition"><svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg></a>
+          </div>
+        </div>
+        <div>
+          <h5 class="text-lg font-bold mb-6">Hubungi Kami</h5>
+          <ul class="space-y-4 text-slate-400">
+            <li class="flex items-start gap-3">
+              <span class="text-orange-500">📍</span>
+              Jl. Melati No. 123, Jakarta Selatan
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-orange-500">📞</span>
+              +62 812-3456-7890
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-orange-500">✉️</span>
+              halo@tokosaya.com
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h5 class="text-lg font-bold mb-6">Jam Operasional</h5>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li class="flex justify-between"><span>Senin - Jumat</span> <span>08:00 - 20:00</span></li>
+            <li class="flex justify-between"><span>Sabtu</span> <span>09:00 - 17:00</span></li>
+            <li class="flex justify-between text-orange-500"><span>Minggu</span> <span>Tutup</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-slate-800 pt-8 text-center text-slate-500 text-xs">
+        <p>
+          &copy; 2026 TokoSaya. Hak Cipta Dilindungi.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="orderModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 overflow-hidden">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
+    <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all">
+      <div class="orange-gradient p-6 text-white text-center">
+        <h3 class="text-2xl font-bold">Lengkapi Pesanan</h3>
+        <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">
+          Produk yang anda pilih
+        </p>
+      </div>
+
+      <form action="api/create_order.php" method="POST" class="p-8">
         <input type="hidden" name="produk_id" id="produk_id">
-        <input type="text" name="perangkap" class="absolute -top-[9999px] -left-[9999px]" tabindex="-1" autocomplete="off">
-        <input type="text" name="nama_pembeli" placeholder="Nama Anda" class="w-full border p-2 mb-3 rounded" required>
-        <input type="number" name="whatsapp" placeholder="Nomor WA (Contoh: 62812...)" class="w-full border p-2 mb-3 rounded" required>
-        <label class="text-xs text-gray-500">Harga Produk:</label>
-        <input readonly type="number" name="harga" id="harga_modal" class="w-full border p-2 mb-3 rounded bg-gray-100">
-        <input type="number" name="stok" id="stok" value="1" oninput="hitungTotal()" class="w-full border p-2 mb-3 rounded">
-        <textarea name="alamat" placeholder="Alamat Lengkap" class="w-full border p-2 mb-3 rounded" required></textarea>
-        <div class="flex justify-end gap-2">
-          <button type="button" onclick="closeModal()" class="bg-gray-400 px-4 py-2 rounded">Batal</button>
-          <button onclick="setTimeout(closeModal, 500)" type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Kirim Pesanan</button>
+        <input type="text" name="perangkap" class="hidden" tabindex="-1" autocomplete="off">
+
+        <div class="space-y-4">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Nama Pembeli</label>
+              <input type="text" name="nama_pembeli" placeholder="Contoh: Budi" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">WhatsApp</label>
+              <input type="number" name="whatsapp" placeholder="62812..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="hidden">
+              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Harga Satuan</label>
+              <input readonly type="text" id="harga_display" class="w-full bg-gray-100 border border-gray-200 p-3 rounded-xl font-bold text-gray-500 cursor-not-allowed">
+              <input type="hidden" name="harga" id="harga_modal">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Jumlah Beli</label>
+              <input type="number" name="stok" id="stok_input" value="1" min="1" oninput="hitungTotal()" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Alamat Pengiriman</label>
+            <textarea name="alamat" placeholder="Tuliskan alamat lengkap pengiriman..." rows="3" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required></textarea>
+          </div>
+
+          <div class="bg-orange-50 p-4 rounded-2xl flex justify-between items-center border border-orange-100">
+            <span class="font-bold text-orange-800 text-lg">Total Pembayaran:</span>
+            <span id="total_harga" class="text-2xl font-black text-orange-600">Rp 0</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col-reverse md:flex-row justify-end gap-3 mt-8">
+          <button type="button" onclick="closeModal()" class="w-full md:w-auto px-6 py-3 font-semibold text-gray-500 hover:text-gray-700">Batal</button>
+          <button type="submit" class="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-orange-200 transition">Konfirmasi & Kirim</button>
         </div>
       </form>
     </div>
