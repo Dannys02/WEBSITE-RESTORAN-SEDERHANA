@@ -99,7 +99,7 @@ $isOut = ($p['stok'] <= 0);
               </svg>
               Pesan Sekarang
             </button>
-            <a href="https://wa.me/62812345678?text=Halo, saya ingin tanya produk <?= urlencode($p['nama']) ?>"
+            <a href="https://wa.me/6285645837298?text=Halo, saya ingin tanya produk <?= urlencode($p['nama']) ?>"
               target="_blank"
               class="px-8 py-5 border-2 border-slate-200 text-slate-700 rounded-2xl font-bold hover:bg-slate-50 transition flex items-center justify-center">
               Tanya CS

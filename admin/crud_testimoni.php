@@ -1,6 +1,6 @@
 <?php
 if (!defined('AKSES_AMAN')) {
-    die('Akses langsung tidak diizinkan!');
+  die('Akses langsung tidak diizinkan!');
 }
 
 // Logika Simpan Data
@@ -26,6 +26,8 @@ if (isset($_GET['hapus'])) {
   echo "<script>window.location.href='index.php?page=testimoni';</script>";
   exit;
 }
+
+$res = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
 ?>
 
 <div class="max-w-6xl mx-auto">
@@ -62,10 +64,8 @@ if (isset($_GET['hapus'])) {
         </tr>
       </thead>
       <tbody class="divide-y">
-        <?php
-        $res = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
-        while ($row = mysqli_fetch_assoc($res)):
-        ?>
+        <?php if (mysqli_num_rows($res) > 0): ?>
+        <?php while ($row = mysqli_fetch_assoc($res)): ?>
         <tr class="hover:bg-gray-50">
           <td class="p-4 text-sm">
             <div class="font-bold">
@@ -85,6 +85,11 @@ if (isset($_GET['hapus'])) {
           </td>
         </tr>
         <?php endwhile; ?>
+        <?php else : ?>
+        <tr>
+          <td colspan="4" class="p-4 text-center">Data testimoni kosong.</td>
+        </tr>
+        <?php endif; ?>
       </tbody>
     </table>
   </div>

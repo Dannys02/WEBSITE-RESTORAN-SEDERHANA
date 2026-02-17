@@ -52,13 +52,13 @@ if (isset($_POST['login'])) {
     <form method="POST">
       <div class="mb-4">
         <label class="block text-sm font-semibold">Username</label>
-        <input type="text" name="username" class="w-full border p-2 rounded focus:outline-blue-500" required>
+        <input type="text" name="username" class="w-full border p-2 rounded focus:outline-orange-500" required>
       </div>
       <div class="mb-6">
         <label class="block text-sm font-semibold">Password</label>
-        <input type="password" name="password" class="w-full border p-2 rounded focus:outline-blue-500" required>
+        <input type="password" name="password" class="w-full border p-2 rounded focus:outline-orange-500" required>
       </div>
-      <button type="submit" name="login" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Masuk</button>
+      <button type="submit" name="login" class="w-full bg-orange-600 text-white py-2 rounded hover:bg-orange-700">Masuk</button>
     </form>
   </div>
 </body>

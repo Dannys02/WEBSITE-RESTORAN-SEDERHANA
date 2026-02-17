@@ -2,6 +2,8 @@
 session_start();
 $_SESSION['load_time'] = time();
 include 'config/db.php';
+
+$all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 ?>
 
 <!DOCTYPE html>
@@ -30,9 +32,11 @@ include 'config/db.php';
       <div class="hidden md:flex items-center gap-8 font-medium">
         <a href="#beranda" class="hover:text-orange-500 transition">Beranda</a>
         <a href="#tentang" class="hover:text-orange-500 transition">Tentang</a>
+        <?php if(mysqli_num_rows($all_product) > 0): ?>
         <a href="#produk" class="hover:text-orange-500 transition">Produk</a>
+        <?php endif; ?>
         <a href="#kontak" class="hover:text-orange-500 transition">Kontak</a>
-        <button class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-md">
+        <button onclick="handleContactClick()" class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-md">
           Hubungi Kami
         </button>
       </div>
@@ -93,7 +97,8 @@ include 'config/db.php';
       </div>
     </div>
   </section>
-
+  
+  <?php if(mysqli_num_rows($all_product) > 0): ?>
   <section id="produk" class="py-20 bg-white">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
@@ -146,6 +151,8 @@ include 'config/db.php';
       </div>
     </div>
   </section>
+  <?php endif; ?>
+  
 
   <?php
   // Ambil data testimoni terbaru

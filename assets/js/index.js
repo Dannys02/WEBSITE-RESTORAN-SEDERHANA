@@ -75,3 +75,13 @@ function toggleMobileMenu() {
     }
 }
 
+const handleContactClick = () => {
+  const phoneNumber = "6285645837298";
+  const message = "Halo Admin, saya melihat website Anda dan ingin bertanya lebih lanjut. Mohon infonya ya, terima kasih!";
+  
+  // Encode pesan agar format URL valid
+  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  
+  // Buka WhatsApp di tab baru
+  window.open(url, '_blank');
+};

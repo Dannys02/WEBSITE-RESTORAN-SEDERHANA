@@ -62,6 +62,7 @@ $all_orders = mysqli_query($koneksi, $query);
       </tr>
     </thead>
     <tbody class="divide-y divide-slate-100">
+      <?php if (mysqli_num_rows($all_orders) > 0): ?>
       <?php while ($row = mysqli_fetch_assoc($all_orders)): ?>
       <?php
       // Persiapan Data untuk WhatsApp agar akurat
@@ -107,6 +108,11 @@ $all_orders = mysqli_query($koneksi, $query);
         </td>
       </tr>
       <?php endwhile; ?>
+      <?php else : ?>
+      <tr>
+        <td colspan="3" class="p-4 text-center">Data pesanan kosong.</td>
+      </tr>
+      <?php endif; ?>
     </tbody>
   </table>
 </div>
