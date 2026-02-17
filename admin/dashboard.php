@@ -1,4 +1,7 @@
 <?php
+if (!defined('AKSES_AMAN')) {
+    die('Akses langsung tidak diizinkan!');
+}
 // Logika Hapus
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
@@ -36,7 +39,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
                 <td class="p-4"><img src="../assets/img/<?= $row['gambar'] ?>" class="w-12 h-12 object-cover rounded shadow-sm"></td>
                 <td class="p-4 text-sm font-medium"><?= htmlspecialchars($row['nama']) ?></td>
                 <td class="p-4 text-sm">Rp<?= number_format($row['harga']) ?></td>
-                <td class="p-4 text-sm"><?= $row['stok'] ?></td>
+                <td class="p-4 text-sm"><?= htmlspecialchars($row['stok']) ?></td>
                 <td class="p-4 text-center">
                     <div class="flex justify-center gap-3">
                         <a href="index.php?page=edit&id=<?= $row['id'] ?>" class="text-blue-600 text-sm font-bold">Edit</a>

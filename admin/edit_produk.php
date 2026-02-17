@@ -1,4 +1,8 @@
 <?php
+if (!defined('AKSES_AMAN')) {
+    die('Akses langsung tidak diizinkan!');
+}
+
 // 1. LOGIKA UPDATE (Taruh di paling atas biar gak pusing path)
 if (isset($_POST['update_produk_ini'])) {
     $id_update = (int)$_POST['id'];

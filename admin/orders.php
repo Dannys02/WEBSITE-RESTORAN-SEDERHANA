@@ -1,4 +1,7 @@
 <?php
+if (!defined('AKSES_AMAN')) {
+  die('Akses langsung tidak diizinkan!');
+}
 // Cek session admin
 if (!isset($_SESSION['admin_logged_in'])) {
   echo "<script>window.location.href='login.php';</script>"; exit;
@@ -7,20 +10,29 @@ if (!isset($_SESSION['admin_logged_in'])) {
 $action = $_GET['action'] ?? null;
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-// --- LOGIKA PROSES DATABASE (Tetap sebagai pengaman di sisi server)
-if ($action && $id) {
-  $query_cek = "SELECT p.*, pr.nama as nama_produk, pr.harga, pr.stok as stok_sekarang
+// --- LOGIKA PROSES DATABASE (Lebih Ketat)
+if ($action && $id > 0) {
+  // Gunakan ID yang sudah di-validate (int)
+  $query_cek = "SELECT p.stok as qty_pesan, p.produk_id, pr.stok as stok_sekarang
                 FROM pesanan p
                 JOIN produk pr ON p.produk_id = pr.id
-                WHERE p.id = $id";
+                WHERE p.id = $id AND p.status = 'pending'"; // Tambahkan cek status pending
   $res_cek = mysqli_query($koneksi, $query_cek);
   $data = mysqli_fetch_assoc($res_cek);
 
   if ($data) {
+    $qty_pesan = (int)$data['qty_pesan'];
+    $stok_sekarang = (int)$data['stok_sekarang'];
+    $pid = (int)$data['produk_id'];
+
     if ($action === 'setuju') {
-      if ($data['stok_sekarang'] >= $data['stok']) {
+      if ($stok_sekarang >= $qty_pesan) {
+        // Update status dan kurangi stok secara atomik
         mysqli_query($koneksi, "UPDATE pesanan SET status = 'setuju' WHERE id = $id");
-        mysqli_query($koneksi, "UPDATE produk SET stok = stok - {$data['stok']} WHERE id = {$data['produk_id']}");
+        mysqli_query($koneksi, "UPDATE produk SET stok = stok - $qty_pesan WHERE id = $pid");
+      } else {
+        echo "<script>alert('Gagal! Stok mendadak habis.'); window.location.href='index.php?page=orders';</script>";
+        exit;
       }
     } elseif ($action === 'tolak') {
       mysqli_query($koneksi, "UPDATE pesanan SET status = 'tolak' WHERE id = $id");
@@ -28,6 +40,7 @@ if ($action && $id) {
     echo "<script>window.location.href='index.php?page=orders';</script>"; exit;
   }
 }
+
 
 // Ambil data pesanan
 $query = "SELECT p.*, pr.nama as nama_produk, pr.harga, pr.stok as stok_saat_ini FROM pesanan p
