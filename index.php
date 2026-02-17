@@ -3,6 +3,7 @@ session_start();
 $_SESSION['load_time'] = time();
 include 'config/db.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
@@ -25,7 +26,7 @@ include 'config/db.php';
 
   <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-orange-100">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="#" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya</span></a>
+      <a href="#" class="text-2xl font-extrabold text-orange-600 tracking-tight">Dannys<span class="text-slate-900">Store</span></a>
       <div class="hidden md:flex items-center gap-8 font-medium">
         <a href="#beranda" class="hover:text-orange-500 transition">Beranda</a>
         <a href="#tentang" class="hover:text-orange-500 transition">Tentang</a>
@@ -38,7 +39,7 @@ include 'config/db.php';
     </div>
   </nav>
 
-  <section id="beranda" class="relative overflow-hidden bg-white py-16 md:py-24">
+  <section id="beranda" class="relative overflow-hidden bg-white py-12 md:py-24">
     <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
       <div>
         <h2 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
@@ -69,7 +70,7 @@ include 'config/db.php';
           <span class="text-orange-500 font-bold uppercase tracking-wider text-sm">Cerita Kami</span>
           <h3 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 mb-6">Berawal dari Dapur Rumah, Menuju Meja Anda.</h3>
           <p class="text-gray-600 leading-relaxed mb-6">
-            TokoSaya lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap produk memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
+            Dannys ★ Store lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap produk memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
           </p>
           <div class="grid grid-cols-2 gap-6">
             <div>
@@ -143,6 +144,13 @@ include 'config/db.php';
     </div>
   </section>
 
+  <?php
+  // Ambil data testimoni terbaru
+  $query_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LIMIT 3");
+
+  // Hanya tampilkan section jika ada data di database
+  if (mysqli_num_rows($query_testi) > 0):
+  ?>
   <section id="testimoni" class="py-20 bg-orange-50/50">
     <div class="container mx-auto px-4">
       <div class="text-center mb-12">
@@ -152,77 +160,62 @@ include 'config/db.php';
         </p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <?php while ($t = mysqli_fetch_assoc($query_testi)): ?>
         <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100">
           <div class="flex text-orange-400 mb-4">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-.11.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+            <?php
+            // Perulangan ikon bintang sesuai angka di kolom 'bintang'
+            for ($i = 1; $i <= $t['bintang']; $i++):
+            ?>
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-.11.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+            <?php endfor; ?>
           </div>
           <p class="text-gray-600 italic mb-6">
-            "Rasanya benar-benar juara! Pengiriman cepat dan kemasannya sangat rapi. Bakal jadi langganan tetap di sini."
+            "<?= htmlspecialchars($t['isi']) ?>"
           </p>
           <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-600">
-              S
+            <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-600 uppercase">
+              <?= substr($t['nama_pelanggan'], 0, 1) ?>
             </div>
             <div>
-              <h5 class="font-bold text-slate-900">Siti Rahma</h5>
+              <h5 class="font-bold text-slate-900"><?= htmlspecialchars($t['nama_pelanggan']) ?></h5>
               <p class="text-xs text-gray-400">
-                Ibu Rumah Tangga
+                <?= htmlspecialchars($t['pekerjaan']) ?>
               </p>
             </div>
           </div>
         </div>
-        <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100 scale-105">
-          <div class="flex text-orange-400 mb-4 text-center">
-            <span class="mx-auto flex">
-              <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-.11.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-            </span>
-          </div>
-          <p class="text-gray-600 italic mb-6 text-center">
-            "Produk UMKM tapi kualitas bintang lima. Harga sangat terjangkau untuk kualitas rasa se-premium ini."
-          </p>
-          <div class="flex flex-col items-center gap-2">
-            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center font-bold text-white shadow-lg">
-              A
-            </div>
-            <h5 class="font-bold text-slate-900">Andi Wijaya</h5>
-            <p class="text-xs text-gray-400">
-              Karyawan Swasta
-            </p>
-          </div>
-        </div>
-        <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100">
-          <div class="flex text-orange-400 mb-4">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-.11.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-          </div>
-          <p class="text-gray-600 italic mb-6">
-            "Cocok banget buat oleh-oleh. Adminnya juga ramah dan fast respon waktu ditanya stok. Mantap!"
-          </p>
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-600">
-              R
-            </div>
-            <div>
-              <h5 class="font-bold text-slate-900">Rina Melati</h5>
-              <p class="text-xs text-gray-400">
-                Food Blogger
-              </p>
-            </div>
-          </div>
-        </div>
+        <?php endwhile; ?>
       </div>
     </div>
   </section>
+  <?php endif; ?>
 
   <footer id="kontak" class="bg-slate-900 text-white pt-20 pb-10">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
         <div>
-          <h4 class="text-2xl font-bold text-orange-500 mb-6">TokoSaya.</h4>
+          <h4 class="text-2xl font-bold text-orange-500 mb-6">DannysStore</h4>
           <p class="text-slate-400 leading-relaxed mb-6">
             Membawa kebahagiaan ke rumah Anda melalui hidangan lokal yang autentik dan higienis.
           </p>
           <div class="flex gap-4">
-            <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition"><svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg></a>
+            <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+            </a>
+            <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z" />
+              </svg>
+            </a>
+            <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+              </svg>
+            </a>
           </div>
         </div>
         <div>
@@ -230,22 +223,22 @@ include 'config/db.php';
           <ul class="space-y-4 text-slate-400">
             <li class="flex items-start gap-3">
               <span class="text-orange-500">📍</span>
-              Jl. Melati No. 123, Jakarta Selatan
+              Jl. Nasional No. 3, Jawa Timur
             </li>
             <li class="flex items-center gap-3">
               <span class="text-orange-500">📞</span>
-              +62 812-3456-7890
+              +62 856-4583-7298
             </li>
             <li class="flex items-center gap-3">
               <span class="text-orange-500">✉️</span>
-              halo@tokosaya.com
+              webdannys@gmail.com
             </li>
           </ul>
         </div>
         <div>
           <h5 class="text-lg font-bold mb-6">Jam Operasional</h5>
           <ul class="space-y-2 text-slate-400 text-sm">
-            <li class="flex justify-between"><span>Senin - Jumat</span> <span>08:00 - 20:00</span></li>
+            <li class="flex justify-between"><span>Senin - Jumat</span> <span>09:00 - 20:00</span></li>
             <li class="flex justify-between"><span>Sabtu</span> <span>09:00 - 17:00</span></li>
             <li class="flex justify-between text-orange-500"><span>Minggu</span> <span>Tutup</span></li>
           </ul>
@@ -253,7 +246,7 @@ include 'config/db.php';
       </div>
       <div class="border-t border-slate-800 pt-8 text-center text-slate-500 text-xs">
         <p>
-          &copy; 2026 TokoSaya. Hak Cipta Dilindungi.
+          &copy; 2026 DannysStore. Hak Cipta Dilindungi.
         </p>
       </div>
     </div>

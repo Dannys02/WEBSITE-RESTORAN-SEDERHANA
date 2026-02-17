@@ -42,7 +42,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
                 <td class="p-4 text-sm"><?= htmlspecialchars($row['stok']) ?></td>
                 <td class="p-4 text-center">
                     <div class="flex justify-center gap-3">
-                        <a href="index.php?page=edit&id=<?= $row['id'] ?>" class="text-blue-600 text-sm font-bold">Edit</a>
+                        <a href="index.php?page=produk_edit&id=<?= $row['id'] ?>" class="text-yellow-600 text-sm font-bold">Edit</a>
                         <a href="index.php?page=dashboard&delete=<?= $row['id'] ?>" onclick="return confirm('Hapus?')" class="text-red-500 text-sm font-bold">Hapus</a>
                     </div>
                 </td>

@@ -47,7 +47,7 @@ if (!$p) {
 
 <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md border border-slate-200">
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-xl font-bold text-slate-800">Edit Produk & Stok</h2>
+        <h2 class="text-xl font-bold text-slate-800">Edit Produk</h2>
         <a href="index.php?page=dashboard" class="text-gray-500">Batal</a>
     </div>
 
@@ -65,7 +65,7 @@ if (!$p) {
                 <input type="number" name="harga" value="<?= $p['harga'] ?>" class="w-full border p-2 rounded shadow-sm" required>
             </div>
             <div>
-                <label class="block text-sm font-bold mb-1 text-blue-600">Stok</label>
+                <label class="block text-sm font-bold mb-1">Stok</label>
                 <input type="number" name="stok" value="<?= $p['stok'] ?>" class="w-full border p-2 rounded shadow-sm" required>
             </div>
         </div>
@@ -82,7 +82,7 @@ if (!$p) {
         </div>
 
         <button type="submit" name="update_produk_ini" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-blue-700">
-            SIMPAN PERUBAHAN STOK
+            Simpan Update
         </button>
     </form>
 </div>
