@@ -52,3 +52,26 @@ function hitungTotal() {
 window.addEventListener("keydown", e => {
     if (e.key === "Escape") closeModal();
 });
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const sheet = document.getElementById('mobileSheet');
+    const body = document.body;
+
+    if (menu.classList.contains('hidden')) {
+        // Tampilkan
+        menu.classList.remove('hidden');
+        setTimeout(() => {
+            sheet.style.bottom = '0';
+        }, 10);
+        body.style.overflow = 'hidden'; // Lock scroll
+    } else {
+        // Sembunyikan
+        sheet.style.bottom = '-100%';
+        setTimeout(() => {
+            menu.classList.add('hidden');
+        }, 400); // Tunggu animasi selesai
+        body.style.overflow = ''; // Unlock scroll
+    }
+}
+

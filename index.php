@@ -36,6 +36,9 @@ include 'config/db.php';
           Hubungi Kami
         </button>
       </div>
+      <button onclick="toggleMobileMenu()" class="md:hidden text-3xl text-slate-800 focus:outline-none">
+        ≡
+      </button>
     </div>
   </nav>
 
@@ -251,6 +254,24 @@ include 'config/db.php';
       </div>
     </div>
   </footer>
+
+  <div id="mobileMenu" class="fixed inset-0 z-[70] hidden transition-all duration-500">
+    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onclick="toggleMobileMenu()"></div>
+
+    <div id="mobileSheet" class="absolute left-0 right-0 bottom-[-100%] bg-white rounded-t-[2.5rem] p-8 transition-all duration-500 ease-in-out">
+      <div class="w-12 h-1.5 bg-gray-200 mx-auto rounded-full mb-8"></div>
+      <div class="flex flex-col gap-6 text-center">
+        <a href="#beranda" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 hover:text-orange-500 hover:bg-orange-100">Beranda</a>
+        <a href="#tentang" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 hover:text-orange-500 hover:bg-orange-100">Tentang</a>
+        <a href="#produk" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 hover:text-orange-500 hover:bg-orange-100">Produk</a>
+        <a href="#kontak" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 hover:text-orange-500 hover:bg-orange-100">Kontak</a>
+        <hr class="border-gray-100 my-2">
+        <button class="orange-gradient text-white py-4 rounded-2xl font-bold shadow-lg">
+          Hubungi Kami
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div id="orderModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 overflow-hidden">
     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
