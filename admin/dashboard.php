@@ -19,7 +19,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 ?>
 <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex justify-between items-center">
     <h1 class="text-xl font-bold text-slate-700">Manajemen Produk</h1>
-    <a href="index.php?page=produk" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">+ Produk Baru</a>
+    <a href="index.php?page=produk" class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm">+ Produk Baru</a>
 </div>
 
 <div class="bg-white rounded-xl shadow overflow-hidden overflow-x-auto">
@@ -35,7 +35,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         </thead>
         <tbody class="divide-y divide-slate-100">
             <?php while ($row = mysqli_fetch_assoc($query)): ?>
-            <tr>
+            <tr class="hover:bg-gray-50">
                 <td class="p-4"><img src="../assets/img/<?= $row['gambar'] ?>" class="w-12 h-12 object-cover rounded shadow-sm"></td>
                 <td class="p-4 text-sm font-medium"><?= htmlspecialchars($row['nama']) ?></td>
                 <td class="p-4 text-sm">Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>

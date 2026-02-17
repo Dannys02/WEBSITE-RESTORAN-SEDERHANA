@@ -81,7 +81,7 @@ if (!$p) {
             <input type="file" name="gambar" accept="image/*" class="text-sm">
         </div>
 
-        <button type="submit" name="update_produk_ini" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-blue-700">
+        <button type="submit" name="update_produk_ini" class="w-full bg-orange-600 text-white font-bold py-3 rounded-lg shadow-lg hover:bg-orange-700">
             Simpan Update
         </button>
     </form>

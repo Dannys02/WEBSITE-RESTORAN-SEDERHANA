@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-sm border border-slate-200">
   <h2 class="text-xl font-bold mb-6 text-slate-800">Tambah Produk Baru</h2>
   <form method="POST" enctype="multipart/form-data" class="space-y-4">
-    <input type="text" name="nama" placeholder="Nama Produk" class="w-full border p-2 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" required>
+    <input type="text" name="nama" placeholder="Nama Produk" class="w-full border p-2 rounded-lg outline-none focus:ring-2 focus:ring-orange-500" required>
     <div class="grid grid-cols-2 gap-4">
       <input type="number" name="harga" placeholder="Harga" class="w-full border p-2 rounded-lg outline-none" required>
       <input type="number" name="stok" placeholder="Stok" class="w-full border p-2 rounded-lg outline-none" required>
@@ -40,6 +40,6 @@ if (isset($_POST['submit'])) {
       <label class="text-xs text-gray-500">Foto Produk:</label>
       <input type="file" name="gambar" accept="image/*" class="w-full text-sm mt-1" required>
     </div>
-    <button type="submit" name="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700">Simpan Produk</button>
+    <button type="submit" name="submit" class="w-full bg-orange-600 text-white font-bold py-3 rounded-lg hover:bg-orange-700">Simpan Produk</button>
   </form>
 </div>
