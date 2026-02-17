@@ -41,7 +41,6 @@ if ($action && $id > 0) {
   }
 }
 
-
 // Ambil data pesanan
 $query = "SELECT p.*, pr.nama as nama_produk, pr.harga, pr.stok as stok_saat_ini FROM pesanan p
           JOIN produk pr ON p.produk_id = pr.id
@@ -113,28 +112,9 @@ $all_orders = mysqli_query($koneksi, $query);
 </div>
 
 <script>
-  /**
-  * Fungsi Utama untuk menangani alur Pesanan
-  */
-  function prosesPesanan(tipe, id, qtyOrder, stokReady, phone, encodedMsg, namaProduk) {
-    const actionText = tipe === 'setuju' ? 'Setujui': 'Tolak';
-
-    if (!confirm(actionText + ' pesanan ini?')) return;
-
-    if (tipe === 'setuju') {
-      // Cek Stok Instan di sisi client
-      if (stokReady < qtyOrder) {
-        alert('Gagal! Stok ' + namaProduk + ' tidak mencukupi.\nStok tersedia: ' + stokReady + '\nJumlah pesanan: ' + qtyOrder);
-        return; // Berhenti disini, WA tidak akan terbuka
-      }
-    }
-
-    // Jika lolos validasi stok (atau jika tipenya 'tolak')
-    // 1. Buka WhatsApp
-    const waUrl = 'https://api.whatsapp.com/send?phone=' + phone + '&text=' + encodedMsg;
-    window.open(waUrl, '_blank');
-
-    // 2. Arahkan halaman utama untuk proses database
-    window.location.href = 'index.php?page=orders&action=' + tipe + '&id=' + id;
-  }
+  // Script untuk buka WA otomatis jika ada trigger dari PHP
+  <?php if (isset($_SESSION['wa_trigger'])): ?>
+  window.open('<?= $_SESSION['wa_trigger'] ?>', '_blank');
+  <?php unset($_SESSION['wa_trigger']); // Hapus supaya tidak buka berulang kali ?>
+  <?php endif; ?>
 </script>

@@ -38,7 +38,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             <tr>
                 <td class="p-4"><img src="../assets/img/<?= $row['gambar'] ?>" class="w-12 h-12 object-cover rounded shadow-sm"></td>
                 <td class="p-4 text-sm font-medium"><?= htmlspecialchars($row['nama']) ?></td>
-                <td class="p-4 text-sm">Rp<?= number_format($row['harga']) ?></td>
+                <td class="p-4 text-sm">Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
                 <td class="p-4 text-sm"><?= htmlspecialchars($row['stok']) ?></td>
                 <td class="p-4 text-center">
                     <div class="flex justify-center gap-3">

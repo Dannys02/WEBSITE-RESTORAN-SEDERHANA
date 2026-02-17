@@ -68,5 +68,6 @@ $page = $_GET['page'] ?? 'dashboard';
         }
     }
     </script>
+    <script src="../assets/js/orders.js"></script>
 </body>
 </html>
