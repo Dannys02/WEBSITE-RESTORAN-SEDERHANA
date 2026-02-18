@@ -62,7 +62,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 </div>
 
 <div class="bg-white rounded-xl shadow overflow-hidden overflow-x-auto">
-  <table class="w-full text-left border-collapse">
+  <table id="tabelPesanan" class="w-full text-left border-collapse">
     <thead class="bg-slate-50 border-b">
       <tr>
         <th class="p-4 text-sm font-semibold text-slate-600">Gambar</th>

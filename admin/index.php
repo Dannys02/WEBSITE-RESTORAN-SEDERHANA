@@ -16,6 +16,8 @@ $page = $_GET['page'] ?? 'dashboard';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Admin UMKM - <?= ucfirst($page) ?></title>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </head>
 <body class="bg-slate-100 pb-20">
 
@@ -76,6 +78,26 @@ $page = $_GET['page'] ?? 'dashboard';
         window.location.href = url;
       }
     }
+
+    $(document).ready(function() {
+      $('#tabelPesanan').DataTable({
+        "dom": 'tp',
+        "ordering": false,
+        "pageLength": 10,
+        "language": {
+          "paginate": {
+            "previous": "← Kembali",
+            "next": "Lanjut →"
+          }
+        },
+        "drawCallback": function() {
+          // Cari semua tombol paginasi dan kasih class Tailwind
+          $('.dataTables_paginate').addClass('w-full border border-gray-200 flex justify-center py-6 px-12 items-center gap-1 whitespace-nowrap');
+          $('.paginate_button').addClass('px-3 py-2 bg-slate-100 rounded-md mx-1 text-xs font-bold hover:bg-emerald-500 hover:text-white transition-colors');
+          $('.paginate_button.current').addClass('bg-emerald-600 text-white');
+        },
+      });
+    });
   </script>
   <script src="../assets/js/orders.js"></script>
 </body>

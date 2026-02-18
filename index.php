@@ -267,13 +267,13 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
     <div id="mobileSheet" class="absolute left-0 right-0 bottom-[-100%] bg-white rounded-t-[2.5rem] p-8 transition-all duration-500 ease-in-out">
       <div class="w-12 h-1.5 bg-gray-200 mx-auto rounded-full mb-8"></div>
-      <div class="flex flex-col gap-6 text-center">
-        <a href="#beranda" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 hover:text-orange-500 hover:bg-orange-100">Beranda</a>
-        <a href="#tentang" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 hover:text-orange-500 hover:bg-orange-100">Tentang</a>
-        <a href="#produk" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 hover:text-orange-500 hover:bg-orange-100">Produk</a>
-        <a href="#kontak" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 hover:text-orange-500 hover:bg-orange-100">Kontak</a>
+      <div class="flex flex-col gap-2 text-center">
+        <a href="#beranda" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 transation-colors duration-300 ease hover:text-orange-500 hover:bg-orange-100">Beranda</a>
+        <a href="#tentang" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 transation-colors duration-300 ease hover:text-orange-500 hover:bg-orange-100">Tentang</a>
+        <a href="#produk" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 transation-colors duration-300 ease hover:text-orange-500 hover:bg-orange-100">Produk</a>
+        <a href="#kontak" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 transation-colors duration-300 ease hover:text-orange-500 hover:bg-orange-100">Kontak</a>
         <hr class="border-gray-100 my-2">
-        <button class="orange-gradient text-white py-4 rounded-2xl font-bold shadow-lg">
+        <button onclick="handleContactClick()" class="orange-gradient text-white py-4 rounded-2xl font-bold shadow-lg">
           Hubungi Kami
         </button>
       </div>

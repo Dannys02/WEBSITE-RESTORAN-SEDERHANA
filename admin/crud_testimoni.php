@@ -54,7 +54,7 @@ $res = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
   </div>
 
   <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden overflow-x-auto">
-    <table class="w-full text-left border-collapse">
+    <table id="tabelPesanan" class="w-full text-left border-collapse">
       <thead class="bg-gray-50 border-b">
         <tr>
           <th class="p-4 font-bold text-slate-700">Pelanggan</th>

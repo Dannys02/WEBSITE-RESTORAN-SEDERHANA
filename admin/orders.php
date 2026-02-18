@@ -52,8 +52,8 @@ $all_orders = mysqli_query($koneksi, $query);
   <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">Daftar Pesanan Masuk</h1>
 </div>
 
-<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
-  <table class="w-full text-left border-collapse">
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+  <table id="tabelPesanan" class="w-full text-left border-collapse">
     <thead class="bg-slate-50 border-b border-slate-200">
       <tr>
         <th class="p-4 text-xs font-bold uppercase text-slate-500">Pembeli</th>
