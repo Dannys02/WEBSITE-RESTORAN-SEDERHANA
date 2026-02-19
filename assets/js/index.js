@@ -54,34 +54,37 @@ window.addEventListener("keydown", e => {
 });
 
 function toggleMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    const sheet = document.getElementById('mobileSheet');
+    const menu = document.getElementById("mobileMenu");
+    const sheet = document.getElementById("mobileSheet");
     const body = document.body;
 
-    if (menu.classList.contains('hidden')) {
+    if (menu.classList.contains("hidden")) {
         // Tampilkan
-        menu.classList.remove('hidden');
+        menu.classList.remove("hidden");
         setTimeout(() => {
-            sheet.style.bottom = '0';
+            sheet.style.bottom = "0";
         }, 10);
-        body.style.overflow = 'hidden'; // Lock scroll
+        body.style.overflow = "hidden"; // Lock scroll
     } else {
         // Sembunyikan
-        sheet.style.bottom = '-100%';
+        sheet.style.bottom = "-100%";
         setTimeout(() => {
-            menu.classList.add('hidden');
+            menu.classList.add("hidden");
         }, 400); // Tunggu animasi selesai
-        body.style.overflow = ''; // Unlock scroll
+        body.style.overflow = ""; // Unlock scroll
     }
 }
 
 const handleContactClick = () => {
-  const phoneNumber = "6285645837298";
-  const message = "Halo Admin, saya melihat website Anda dan ingin bertanya lebih lanjut. Mohon infonya ya, terima kasih!";
-  
-  // Encode pesan agar format URL valid
-  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-  
-  // Buka WhatsApp di tab baru
-  window.open(url, '_blank');
+    const phoneNumber = "6285645837298";
+    const message =
+        "Halo Admin, saya melihat website Anda dan ingin bertanya lebih lanjut. Mohon infonya ya, terima kasih!";
+
+    // Encode pesan agar format URL valid
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+        message
+    )}`;
+
+    // Buka WhatsApp di tab baru
+    window.open(url, "_blank");
 };

@@ -32,7 +32,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       <div class="hidden md:flex items-center gap-8 font-medium">
         <a href="#beranda" class="hover:text-orange-500 transition">Beranda</a>
         <a href="#tentang" class="hover:text-orange-500 transition">Tentang</a>
-        <?php if(mysqli_num_rows($all_product) > 0): ?>
+        <?php if (mysqli_num_rows($all_product) > 0): ?>
         <a href="#produk" class="hover:text-orange-500 transition">Produk</a>
         <?php endif; ?>
         <a href="#kontak" class="hover:text-orange-500 transition">Kontak</a>
@@ -77,7 +77,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
           <span class="text-orange-500 font-bold uppercase tracking-wider text-sm">Cerita Kami</span>
           <h3 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 mb-6">Berawal dari Dapur Rumah, Menuju Meja Anda.</h3>
           <p class="text-gray-600 leading-relaxed mb-6">
-            Dannys ★ Store lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap produk memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
+            <span class="text-orange-600">Dannys</span>Store lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap produk memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
           </p>
           <div class="grid grid-cols-2 gap-6">
             <div>
@@ -97,8 +97,8 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       </div>
     </div>
   </section>
-  
-  <?php if(mysqli_num_rows($all_product) > 0): ?>
+
+  <?php if (mysqli_num_rows($all_product) > 0): ?>
   <section id="produk" class="py-20 bg-white">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
@@ -152,7 +152,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
     </div>
   </section>
   <?php endif; ?>
-  
+
 
   <?php
   // Ambil data testimoni terbaru
