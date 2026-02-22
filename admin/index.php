@@ -62,14 +62,14 @@ $page = $_GET['page'] ?? 'dashboard';
       <a href="index.php?page=produk" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'produk' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Produk</span>
       </a>
-      <a href="index.php?page=orders" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'orders' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
-        <span class="text-[10px] font-bold uppercase">Pesanan</span>
-      </a>
       <a href="index.php?page=testimoni" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'testimoni' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Testimoni</span>
       </a>
+      <a href="index.php?page=orders" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'orders' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+        <span class="text-[10px] font-bold uppercase">Pesanan</span>
+      </a>
       <a href="index.php?page=password_change" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'password_change' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
-        <span class="text-[10px] font-bold uppercase">Password</span>
+        <span class="text-[10px] font-bold uppercase">Pengaturan</span>
       </a>
       <a href="logout.php" class="flex-1 flex flex-col items-center justify-center h-full text-red-500">
         <span class="text-[10px] font-bold uppercase">Keluar</span>
@@ -86,24 +86,38 @@ $page = $_GET['page'] ?? 'dashboard';
     }
 
     $(document).ready(function() {
-      $('#tabelPesanan').DataTable({
-        "dom": 'tp',
-        "ordering": false,
-        "pageLength": 10,
-        "language": {
-          "paginate": {
-            "previous": "← Kembali",
-            "next": "Lanjut →"
-          }
-        },
-        "drawCallback": function() {
-          // Cari semua tombol paginasi dan kasih class Tailwind
-          $('.dataTables_paginate').addClass('w-full border border-gray-200 flex justify-center py-6 px-12 items-center gap-1 whitespace-nowrap');
-          $('.paginate_button').addClass('px-3 py-2 bg-slate-100 rounded-md mx-1 text-xs font-bold hover:bg-emerald-500 hover:text-white transition-colors');
-          $('.paginate_button.current').addClass('bg-emerald-600 text-white');
-        },
-      });
-    });
+  $('#tabelPesanan').DataTable({ // Kamu bisa ganti selector ini jadi '.tabel-data' jika ingin seragam
+    "dom": 'tp',
+    "ordering": false,
+    "pageLength": 10,
+    "language": {
+      "emptyTable": "Data masih kosong!", 
+      "paginate": {
+        "previous": "← Kembali",
+        "next": "Lanjut →"
+      }
+    },
+    "drawCallback": function(settings) {
+      // 1. Ambil ID tabel yang sedang diproses agar tidak salah sasaran
+      var api = this.api();
+      var tableId = settings.sTableId;
+      
+      // 2. Hitung jumlah kolom dari header secara otomatis
+      var jumlahKolom = api.columns().header().length;
+
+      // 3. Styling baris kosong secara dinamis
+      $('#' + tableId + ' .dataTables_empty')
+        .addClass('text-center p-4 text-slate-600 font-medium italic')
+        .attr('colspan', jumlahKolom); // <--- Sekarang otomatis (bisa 3, 4, 5, dst)
+
+      // Styling Paginasi bawaan kamu
+      $('.dataTables_paginate').addClass('w-full border border-gray-200 flex justify-center py-6 px-12 items-center gap-1 whitespace-nowrap');
+      $('.paginate_button').addClass('px-3 py-2 bg-slate-100 rounded-md mx-1 text-xs font-bold hover:bg-emerald-500 hover:text-white transition-colors');
+      $('.paginate_button.current').addClass('bg-emerald-600 text-white');
+    },
+  });
+});
+
   </script>
   <script src="../assets/js/orders.js"></script>
 </body>

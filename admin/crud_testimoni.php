@@ -64,8 +64,9 @@ $res = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
         </tr>
       </thead>
       <tbody class="divide-y">
-        <?php if (mysqli_num_rows($res) > 0): ?>
-        <?php while ($row = mysqli_fetch_assoc($res)): ?>
+        <?php
+        while ($row = mysqli_fetch_assoc($res)):
+        ?>
         <tr class="hover:bg-gray-50">
           <td class="p-4 text-sm">
             <div class="font-bold">
@@ -85,11 +86,6 @@ $res = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
           </td>
         </tr>
         <?php endwhile; ?>
-        <?php else : ?>
-        <tr>
-          <td colspan="4" class="p-4 text-center">Data testimoni kosong.</td>
-        </tr>
-        <?php endif; ?>
       </tbody>
     </table>
   </div>

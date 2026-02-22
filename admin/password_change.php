@@ -38,7 +38,7 @@ if (isset($_POST['update_password'])) {
   <h2 class="text-2xl font-bold text-slate-800">Ubah Password Admin</h2>
 </div>
 
-<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+<div class="bg-white p-6 rounded shadow">
 
   <?php if (isset($error)) echo "<p class='text-red-500 mb-4'>$error</p>"; ?>
   <?php if (isset($success)) echo "<p class='text-green-500 mb-4'>$success</p>"; ?>

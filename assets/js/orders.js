@@ -1,63 +1,25 @@
-// Script Notifikasi Sukses bawaan kamu
-const status = document.getElementById("status_sukses");
-if (status) {
-    status.style.display = "block";
-    if (window.history.replaceState) {
-        const url = new URL(window.location.href);
-        url.searchParams.delete("status");
-        window.history.replaceState(
-            {
-                path: url.href
-            },
-            "",
-            url.href
-        );
+/**
+ * Fungsi untuk memproses status ke database (Tanpa Direct WA)
+ */
+function ubahStatus(tipe, id, qty = 0, stok = 0, nama = "") {
+    if (!confirm(tipe.toUpperCase() + " pesanan ini?")) return;
+
+    // Cek stok khusus untuk aksi setuju
+    if (tipe === "setuju" && stok < qty) {
+        alert("Gagal! Stok " + nama + " tidak mencukupi.");
+        return;
     }
-    setTimeout(() => {
-        status.style.opacity = "0";
-        setTimeout(() => {
-            status.style.display = "none";
-        }, 500);
-    }, 5000);
+
+    // Redirect untuk proses database saja
+    window.location.href = "index.php?page=orders&action=" + tipe + "&id=" + id;
 }
 
 /**
- * Fungsi Utama untuk menangani alur Pesanan
+ * Fungsi untuk membatalkan pesanan yang sudah disetujui
  */
-function prosesPesanan(
-    tipe,
-    id,
-    qtyOrder,
-    stokReady,
-    phone,
-    encodedMsg,
-    namaProduk
-) {
-    const actionText = tipe === "setuju" ? "Setujui" : "Tolak";
-
-    if (!confirm(actionText + " pesanan ini?")) return;
-
-    if (tipe === "setuju") {
-        // Cek Stok Instan di sisi client
-        if (stokReady < qtyOrder) {
-            alert(
-                "Gagal! Stok " +
-                    namaProduk +
-                    " tidak mencukupi.\nStok tersedia: " +
-                    stokReady +
-                    "\nJumlah pesanan: " +
-                    qtyOrder
-            );
-            return; // Berhenti disini, WA tidak akan terbuka
-        }
+function confirmBatal(id) {
+    if (confirm("Batalkan pesanan ini? Stok akan dikembalikan otomatis.")) {
+        window.location.href =
+            "index.php?page=orders&action=dibatalkan&id=" + id;
     }
-
-    // Jika lolos validasi stok (atau jika tipenya 'tolak')
-    // Buka WhatsApp
-    const waUrl =
-        "https://api.whatsapp.com/send?phone=" + phone + "&text=" + encodedMsg;
-    window.open(waUrl, "_blank");
-
-    // Arahkan halaman utama untuk proses database
-    window.location.href = "index.php?page=orders&action=" + tipe + "&id=" + id;
 }

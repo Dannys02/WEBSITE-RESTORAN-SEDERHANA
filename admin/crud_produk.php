@@ -73,7 +73,6 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       </tr>
     </thead>
     <tbody class="divide-y divide-slate-100">
-      <?php if (mysqli_num_rows($query) > 0): ?>
       <?php while ($row = mysqli_fetch_assoc($query)): ?>
       <tr class="hover:bg-gray-50">
         <td class="p-4"><img src="../assets/img/<?= $row['gambar'] ?>" class="w-12 h-12 object-cover rounded shadow-sm"></td>
@@ -88,11 +87,6 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         </td>
       </tr>
       <?php endwhile; ?>
-      <?php else : ?>
-      <tr>
-        <td colspan="5" class="p-4 text-center">Data menu kosong.</td>
-      </tr>
-      <?php endif; ?>
     </tbody>
   </table>
 </div>
