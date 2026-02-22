@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <input type="text" name="username" value="<?= htmlspecialchars($data_admin['username']) ?>"
           class="w-full border border-orange-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
         </div>
-        <button type="submit" name="update_profile" class="bg-orange-800 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-orange-700 transition">
+        <button type="submit" name="update_profile" class="bg-orange-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-orange-700 transition">
           Simpan Username
         </button>
       </form>

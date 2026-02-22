@@ -98,7 +98,16 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
     </div>
   </section>
 
-  <?php if (mysqli_num_rows($all_product) > 0): ?>
+  <?php
+  // Ambil total semua produk untuk pengecekan tombol
+  $cek_jumlah = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM produk");
+  $total_data = mysqli_fetch_assoc($cek_jumlah)['total'];
+
+  // Query hanya 6 produk terbaru
+  $query_limit = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC LIMIT 6");
+
+  if (mysqli_num_rows($query_limit) > 0):
+  ?>
   <section id="produk" class="py-20 bg-white">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
@@ -108,8 +117,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         <?php
-        $query = mysqli_query($koneksi, "SELECT * FROM produk");
-        while ($row = mysqli_fetch_assoc($query)):
+        while ($row = mysqli_fetch_assoc($query_limit)):
         $isOut = ($row['stok'] <= 0);
         ?>
         <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
@@ -149,9 +157,19 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         </article>
         <?php endwhile; ?>
       </div>
+
+      <?php if ($total_data > 6): ?>
+      <div class="text-center mt-12">
+        <a href="katalog.php" class="inline-block border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white px-8 py-3 rounded-xl font-bold transition-all duration-300">
+          Lihat Semua Produk
+        </a>
+      </div>
+      <?php endif; ?>
+
     </div>
   </section>
   <?php endif; ?>
+
 
 
   <?php
