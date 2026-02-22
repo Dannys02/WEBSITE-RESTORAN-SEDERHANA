@@ -1,13 +1,4 @@
 <?php
-session_start();
-include '../config/db.php';
-
-// Pastikan hanya admin yang login yang bisa akses
-if (!isset($_SESSION['admin_logged_in'])) {
-  header("Location: login.php");
-  exit;
-}
-
 if (isset($_POST['update_password'])) {
   $id_admin = $_SESSION['admin_id'];
   $pw_lama = $_POST['password_lama'];
@@ -43,38 +34,30 @@ if (isset($_POST['update_password'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <title>Ubah Password</title>
-</head>
-<body class="bg-gray-100 p-10">
-  <div class="max-w-md mx-auto bg-white p-8 rounded shadow">
-    <h2 class="text-xl font-bold mb-5">Ubah Password Admin</h2>
+<div class="flex justify-between items-center mb-6">
+  <h2 class="text-2xl font-bold text-slate-800">Ubah Password Admin</h2>
+</div>
 
-    <?php if (isset($error)) echo "<p class='text-red-500 mb-4'>$error</p>"; ?>
-    <?php if (isset($success)) echo "<p class='text-green-500 mb-4'>$success</p>"; ?>
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
 
-    <form method="POST">
-      <div class="mb-4">
-        <label class="block text-sm">Password Lama</label>
-        <input type="password" name="password_lama" class="w-full border p-2 rounded" required>
-      </div>
-      <hr class="my-4">
-      <div class="mb-4">
-        <label class="block text-sm">Password Baru</label>
-        <input type="password" name="password_baru" class="w-full border p-2 rounded" required>
-      </div>
-      <div class="mb-6">
-        <label class="block text-sm">Konfirmasi Password Baru</label>
-        <input type="password" name="konfirmasi_password" class="w-full border p-2 rounded" required>
-      </div>
-      <button type="submit" name="update_password" class="w-full bg-orange-600 text-white py-2 rounded">Simpan Perubahan</button>
-      <a href="index.php" class="block text-center mt-4 text-sm text-gray-500">Kembali ke Dashboard</a>
-    </form>
-  </div>
-</body>
-</html>
+  <?php if (isset($error)) echo "<p class='text-red-500 mb-4'>$error</p>"; ?>
+  <?php if (isset($success)) echo "<p class='text-green-500 mb-4'>$success</p>"; ?>
+
+  <form method="POST">
+    <div class="mb-4">
+      <label class="block text-sm">Password Lama</label>
+      <input type="password" name="password_lama" class="w-full border p-2 rounded" required>
+    </div>
+    <hr class="my-4">
+    <div class="mb-4">
+      <label class="block text-sm">Password Baru</label>
+      <input type="password" name="password_baru" class="w-full border p-2 rounded" required>
+    </div>
+    <div class="mb-6">
+      <label class="block text-sm">Konfirmasi Password Baru</label>
+      <input type="password" name="konfirmasi_password" class="w-full border p-2 rounded" required>
+    </div>
+    <button type="submit" name="update_password" class="w-full bg-orange-600 text-white py-2 rounded">Simpan Perubahan</button>
+    <a href="index.php" class="block text-center mt-4 text-sm text-gray-500">Kembali ke Dashboard</a>
+  </form>
+</div>

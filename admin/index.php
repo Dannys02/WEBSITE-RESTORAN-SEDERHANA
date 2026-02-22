@@ -43,6 +43,9 @@ $page = $_GET['page'] ?? 'dashboard';
         case 'testimoni_edit':
           include 'edit_testimoni.php';
           break;
+        case 'password_change':
+          include 'password_change.php';
+          break;
         default:
           include 'dashboard.php';
           break;
@@ -64,6 +67,9 @@ $page = $_GET['page'] ?? 'dashboard';
       </a>
       <a href="index.php?page=testimoni" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'testimoni' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Testimoni</span>
+      </a>
+      <a href="index.php?page=password_change" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'password_change' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+        <span class="text-[10px] font-bold uppercase">Password</span>
       </a>
       <a href="logout.php" class="flex-1 flex flex-col items-center justify-center h-full text-red-500">
         <span class="text-[10px] font-bold uppercase">Keluar</span>
