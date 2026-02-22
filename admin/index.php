@@ -37,14 +37,17 @@ $page = $_GET['page'] ?? 'dashboard';
         case 'orders':
           include 'orders.php';
           break;
+        case 'edit_order':
+          include 'edit_order.php';
+          break;
         case 'testimoni':
           include 'crud_testimoni.php';
           break;
         case 'testimoni_edit':
           include 'edit_testimoni.php';
           break;
-        case 'password_change':
-          include 'password_change.php';
+        case 'pengaturan':
+          include 'pengaturan.php';
           break;
         default:
           include 'dashboard.php';
@@ -68,7 +71,7 @@ $page = $_GET['page'] ?? 'dashboard';
       <a href="index.php?page=orders" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'orders' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Pesanan</span>
       </a>
-      <a href="index.php?page=password_change" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'password_change' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+      <a href="index.php?page=pengaturan" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'pengaturan' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Pengaturan</span>
       </a>
       <a href="logout.php" class="flex-1 flex flex-col items-center justify-center h-full text-red-500">

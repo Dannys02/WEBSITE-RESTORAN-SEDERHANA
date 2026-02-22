@@ -45,6 +45,16 @@ if ($action && $id > 0) {
   }
 }
 
+// Logika Hapus Data
+if (isset($_GET['hapus'])) {
+  $id = (int)$_GET['hapus'];
+  $stmt = $koneksi->prepare("DELETE FROM pesanan WHERE id = ?");
+  $stmt->bind_param("i", $id);
+  $stmt->execute();
+  echo "<script>window.location.href='index.php?page=orders';</script>";
+  exit;
+}
+
 // Ambil data pesanan
 $query = "SELECT p.*, pr.nama as nama_produk, pr.harga, pr.stok as stok_saat_ini FROM pesanan p
           JOIN produk pr ON p.produk_id = pr.id
@@ -74,9 +84,45 @@ $all_orders = mysqli_query($koneksi, $query);
       if (substr($clean_phone, 0, 1) === '0') $clean_phone = '62' . substr($clean_phone, 1);
 
       $format_harga = "Rp " . number_format($row['harga'] * $row['stok'], 0, ',', '.');
-      $msg_setuju = urlencode("✅ *PESANAN DISETUJUI*\nHalo *{$row['nama_pembeli']}*,\n\nPesanan *{$row['nama_produk']}* ({$row['stok']} pcs) senilai *{$format_harga}* telah kami terima!");
-      $msg_tolak = urlencode("❌ *PESANAN DITOLAK*\nMohon maaf *{$row['nama_pembeli']}*,\n\nPesanan *{$row['nama_produk']}* ditolak karena stok habis.");
-      $msg_batal = urlencode("⚠️ *PESANAN DIBATALKAN*\nHalo *{$row['nama_pembeli']}*,\n\nPesanan Anda untuk *{$row['nama_produk']}* telah dibatalkan.");
+      // PESAN SETUJU
+      $msg_setuju = urlencode(
+        "✅ *PESANAN DISETUJUI*\n"
+        . "------------------------------------------\n"
+        . "Halo *{$row['nama_pembeli']}*,\n\n"
+        . "Kabar baik! Pesanan Anda telah kami terima dan siap diproses. 📦\n\n"
+        . "📑 *DETAIL PESANAN*\n"
+        . "━━━━━━━━━━━━━━━━━━━━\n"
+        . "🍱 *Menu:* {$row['nama_produk']}\n"
+        . "🔢 *Jumlah:* {$row['stok']} pcs\n"
+        . "💰 *Total:* {$format_harga}\n"
+        . "━━━━━━━━━━━━━━━━━━━━\n\n"
+        . "Mohon ditunggu kabar selanjutnya ya. Terima kasih! 🙏"
+      );
+
+      // PESAN TOLAK
+      $msg_tolak = urlencode(
+        "❌ *PESANAN DITOLAK*\n"
+        . "------------------------------------------\n"
+        . "Mohon maaf *{$row['nama_pembeli']}*,\n\n"
+        . "Dengan berat hati kami menginformasikan bahwa pesanan Anda untuk:\n"
+        . "🍱 *{$row['nama_produk']}*\n\n"
+        . "*DITOLAK* karena stok saat ini sedang habis atau tidak mencukupi. 😔\n"
+        . "------------------------------------------\n"
+        . "Silakan cek kembali katalog kami untuk menu lezat lainnya!"
+      );
+
+      // PESAN BATAL
+      $msg_batal = urlencode(
+        "⚠️ *PESANAN DIBATALKAN*\n"
+        . "------------------------------------------\n"
+        . "Halo *{$row['nama_pembeli']}*,\n\n"
+        . "Kami mengonfirmasi bahwa pesanan Anda untuk:\n"
+        . "🍱 *{$row['nama_produk']}*\n\n"
+        . "Telah *DIBATALKAN*. 🚫\n"
+        . "------------------------------------------\n"
+        . "Jika ini adalah kesalahan, silakan hubungi admin atau lakukan pemesanan ulang. Terima kasih."
+      );
+
       ?>
       <tr class="hover:bg-slate-50 transition-colors">
         <td class="p-4 text-sm">
@@ -129,8 +175,8 @@ $all_orders = mysqli_query($koneksi, $query);
         </td>
         <td class="p-4 text-center">
           <div class="flex justify-center gap-3">
-            <a href="" class="text-yellow-600 text-sm font-bold">Edit</a>
-            <a href="" onclick="return confirm('Hapus testimoni ini?')" class="text-red-500 hover:text-red-700 font-bold text-sm">Hapus</a>
+            <a href="index.php?page=edit_order&id=<?= $row['id'] ?>" class="text-yellow-600 text-sm font-bold">Edit</a>
+            <a href="index.php?page=orders&hapus=<?= $row['id'] ?>" onclick="return confirm('Hapus pesanan ini?')" class="text-red-500 hover:text-red-700 font-bold text-sm">Hapus</a>
           </div>
         </td>
       </tr>

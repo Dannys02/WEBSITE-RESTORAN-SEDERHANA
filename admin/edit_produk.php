@@ -27,7 +27,7 @@ if (isset($_POST['update_produk_ini'])) {
     }
 
     if (mysqli_query($koneksi, $sql)) {
-        echo "<script>alert('BERHASIL UPDATE STOK!'); window.location.href='index.php?page=dashboard';</script>";
+        echo "<script>alert('BERHASIL UPDATE STOK!'); window.location.href='index.php?page=produk';</script>";
         exit;
     } else {
         echo "Error SQL: " . mysqli_error($koneksi);
@@ -48,7 +48,7 @@ if (!$p) {
 <div class="max-w-2xl mx-auto bg-white p-4 rounded-xl shadow-md border border-slate-200">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-bold text-slate-800">Edit Produk</h2>
-        <a href="index.php?page=dashboard" class="text-gray-500">Batal</a>
+        <a href="index.php?page=produk" class="text-gray-500">Batal</a>
     </div>
 
     <form action="" method="POST" enctype="multipart/form-data" class="space-y-4">

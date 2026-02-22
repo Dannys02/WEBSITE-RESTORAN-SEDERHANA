@@ -12,7 +12,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Katalog Produk UMKM Terbaik - Segar, Lezat, dan Berkualitas.">
-  <title>Toko Saya | Katalog UMKM Pilihan</title>
+  <title>Dannys Store | Katalog UMKM Pilihan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -292,36 +292,33 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
       <form action="api/create_order.php" method="POST" class="p-8">
         <input type="hidden" name="produk_id" id="produk_id">
-        <input type="text" name="perangkap" class="hidden" tabindex="-1" autocomplete="off">
+        <input type="text" name="perangkap" class="hidden w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" tabindex="-1" autocomplete="off">
 
         <div class="space-y-4">
           <div class="grid md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Nama Pembeli</label>
-              <input type="text" name="nama_pembeli" placeholder="Contoh: Budi" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Nama Pembeli (Min. 3 Huruf)</label>
+              <input type="text" name="nama_pembeli" maxlength="50" placeholder="Contoh: Budi" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
             </div>
             <div>
-              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">WhatsApp</label>
+              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">WhatsApp (10-14 Digit)</label>
               <input type="number" name="whatsapp" placeholder="62812..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
             </div>
           </div>
 
           <div class="grid md:grid-cols-2 gap-4">
-            <div class="hidden">
-              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Harga Satuan</label>
-              <input readonly type="text" id="harga_display" class="w-full bg-gray-100 border border-gray-200 p-3 rounded-xl font-bold text-gray-500 cursor-not-allowed">
-              <input type="hidden" name="harga" id="harga_modal">
-            </div>
             <div>
               <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Jumlah Beli</label>
-              <input type="number" name="stok" id="stok_input" value="1" min="1" oninput="hitungTotal()" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition">
+              <input type="number" name="stok" id="stok_input" value="1" min="1" max="100" oninput="hitungTotal()" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition">
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Alamat Pengiriman</label>
-            <textarea name="alamat" placeholder="Tuliskan alamat lengkap pengiriman..." rows="3" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required></textarea>
+            <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Alamat Pengiriman (Min. 10 Karakter)</label>
+            <textarea name="alamat" maxlength="255" placeholder="Tuliskan alamat lengkap..." rows="3" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required></textarea>
           </div>
+
+          <input type="hidden" name="harga" id="harga_modal">
 
           <div class="bg-orange-50 p-4 rounded-2xl flex justify-between items-center border border-orange-100">
             <span class="font-bold text-orange-800 text-lg">Total Pembayaran:</span>

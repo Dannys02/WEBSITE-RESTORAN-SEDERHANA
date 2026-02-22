@@ -7,27 +7,33 @@ const orderModal = document.getElementById("orderModal");
 const body = document.body;
 
 function openModal(product) {
-    // Inject Data
+    // 1. Masukkan ID Produk
     document.getElementById("produk_id").value = product.id;
-    document.getElementById("modalSubTitle").innerText = product.nama;
+    
+    // 2. Masukkan Harga ke input hidden untuk perhitungan
     document.getElementById("harga_modal").value = product.harga;
 
-    // Formatting Display Price
-    const formattedPrice = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0
-    }).format(product.harga);
+    // 3. Update Subtitle di modal (Pastikan elemen id="modalSubTitle" ada di HTML)
+    const subTitle = document.getElementById("modalSubTitle");
+    if(subTitle) {
+        subTitle.innerText = product.nama;
+    }
 
-    document.getElementById("harga_display").value = formattedPrice;
+    // 4. RESET Jumlah Beli ke 1 setiap buka modal
     document.getElementById("stok_input").value = 1;
 
-    // Show Modal with Animation
-    orderModal.classList.remove("hidden");
-    body.style.overflow = "hidden"; // Prevent scroll
+    // --- BAGIAN YANG DIHAPUS/DIPERBAIKI ---
+    // Jangan panggil harga_display karena di HTML sudah tidak ada id tersebut
+    // ---------------------------------------
 
+    // 5. Munculkan Modal
+    orderModal.classList.remove("hidden");
+    body.style.overflow = "hidden"; 
+
+    // 6. Jalankan hitung total awal
     hitungTotal();
 }
+
 
 function closeModal() {
     orderModal.classList.add("hidden");

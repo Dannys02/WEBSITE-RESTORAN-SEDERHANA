@@ -3,64 +3,77 @@ session_start();
 include '../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-  // 1. CEK HONEYPOT
-  if (!empty($_POST['perangkap'])) {
-    die("Bot detected!");
-  }
-
-  // 2. CEK TIMER (Min 3 detik)
-  $load_time = isset($_SESSION['load_time']) ? $_SESSION['load_time'] : 0;
-  $selisih = time() - $load_time;
-  if ($load_time == 0 || $selisih < 3) {
-    die("Bot Detected: Mengisi terlalu cepat!");
-  }
-
-  // 3. CEK RATE LIMIT IP (Min 30 detik)
   $user_ip = $_SERVER['REMOTE_ADDR'];
-  $last_sub = isset($_SESSION['last_submit']) ? $_SESSION['last_submit'] : 0;
-  if (isset($_SESSION['last_ip']) && $_SESSION['last_ip'] == $user_ip && (time() - $last_sub < 30)) {
-    echo "<script>(Mohon tunggu 30 detik sebelum memesan lagi.)</script>";
+
+  // 1. SILENT BOT DETECTION
+  if (!empty($_POST['perangkap'])) die("Bot detected!");
+
+  $load_time = $_SESSION['load_time'] ?? 0;
+  if ((time() - $load_time) < 2) die("Terlalu cepat!");
+
+  // 2. RATE LIMITING (Max 5 order per menit menggunakan SESSION)
+  // Inisialisasi session jika belum ada
+  if (!isset($_SESSION['order_count'])) {
+    $_SESSION['order_count'] = 0;
+    $_SESSION['first_order_time'] = time();
   }
 
-  // Sanitasi Input
-  $produk_id = mysqli_real_escape_string($koneksi, $_POST['produk_id']);
-  $nama = htmlspecialchars(mysqli_real_escape_string($koneksi, $_POST['nama_pembeli']));
-  $alamat = htmlspecialchars(mysqli_real_escape_string($koneksi, $_POST['alamat']));
-  $stok = (int)$_POST['stok'];
-  $harga = (int)$_POST['harga'];
-  $wa_pembeli = preg_replace('/[^0-9]/', '', $_POST['whatsapp']);
+  // Reset counter jika sudah lewat 1 menit
+  if (time() - $_SESSION['first_order_time'] > 60) {
+    $_SESSION['order_count'] = 0;
+    $_SESSION['first_order_time'] = time();
+  }
 
-  if ($stok < 1) {
-    echo "<script>alert('Stok tidak valid!'); history.back();</script>";
+  // Cek limit
+  if ($_SESSION['order_count'] >= 5) {
+    echo "<script>alert('Mohon tunggu 1 menit sebelum memesan lagi.'); history.back();</script>";
     exit;
   }
 
-  // CEK APAKAH STOK MASIH ADA (CUMA CEK, GAK NGURANGIN) ---
-  $cek_stok = mysqli_query($koneksi, "SELECT stok FROM produk WHERE id = '$produk_id'");
-  $data_produk = mysqli_fetch_assoc($cek_stok);
+  // 3. SANITASI & VALIDASI
+  $produk_id = (int)$_POST['produk_id'];
+  $nama = trim(htmlspecialchars($_POST['nama_pembeli']));
+  $wa_pembeli = preg_replace('/[^0-9]/', '', $_POST['whatsapp']);
+  $stok = (int)$_POST['stok'];
+  $harga = (int)$_POST['harga'];
+  $alamat = trim(htmlspecialchars($_POST['alamat']));
+
+  if (strlen($nama) < 3) {
+    echo "<script>alert('Nama minimal 3 karakter!'); history.back();</script>"; exit;
+  }
+  if (strlen($wa_pembeli) < 10 || strlen($wa_pembeli) > 14) {
+    echo "<script>alert('WA harus 10-14 digit!'); history.back();</script>"; exit;
+  }
+  if (strlen($alamat) < 10) {
+    echo "<script>alert('Alamat minimal 10 karakter!'); history.back();</script>"; exit;
+  }
+
+  // 4. CEK STOK (Prepared Statement)
+  $stmt_stok = mysqli_prepare($koneksi, "SELECT nama, stok FROM produk WHERE id = ?");
+  mysqli_stmt_bind_param($stmt_stok, "i", $produk_id);
+  mysqli_stmt_execute($stmt_stok);
+  $data_produk = mysqli_stmt_get_result($stmt_stok)->fetch_assoc();
 
   if (!$data_produk || $data_produk['stok'] < $stok) {
     echo "<script>alert('Maaf, stok tidak mencukupi!'); window.location.href='../index.php';</script>";
     exit;
   }
 
-  // SIMPAN PESANAN (INSERT BIASA) ---
-  $query = "INSERT INTO pesanan (nama_pembeli, whatsapp, stok, harga, alamat, produk_id, status)
-            VALUES ('$nama', '$wa_pembeli', '$stok', '$harga', '$alamat', '$produk_id', 'pending')";
+  // 5. SIMPAN PESANAN (Tanpa kolom created_at atau user_ip jika tidak diperlukan)
+  $query = "INSERT INTO pesanan (nama_pembeli, whatsapp, stok, harga, alamat, produk_id, status, user_ip) VALUES (?, ?, ?, ?, ?, ?, 'pending', ?)";
+  $stmt_ins = mysqli_prepare($koneksi, $query);
 
-  if (mysqli_query($koneksi, $query)) {
-    // Update session untuk cegah spam
-    $_SESSION['last_submit'] = time();
-    $_SESSION['last_ip'] = $user_ip;
+  // Perhatikan penambahan "s" di bind_param dan variabel $user_ip di ujung
+  mysqli_stmt_bind_param($stmt_ins, "ssiisis", $nama, $wa_pembeli, $stok, $harga, $alamat, $produk_id, $user_ip);
 
-    // Ambil Nama Produk untuk Pesan WA
-    $res = mysqli_query($koneksi, "SELECT nama FROM produk WHERE id='$produk_id' LIMIT 1");
-    $p = mysqli_fetch_assoc($res);
-    $nama_produk = ($p) ? $p['nama'] : "Produk";
+  if (mysqli_stmt_execute($stmt_ins)) {
+    // Tambah hitungan order di session
+    $_SESSION['order_count']++;
 
-    // Setup WhatsApp
+    $nama_produk = $data_produk['nama'];
     $nomor_admin = "6285645837298";
+
+    // FORMAT PESAN WA (TIDAK DIUBAH)
     $pesan = "Halo Admin, saya ingin memesan 🙋‍♂️\n"
     . "------------------------------------------\n"
     . "Berikut adalah data pesanan saya:\n\n"
@@ -81,10 +94,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     echo "<script>
                   alert('Pesanan Berhasil Disimpan!');
-                  window.location.href='$url_wa';
+                  window.location.href = '$url_wa';
                   window.location.href = '../index.php';
                 </script>";
   } else {
-    echo "Error: " . mysqli_error($koneksi);
+    echo "Error: Gagal menyimpan pesanan.";
   }
 }
