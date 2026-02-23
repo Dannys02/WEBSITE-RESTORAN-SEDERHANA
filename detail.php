@@ -26,12 +26,8 @@ $isOut = ($p['stok'] <= 0);
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .orange-gradient {
-      background: linear-gradient(135deg, #FF7E5F 0%, #FEB47B 100%);
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .orange-gradient { background: linear-gradient(135deg, #FF7E5F 0%, #FEB47B 100%); }
   </style>
 </head>
 <body class="bg-gray-50 text-slate-800 antialiased">
@@ -44,7 +40,7 @@ $isOut = ($p['stok'] <= 0);
 
   <main class="container mx-auto px-4 py-8 md:py-16">
     <nav class="mb-8 flex items-center gap-2 text-sm font-medium text-gray-500">
-      <a href="index.php" class="hover:text-orange-500 transition">Katalog</a>
+      <a href="index.php" class="hover:text-orange-500 transition">Halaman Utama</a>
       <span>/</span>
       <span class="text-orange-600">Detail Produk</span>
     </nav>
@@ -91,7 +87,7 @@ $isOut = ($p['stok'] <= 0);
           </div>
 
           <div class="flex flex-col sm:flex-row gap-4">
-            <button onclick="handleOrder()"
+            <button onclick='openModal(<?= json_encode($p) ?>)'
               class="flex-1 orange-gradient text-white py-5 rounded-2xl font-bold text-lg shadow-lg shadow-orange-200 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:hover:scale-100"
               <?= $isOut ? 'disabled' : '' ?>>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -105,33 +101,64 @@ $isOut = ($p['stok'] <= 0);
               Tanya CS
             </a>
           </div>
-
-          <div class="mt-10 grid grid-cols-3 gap-4 border-t border-gray-100 pt-8">
-            <div class="text-center">
-              <div class="bg-orange-50 w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2 text-orange-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-              </div>
-              <span class="text-[10px] font-bold uppercase text-gray-400">Higienis</span>
-            </div>
-            <div class="text-center">
-              <div class="bg-orange-50 w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2 text-orange-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-              </div>
-              <span class="text-[10px] font-bold uppercase text-gray-400">Segar Cepat</span>
-            </div>
-            <div class="text-center">
-              <div class="bg-orange-50 w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-2 text-orange-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-              </div>
-              <span class="text-[10px] font-bold uppercase text-gray-400">Terpercaya</span>
-            </div>
-          </div>
         </div>
 
       </div>
     </div>
   </main>
 
-  <script src="assets/js/detail.js"></script>
+  <div id="orderModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 overflow-hidden">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
+    <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all">
+      <div class="orange-gradient p-6 text-white text-center">
+        <h3 class="text-2xl font-bold">Lengkapi Pesanan</h3>
+        <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">Produk yang anda pilih</p>
+      </div>
+
+      <form action="api/create_order.php" method="POST" class="p-8">
+        <input type="hidden" name="produk_id" id="produk_id">
+        <input type="text" name="perangkap" class="hidden w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" tabindex="-1" autocomplete="off">
+
+        <div class="space-y-4">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Nama Pembeli (Min. 3 Huruf)</label>
+              <input type="text" name="nama_pembeli" maxlength="50" placeholder="Contoh: Budi" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">WhatsApp (10-14 Digit)</label>
+              <input type="number" name="whatsapp" placeholder="62812..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Jumlah Beli</label>
+              <input type="number" name="stok" id="stok_input" value="1" min="1" max="100" oninput="hitungTotal()" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Alamat Pengiriman (Min. 10 Karakter)</label>
+            <textarea name="alamat" maxlength="255" placeholder="Tuliskan alamat lengkap..." rows="3" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required></textarea>
+          </div>
+
+          <input type="hidden" name="harga" id="harga_modal">
+
+          <div class="bg-orange-50 p-4 rounded-2xl flex justify-between items-center border border-orange-100">
+            <span class="font-bold text-orange-800 text-lg">Total Pembayaran:</span>
+            <span id="total_harga" class="text-2xl font-black text-orange-600">Rp 0</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col-reverse md:flex-row justify-end gap-3 mt-8">
+          <button type="button" onclick="closeModal()" class="w-full md:w-auto px-6 py-3 font-semibold text-gray-500 hover:text-gray-700">Batal</button>
+          <button type="submit" class="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-orange-200 transition">Konfirmasi & Kirim</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/index.js"></script>
 </body>
 </html>

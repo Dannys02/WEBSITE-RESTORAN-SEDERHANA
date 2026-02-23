@@ -12,19 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ((time() - $load_time) < 2) die("Terlalu cepat!");
 
   // 2. RATE LIMITING (Max 5 order per menit menggunakan SESSION)
-  // Inisialisasi session jika belum ada
   if (!isset($_SESSION['order_count'])) {
     $_SESSION['order_count'] = 0;
     $_SESSION['first_order_time'] = time();
   }
 
-  // Reset counter jika sudah lewat 1 menit
   if (time() - $_SESSION['first_order_time'] > 60) {
     $_SESSION['order_count'] = 0;
     $_SESSION['first_order_time'] = time();
   }
 
-  // Cek limit
   if ($_SESSION['order_count'] >= 5) {
     echo "<script>alert('Mohon tunggu 1 menit sebelum memesan lagi.'); history.back();</script>";
     exit;
@@ -59,21 +56,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit;
   }
 
-  // 5. SIMPAN PESANAN (Tanpa kolom created_at atau user_ip jika tidak diperlukan)
+  // 5. SIMPAN PESANAN
   $query = "INSERT INTO pesanan (nama_pembeli, whatsapp, stok, harga, alamat, produk_id, status, user_ip) VALUES (?, ?, ?, ?, ?, ?, 'pending', ?)";
   $stmt_ins = mysqli_prepare($koneksi, $query);
-
-  // Perhatikan penambahan "s" di bind_param dan variabel $user_ip di ujung
   mysqli_stmt_bind_param($stmt_ins, "ssiisis", $nama, $wa_pembeli, $stok, $harga, $alamat, $produk_id, $user_ip);
 
   if (mysqli_stmt_execute($stmt_ins)) {
-    // Tambah hitungan order di session
     $_SESSION['order_count']++;
-
     $nama_produk = $data_produk['nama'];
-    $nomor_admin = "6285645837298";
 
-    // FORMAT PESAN WA (TIDAK DIUBAH)
+    // ==========================================================
+    // LOGIKA NOTIFIKASI TELEGRAM (ADMIN TETAP TERIMA MESKIPUN WEB DITUTUP)
+    // ==========================================================
+    $token_bot = "ISI_TOKEN_BOT_TELEGRAM_MU"; // Ganti dengan token botmu
+    $id_admin = "ISI_CHAT_ID_TELEGRAM_MU"; // Ganti dengan chat id milikmu
+    $text_notif = "📢 *NOTIF PESANAN BARU!* 📢\n"
+    . "━━━━━━━━━━━━━━━━━━━━\n"
+    . "👤 Pembeli: " . $nama . "\n"
+    . "🍱 Produk: " . $nama_produk . " (" . $stok . " pcs)\n"
+    . "💰 Total: Rp " . number_format($harga, 0, ',', '.') . "\n"
+    . "📍 Alamat: " . $alamat . "\n"
+    . "━━━━━━━━━━━━━━━━━━━━\n"
+    . "Cek Dashboard untuk update status!";
+
+    // Kirim ke Telegram (menggunakan file_get_contents agar simpel)
+    @file_get_contents("https://api.telegram.org/bot$token_bot/sendMessage?chat_id=$id_admin&parse_mode=Markdown&text=" . urlencode($text_notif));
+    // ==========================================================
+
+    $nomor_admin = "6285645837298";
     $pesan = "Halo Admin, saya ingin memesan 🙋‍♂️\n"
     . "------------------------------------------\n"
     . "Berikut adalah data pesanan saya:\n\n"
@@ -92,11 +102,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $url_wa = "https://api.whatsapp.com/send?phone=" . $nomor_admin . "&text=" . urlencode($pesan);
 
+    // Perbaikan Redirect: Buka WA di tab baru lalu balik ke index
     echo "<script>
-                  alert('Pesanan Berhasil Disimpan!');
-                  window.location.href = '$url_wa';
-                  window.location.href = '../index.php';
-                </script>";
+            alert('Pesanan Berhasil Dikirim, hubungi dan tunggu respon Admin!');
+            window.location.href = '$url_wa';
+            window.location.href = '../index.php';
+          </script>";
   } else {
     echo "Error: Gagal menyimpan pesanan.";
   }

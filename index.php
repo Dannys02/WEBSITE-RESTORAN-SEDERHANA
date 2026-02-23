@@ -81,7 +81,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
           </p>
           <div class="grid grid-cols-2 gap-6">
             <div>
-              <h4 class="text-2xl font-bold text-orange-600">500+</h4>
+              <h4 class="text-2xl font-bold text-orange-600">200+</h4>
               <p class="text-gray-500 text-sm">
                 Pelanggan Puas
               </p>
@@ -89,7 +89,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             <div>
               <h4 class="text-2xl font-bold text-orange-600">100%</h4>
               <p class="text-gray-500 text-sm">
-                Bahan Alami
+                Bahan Halal
               </p>
             </div>
           </div>
