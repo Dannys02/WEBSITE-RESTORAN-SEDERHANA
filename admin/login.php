@@ -2,7 +2,6 @@
 session_start();
 include '../config/db.php';
 
-// Jika sudah login, tendang ke index
 if (isset($_SESSION['admin_logged_in'])) {
   header("Location: index.php");
   exit;
@@ -12,15 +11,12 @@ if (isset($_POST['login'])) {
   $username = mysqli_real_escape_string($koneksi, $_POST['username']);
   $password = $_POST['password'];
 
-  // 1. Cari user berdasarkan username
   $query = mysqli_query($koneksi, "SELECT * FROM admins WHERE username = '$username'");
 
   if (mysqli_num_rows($query) === 1) {
     $admin = mysqli_fetch_assoc($query);
 
-    // 2. Verifikasi password hash
     if (password_verify($password, $admin['password'])) {
-      // Login Berhasil (Seperti Breeze: Simpan data ke session)
       $_SESSION['admin_logged_in'] = true;
       $_SESSION['admin_id'] = $admin['id'];
       $_SESSION['username'] = $admin['username'];

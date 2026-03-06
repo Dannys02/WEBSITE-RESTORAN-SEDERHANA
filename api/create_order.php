@@ -65,25 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['order_count']++;
     $nama_produk = $data_produk['nama'];
 
-    // ==========================================================
-    // LOGIKA NOTIFIKASI TELEGRAM (ADMIN TETAP TERIMA MESKIPUN WEB DITUTUP)
-    // ==========================================================
-    $token_bot = "ISI_TOKEN_BOT_TELEGRAM_MU"; // Ganti dengan token botmu
-    $id_admin = "ISI_CHAT_ID_TELEGRAM_MU"; // Ganti dengan chat id milikmu
-    $text_notif = "📢 *NOTIF PESANAN BARU!* 📢\n"
-    . "━━━━━━━━━━━━━━━━━━━━\n"
-    . "👤 Pembeli: " . $nama . "\n"
-    . "🍱 Produk: " . $nama_produk . " (" . $stok . " pcs)\n"
-    . "💰 Total: Rp " . number_format($harga, 0, ',', '.') . "\n"
-    . "📍 Alamat: " . $alamat . "\n"
-    . "━━━━━━━━━━━━━━━━━━━━\n"
-    . "Cek Dashboard untuk update status!";
-
-    // Kirim ke Telegram (menggunakan file_get_contents agar simpel)
-    @file_get_contents("https://api.telegram.org/bot$token_bot/sendMessage?chat_id=$id_admin&parse_mode=Markdown&text=" . urlencode($text_notif));
-    // ==========================================================
-
-    $nomor_admin = "6285645837298";
+    $nomor_admin = "6285675421889";
     $pesan = "Halo Admin, saya ingin memesan 🙋‍♂️\n"
     . "------------------------------------------\n"
     . "Berikut adalah data pesanan saya:\n\n"

@@ -3,7 +3,6 @@ if (!defined('AKSES_AMAN')) {
   die('Akses langsung tidak diizinkan!');
 }
 
-// 1. LOGIKA UPDATE DATA
 if (isset($_POST['update_order_ini'])) {
   $id_update = (int)$_POST['id'];
   $nama    = mysqli_real_escape_string($koneksi, $_POST['nama_pembeli']);
@@ -11,7 +10,6 @@ if (isset($_POST['update_order_ini'])) {
   $alamat  = mysqli_real_escape_string($koneksi, $_POST['alamat']);
   $stok    = (int)$_POST['stok'];
 
-  // Query Update
   $sql = "UPDATE pesanan SET 
             nama_pembeli = '$nama', 
             whatsapp = '$wa', 
@@ -27,9 +25,8 @@ if (isset($_POST['update_order_ini'])) {
   }
 }
 
-// 2. LOGIKA TAMPIL DATA (Ambil data buat isi form)
 $id_edit = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-// Kita JOIN dengan produk untuk sekedar menampilkan nama produk yang sedang diedit
+
 $query = mysqli_query($koneksi, "SELECT p.*, pr.nama as nama_produk FROM pesanan p 
                                  JOIN produk pr ON p.produk_id = pr.id 
                                  WHERE p.id = $id_edit");

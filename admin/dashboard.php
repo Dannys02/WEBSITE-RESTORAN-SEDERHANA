@@ -3,34 +3,29 @@ if (!defined('AKSES_AMAN')) {
   die('Akses langsung tidak diizinkan!');
 }
 
-// Konfigurasi Notifikasi Telegram (ISI DISINI)
-$telegram_token = "8150467230:AAHpPlZWlVng8wHy7Vgk8wmKipMLFUh1dQg";
-$chat_id = "6894989857";
-
 // tanggal
 date_default_timezone_set('Asia/Jakarta');
 $formatter = new IntlDateFormatter('id_ID', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
 $formatter->setPattern('EEEE, dd MMM yyyy');
 
-// 1. Hitung Order Pending
+// Hitung order pending
 $q_pending = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM pesanan WHERE status = 'pending'");
 $count_pending = mysqli_fetch_assoc($q_pending)['total'];
 
-// 2. Hitung Total Produk & Stok Menipis
+// Hitung total produk & stok menipis
 $q_produk = mysqli_query($koneksi, "SELECT COUNT(*) as total, SUM(IF(stok < 5, 1, 0)) as menipis FROM produk");
 $res_produk = mysqli_fetch_assoc($q_produk);
 $count_produk = $res_produk['total'];
 $stok_menipis = $res_produk['menipis'] ?? 0;
 
-// 3. Hitung Testimoni Baru
+// Hitung testimoni baru
 $q_testi_count = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM testimoni");
 $count_testi = mysqli_fetch_assoc($q_testi_count)['total'];
 
-// 4. Hitung Pendapatan
+// Hitung pendapatan
 $q_pendapatan = mysqli_query($koneksi, "SELECT SUM(harga * stok) as total FROM pesanan WHERE status = 'setuju'");
 $total_pendapatan = mysqli_fetch_assoc($q_pendapatan)['total'] ?? 0;
 
-// 5. Ambil Data Testimoni untuk List
 $all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LIMIT 5");
 ?>
 
@@ -109,30 +104,3 @@ $all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LI
     </div>
   </div>
 </div>
-
-<script>
-  let lastPendingCount = <?= $count_pending ?>;
-
-  function checkNewOrders() {
-    fetch('api/check_orders.php')
-    .then(response => response.json())
-    .then(data => {
-      let currentCount = data.total_pending;
-
-      // Logika: Jika jumlah sekarang lebih besar dari sebelumnya
-      if (currentCount > lastPendingCount) {
-        let selisih = currentCount - lastPendingCount;
-
-        // Kirim Notif ke Telegram via PHP
-        fetch(`api/send_notif.php?jumlah=${selisih}`);
-
-        // Update UI secara real-time tanpa refresh
-        document.getElementById('count-pending-ui').innerText = currentCount;
-      }
-      lastPendingCount = currentCount;
-    });
-  }
-
-  // Jalankan pengecekan setiap 60 detik (1 menit)
-  setInterval(checkNewOrders, 60000);
-</script>

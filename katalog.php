@@ -1,10 +1,8 @@
 <?php
 include 'config/db.php';
 
-// Ambil keyword pencarian jika ada
 $search = isset($_GET['search']) ? mysqli_real_escape_string($koneksi, $_GET['search']) : '';
 
-// Query pencarian: Mencari di nama atau deskripsi, diurutkan berdasarkan Nama (A-Z)
 $sql = "SELECT * FROM produk WHERE nama LIKE '%$search%' OR deskripsi LIKE '%$search%' ORDER BY nama ASC";
 $result = mysqli_query($koneksi, $sql);
 ?>

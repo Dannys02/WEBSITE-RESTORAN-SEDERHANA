@@ -1,19 +1,15 @@
 <?php
 include 'config/db.php';
-// Pastikan ID aman dari SQL Injection
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-// Ambil data produk
 $query = mysqli_query($koneksi, "SELECT * FROM produk WHERE id = $id");
 $p = mysqli_fetch_assoc($query);
 
-// Redirect jika produk tidak ada
 if (!$p) {
   header("Location: index.php");
   exit;
 }
 
-// Logika Stok
 $isOut = ($p['stok'] <= 0);
 ?>
 <!DOCTYPE html>

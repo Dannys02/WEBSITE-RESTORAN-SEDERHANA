@@ -7,14 +7,11 @@ $id_admin = $_SESSION['admin_id'];
 $success = "";
 $error = "";
 
-// Ambil data admin saat ini
 $query_admin = mysqli_query($koneksi, "SELECT username, password FROM admins WHERE id = '$id_admin'");
 $data_admin = mysqli_fetch_assoc($query_admin);
 
-// LOGIKA UPDATE
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-  // A. UPDATE USERNAME
   if (isset($_POST['update_profile'])) {
     $username_baru = mysqli_real_escape_string($koneksi, $_POST['username']);
 
@@ -22,12 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($update) {
       $success = "Username berhasil diperbarui!";
       $data_admin['username'] = $username_baru; // Update tampilan
+      $_SESSION['username'] = $username_baru;
     } else {
       $error = "Gagal memperbarui username.";
     }
   }
 
-  // B. UPDATE PASSWORD
   if (isset($_POST['update_password'])) {
     $pw_lama = $_POST['password_lama'];
     $pw_baru = $_POST['password_baru'];
@@ -137,8 +134,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </div>
 
-</div>
-
-<div class="mt-12 text-center">
-  <a href="index.php" class="text-sm font-bold text-slate-400 hover:text-slate-500 transition">← Kembali ke Dashboard</a>
 </div>

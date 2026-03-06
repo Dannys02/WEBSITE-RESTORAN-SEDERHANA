@@ -6,7 +6,6 @@ if (!isset($_SESSION['admin_logged_in'])) {
 }
 include '../config/db.php';
 
-// Logika penentuan halaman
 $page = $_GET['page'] ?? 'dashboard';
 ?>
 <!DOCTYPE html>
@@ -115,8 +114,8 @@ $page = $_GET['page'] ?? 'dashboard';
 
       // Styling Paginasi bawaan kamu
       $('.dataTables_paginate').addClass('w-full border border-gray-200 flex justify-center py-6 px-12 items-center gap-1 whitespace-nowrap');
-      $('.paginate_button').addClass('px-3 py-2 bg-slate-100 rounded-md mx-1 text-xs font-bold hover:bg-emerald-500 hover:text-white transition-colors');
-      $('.paginate_button.current').addClass('bg-emerald-600 text-white');
+      $('.paginate_button').addClass('px-3 py-2 bg-slate-100 rounded-md mx-1 text-xs font-bold hover:bg-orange-500 hover:text-white transition-colors');
+      $('.paginate_button.current').addClass('bg-orange-600 text-white');
     },
   });
 });

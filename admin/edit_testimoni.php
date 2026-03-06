@@ -3,7 +3,6 @@ if (!defined('AKSES_AMAN')) {
   die('Akses langsung tidak diizinkan!');
 }
 
-// 1. LOGIKA UPDATE
 if (isset($_POST['update_testimoni_ini'])) {
   $id_update = (int)$_POST['id'];
   $nama = mysqli_real_escape_string($koneksi, $_POST['nama_pelanggan']);
@@ -19,14 +18,13 @@ if (isset($_POST['update_testimoni_ini'])) {
             WHERE id = $id_update";
 
   if (mysqli_query($koneksi, $sql)) {
-    echo "<script>alert('TESTIMONI BERHASIL DIUPDATE!'); window.location.href='index.php?page=testimoni';</script>";
+    echo "<script>alert('DATA TESTIMONI BERHASIL DIUPDATE!'); window.location.href='index.php?page=testimoni';</script>";
     exit;
   } else {
     echo "Error SQL: " . mysqli_error($koneksi);
   }
 }
 
-// 2. LOGIKA TAMPIL DATA (Ambil data buat isi form)
 $id_edit = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $query = mysqli_query($koneksi, "SELECT * FROM testimoni WHERE id = $id_edit");
 $t = mysqli_fetch_assoc($query);

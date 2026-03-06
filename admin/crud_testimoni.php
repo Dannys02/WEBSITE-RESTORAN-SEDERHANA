@@ -3,7 +3,7 @@ if (!defined('AKSES_AMAN')) {
   die('Akses langsung tidak diizinkan!');
 }
 
-// Logika Simpan Data
+// Simpan Data
 if (isset($_POST['simpan'])) {
   $nama = htmlspecialchars($_POST['nama_pelanggan']);
   $kerja = htmlspecialchars($_POST['pekerjaan']);
@@ -17,7 +17,7 @@ if (isset($_POST['simpan'])) {
   exit;
 }
 
-// Logika Hapus Data
+// Hapus Data
 if (isset($_GET['hapus'])) {
   $id = (int)$_GET['hapus'];
   $stmt = $koneksi->prepare("DELETE FROM testimoni WHERE id = ?");

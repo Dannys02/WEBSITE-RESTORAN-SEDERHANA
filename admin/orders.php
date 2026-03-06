@@ -3,7 +3,6 @@ if (!defined('AKSES_AMAN')) {
   die('Akses langsung tidak diizinkan!');
 }
 
-// Cek session admin
 if (!isset($_SESSION['admin_logged_in'])) {
   echo "<script>window.location.href='login.php';</script>"; exit;
 }
@@ -11,7 +10,6 @@ if (!isset($_SESSION['admin_logged_in'])) {
 $action = $_GET['action'] ?? null;
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-// --- LOGIKA PROSES DATABASE ---
 if ($action && $id > 0) {
   $query_cek = "SELECT p.stok as qty_pesan, p.produk_id, p.status, pr.stok as stok_sekarang
                 FROM pesanan p
@@ -40,12 +38,11 @@ if ($action && $id > 0) {
       mysqli_query($koneksi, "UPDATE produk SET stok = stok + $qty_pesan WHERE id = $pid");
       mysqli_query($koneksi, "UPDATE pesanan SET status = 'dibatalkan' WHERE id = $id");
     }
-    // Seteleh proses selesai, redirect balik ke halaman orders tanpa buka WA
+
     echo "<script>window.location.href='index.php?page=orders';</script>"; exit;
   }
 }
 
-// Logika Hapus Data
 if (isset($_GET['hapus'])) {
   $id = (int)$_GET['hapus'];
   $stmt = $koneksi->prepare("DELETE FROM pesanan WHERE id = ?");
@@ -55,7 +52,6 @@ if (isset($_GET['hapus'])) {
   exit;
 }
 
-// Ambil data pesanan
 $query = "SELECT p.*, pr.nama as nama_produk, pr.harga, pr.stok as stok_saat_ini FROM pesanan p
           JOIN produk pr ON p.produk_id = pr.id
           ORDER BY p.id DESC";
@@ -84,7 +80,6 @@ $all_orders = mysqli_query($koneksi, $query);
       if (substr($clean_phone, 0, 1) === '0') $clean_phone = '62' . substr($clean_phone, 1);
 
       $format_harga = "Rp " . number_format($row['harga'] * $row['stok'], 0, ',', '.');
-      // PESAN SETUJU
       $msg_setuju = urlencode(
         "✅ *PESANAN DISETUJUI*\n"
         . "------------------------------------------\n"
@@ -99,7 +94,6 @@ $all_orders = mysqli_query($koneksi, $query);
         . "Mohon ditunggu kabar selanjutnya ya. Terima kasih! 🙏"
       );
 
-      // PESAN TOLAK
       $msg_tolak = urlencode(
         "❌ *PESANAN DITOLAK*\n"
         . "------------------------------------------\n"
@@ -111,7 +105,6 @@ $all_orders = mysqli_query($koneksi, $query);
         . "Silakan cek kembali katalog kami untuk menu lezat lainnya!"
       );
 
-      // PESAN BATAL
       $msg_batal = urlencode(
         "⚠️ *PESANAN DIBATALKAN*\n"
         . "------------------------------------------\n"

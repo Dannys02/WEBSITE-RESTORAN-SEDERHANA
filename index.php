@@ -12,7 +12,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Katalog Produk UMKM Terbaik - Segar, Lezat, dan Berkualitas.">
-  <title>Dannys Store | Katalog UMKM Pilihan</title>
+  <title>Toko Saya | Katalog UMKM Pilihan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -28,7 +28,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
   <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-orange-100">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="#" class="text-2xl font-extrabold text-orange-600 tracking-tight">Dannys<span class="text-slate-900">Store</span></a>
+      <a href="#" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya</span></a>
       <div class="hidden md:flex items-center gap-8 font-medium">
         <a href="#beranda" class="hover:text-orange-500 transition">Beranda</a>
         <a href="#tentang" class="hover:text-orange-500 transition">Tentang</a>
@@ -77,7 +77,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
           <span class="text-orange-500 font-bold uppercase tracking-wider text-sm">Cerita Kami</span>
           <h3 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 mb-6">Berawal dari Dapur Rumah, Menuju Meja Anda.</h3>
           <p class="text-gray-600 leading-relaxed mb-6">
-            <span class="text-orange-600">Dannys</span>Store lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap produk memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
+            <span class="text-orange-600">Toko</span>Saya lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap produk memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
           </p>
           <div class="grid grid-cols-2 gap-6">
             <div>
@@ -99,11 +99,9 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   </section>
 
   <?php
-  // Ambil total semua produk untuk pengecekan tombol
   $cek_jumlah = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM produk");
   $total_data = mysqli_fetch_assoc($cek_jumlah)['total'];
 
-  // Query hanya 6 produk terbaru
   $query_limit = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC LIMIT 6");
 
   if (mysqli_num_rows($query_limit) > 0):
@@ -173,10 +171,8 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
 
   <?php
-  // Ambil data testimoni terbaru
   $query_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LIMIT 3");
 
-  // Hanya tampilkan section jika ada data di database
   if (mysqli_num_rows($query_testi) > 0):
   ?>
   <section id="testimoni" class="py-20 bg-orange-50/50">
@@ -192,7 +188,6 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100">
           <div class="flex text-orange-400 mb-4">
             <?php
-            // Perulangan ikon bintang sesuai angka di kolom 'bintang'
             for ($i = 1; $i <= $t['bintang']; $i++):
             ?>
             <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
@@ -225,7 +220,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
         <div>
-          <h4 class="text-2xl font-bold text-orange-500 mb-6">DannysStore</h4>
+          <h4 class="text-2xl font-bold text-orange-500 mb-6">TokoSaya</h4>
           <p class="text-slate-400 leading-relaxed mb-6">
             Membawa kebahagiaan ke rumah Anda melalui hidangan lokal yang autentik dan higienis.
           </p>
@@ -255,11 +250,11 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             </li>
             <li class="flex items-center gap-3">
               <span class="text-orange-500">📞</span>
-              +62 856-4583-7298
+              +62 85*-****-****
             </li>
             <li class="flex items-center gap-3">
               <span class="text-orange-500">✉️</span>
-              webdannys@gmail.com
+              webToko@gmail.com
             </li>
           </ul>
         </div>
@@ -274,7 +269,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       </div>
       <div class="border-t border-slate-800 pt-8 text-center text-slate-500 text-xs">
         <p>
-          &copy; 2026 DannysStore. Hak Cipta Dilindungi.
+          &copy; 2026 TokoSaya. Hak Cipta Dilindungi.
         </p>
       </div>
     </div>
@@ -316,11 +311,11 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Nama Pembeli (Min. 3 Huruf)</label>
-              <input type="text" name="nama_pembeli" maxlength="50" placeholder="Contoh: Budi" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+              <input type="text" name="nama_pembeli" maxlength="50" placeholder="Nama..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
             </div>
             <div>
               <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">WhatsApp (10-14 Digit)</label>
-              <input type="number" name="whatsapp" placeholder="62812..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+              <input type="number" name="whatsapp" placeholder="628..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
             </div>
           </div>
 

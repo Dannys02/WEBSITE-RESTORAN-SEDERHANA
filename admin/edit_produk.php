@@ -3,7 +3,6 @@ if (!defined('AKSES_AMAN')) {
     die('Akses langsung tidak diizinkan!');
 }
 
-// 1. LOGIKA UPDATE (Taruh di paling atas biar gak pusing path)
 if (isset($_POST['update_produk_ini'])) {
     $id_update = (int)$_POST['id'];
     $nama      = mysqli_real_escape_string($koneksi, $_POST['nama']);
@@ -27,14 +26,13 @@ if (isset($_POST['update_produk_ini'])) {
     }
 
     if (mysqli_query($koneksi, $sql)) {
-        echo "<script>alert('BERHASIL UPDATE STOK!'); window.location.href='index.php?page=produk';</script>";
+        echo "<script>alert('DATA MENU BERHASIL DIUPDATE!'); window.location.href='index.php?page=produk';</script>";
         exit;
     } else {
         echo "Error SQL: " . mysqli_error($koneksi);
     }
 }
 
-// 2. LOGIKA TAMPIL DATA (Ambil data buat isi form)
 $id_edit = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $query = mysqli_query($koneksi, "SELECT * FROM produk WHERE id = $id_edit");
 $p = mysqli_fetch_assoc($query);

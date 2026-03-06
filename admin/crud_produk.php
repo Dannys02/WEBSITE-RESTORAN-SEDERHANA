@@ -9,7 +9,6 @@ if (isset($_POST['submit'])) {
   $stok = (int)$_POST['stok'];
   $deskripsi = mysqli_real_escape_string($koneksi, $_POST['deskripsi']);
 
-  // --- GAMBAR ---
   $filename = $_FILES['gambar']['name'];
   $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
   $allowed = array('jpg', 'jpeg', 'png', 'webp');
