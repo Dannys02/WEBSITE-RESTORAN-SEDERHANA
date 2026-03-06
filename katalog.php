@@ -12,7 +12,7 @@ $result = mysqli_query($koneksi, $sql);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katalog Produk Lengkap | Dannys Store</title>
+  <title>Katalog Produk Lengkap | TokoSaya</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -24,7 +24,7 @@ $result = mysqli_query($koneksi, $sql);
 
   <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="index.php" class="text-2xl font-extrabold text-orange-600">Dannys<span class="text-slate-900">Store</span></a>
+      <a href="index.php" class="text-2xl font-extrabold text-orange-600">Toko<span class="text-slate-900">Saya</span></a>
       <a href="index.php" class="text-sm font-bold text-gray-500 hover:text-orange-500 transition">← Kembali ke Beranda</a>
     </div>
   </nav>
@@ -165,7 +165,7 @@ $result = mysqli_query($koneksi, $sql);
 
   <footer class="bg-white border-t border-gray-100 py-10 mt-20">
     <div class="container mx-auto px-4 text-center text-gray-400 text-sm font-medium">
-      &copy; 2026 DannysStore. Dibuat dengan penuh rasa.
+      &copy; 2026 TokoSaya. Hak Cipta Dilindungi.
     </div>
   </footer>
 

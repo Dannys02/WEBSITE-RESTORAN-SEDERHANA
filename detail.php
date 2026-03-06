@@ -30,7 +30,7 @@ $isOut = ($p['stok'] <= 0);
 
   <nav class="bg-white/80 backdrop-blur-md border-b border-orange-100 sticky top-0 z-50">
     <div class="container mx-auto px-6 py-4">
-      <a href="index.php" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya.</span></a>
+      <a href="index.php" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya</span></a>
     </div>
   </nav>
 
@@ -91,7 +91,7 @@ $isOut = ($p['stok'] <= 0);
               </svg>
               Pesan Sekarang
             </button>
-            <a href="https://wa.me/6285645837298?text=Halo, saya ingin tanya produk <?= urlencode($p['nama']) ?>"
+            <a href="https://wa.me/6285675421889?text=Halo, saya ingin tanya produk <?= urlencode($p['nama']) ?>"
               target="_blank"
               class="px-8 py-5 border-2 border-slate-200 text-slate-700 rounded-2xl font-bold hover:bg-slate-50 transition flex items-center justify-center">
               Tanya CS
@@ -119,11 +119,11 @@ $isOut = ($p['stok'] <= 0);
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Nama Pembeli (Min. 3 Huruf)</label>
-              <input type="text" name="nama_pembeli" maxlength="50" placeholder="Contoh: Budi" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+              <input type="text" name="nama_pembeli" maxlength="50" placeholder="Nama..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
             </div>
             <div>
               <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">WhatsApp (10-14 Digit)</label>
-              <input type="number" name="whatsapp" placeholder="62812..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+              <input type="number" name="whatsapp" placeholder="628..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
             </div>
           </div>
 
