@@ -1,3 +1,28 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const boxes = document.querySelectorAll(".from-bottom");
+
+    const observerOptions = {
+        root: null, // Mengacu pada viewport
+        threshold: 0.15 // Elemen terlihat 15% langsung trigger
+    };
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Jika terlihat di layar, tambahkan class active
+                entry.target.classList.add("active");
+            } else {
+                // Jika tidak terlihat (scrolled away), hapus class active agar animasi berulang
+                entry.target.classList.remove("active");
+            }
+        });
+    }, observerOptions);
+
+    boxes.forEach(box => {
+        observer.observe(box);
+    });
+});
+
 /**
  * UMKM Katalog Interactive Script
  * Handled: Modal interactions, price calculations, and animations.
@@ -9,13 +34,13 @@ const body = document.body;
 function openModal(product) {
     // 1. Masukkan ID Produk
     document.getElementById("produk_id").value = product.id;
-    
+
     // 2. Masukkan Harga ke input hidden untuk perhitungan
     document.getElementById("harga_modal").value = product.harga;
 
     // 3. Update Subtitle di modal (Pastikan elemen id="modalSubTitle" ada di HTML)
     const subTitle = document.getElementById("modalSubTitle");
-    if(subTitle) {
+    if (subTitle) {
         subTitle.innerText = product.nama;
     }
 
@@ -28,12 +53,11 @@ function openModal(product) {
 
     // 5. Munculkan Modal
     orderModal.classList.remove("hidden");
-    body.style.overflow = "hidden"; 
+    body.style.overflow = "hidden";
 
     // 6. Jalankan hitung total awal
     hitungTotal();
 }
-
 
 function closeModal() {
     orderModal.classList.add("hidden");

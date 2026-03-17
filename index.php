@@ -16,6 +16,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css" />
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -49,7 +50,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
   <section id="beranda" class="relative overflow-hidden bg-white py-12 md:py-24">
     <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-      <div>
+      <div class="from-bottom">
         <h2 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
           Rasakan Kelezatan <span class="text-orange-500">Autentik</span> di Setiap Gigitan.
         </h2>
@@ -60,7 +61,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
           Lihat Katalog Produk
         </a>
       </div>
-      <div class="relative">
+      <div class="relative from-bottom">
         <div class="absolute -z-10 w-72 h-72 bg-orange-200 rounded-full blur-3xl opacity-50 top-0 right-0"></div>
         <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=800" alt="Hero Image" class="rounded-3xl shadow-2xl">
       </div>
@@ -72,24 +73,26 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       <div class="flex flex-col md:flex-row items-center gap-12">
         <div class="md:w-1/2 relative">
           <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-100 rounded-2xl -z-10"></div>
-          <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&q=80&w=800" alt="Tim Kami" class="rounded-[2.5rem] shadow-2xl object-cover h-[400px] w-full">
+          <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&q=80&w=800" alt="Tim Kami" class="rounded-[2.5rem] from-bottom shadow-2xl object-cover h-[400px] w-full">
         </div>
         <div class="md:w-1/2">
-          <span class="text-orange-500 font-bold uppercase tracking-wider text-sm">Cerita Kami</span>
-          <h3 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 mb-6">Berawal dari Dapur Rumah, Menuju Meja Anda.</h3>
-          <p class="text-gray-600 leading-relaxed mb-6">
+          <p class="from-bottom">
+            <span class="text-orange-500 font-bold uppercase tracking-wider text-sm">Cerita Kami</span>
+          </p>
+          <h3 class="from-bottom text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 mb-6">Berawal dari Dapur Rumah, Menuju Meja Anda.</h3>
+          <p class="from-bottom text-gray-600 leading-relaxed mb-6">
             <span class="text-orange-600">Toko</span>Saya lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap produk memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
           </p>
           <div class="grid grid-cols-2 gap-6">
             <div>
-              <h4 class="text-2xl font-bold text-orange-600">200+</h4>
-              <p class="text-gray-500 text-sm">
+              <h4 class="from-bottom text-2xl font-bold text-orange-600">200+</h4>
+              <p class="from-bottom text-gray-500 text-sm">
                 Pelanggan Puas
               </p>
             </div>
             <div>
-              <h4 class="text-2xl font-bold text-orange-600">100%</h4>
-              <p class="text-gray-500 text-sm">
+              <h4 class="from-bottom text-2xl font-bold text-orange-600">100%</h4>
+              <p class="from-bottom text-gray-500 text-sm">
                 Bahan Halal
               </p>
             </div>
@@ -109,17 +112,19 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   ?>
   <section id="produk" class="py-20 bg-white">
     <div class="container mx-auto px-4">
-      <div class="text-center mb-16">
+      <div class="from-bottom text-center mb-16">
         <h3 class="text-3xl font-bold mb-4">Produk Unggulan Kami</h3>
         <div class="w-20 h-1.5 bg-orange-500 mx-auto rounded-full"></div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         <?php
+        $i = 0;
         while ($row = mysqli_fetch_assoc($query_limit)):
         $isOut = ($row['stok'] <= 0);
         ?>
-        <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+        <div style="transition-delay: <?= $i * 0.2 ?>s" class="from-bottom">
+          <article class="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
           <div class="relative overflow-hidden">
             <img src="<?= (!empty($row['gambar'])) ? 'assets/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
             alt="<?= htmlspecialchars($row['nama']) ?>"
@@ -133,11 +138,11 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
           <div class="p-6">
             <h4 class="text-xl font-bold mb-2 group-hover:text-orange-600 transition-colors"><?= $row['nama'] ?></h4>
-            <p class="text-gray-500 text-sm line-clamp-2 mb-4 leading-relaxed">
-              <?= $row['deskripsi'] ?>
+            <p class="mt-auto text-gray-500 text-sm line-clamp-2 mb-4 leading-relaxed">
+              <?= htmlspecialchars($row['deskripsi']) ?>
             </p>
 
-            <div class="flex items-center justify-between mb-6">
+            <div class="flex flex-col md:flex-row items-start md:items-center gap-2 md:justify-between mb-6">
               <span class="text-xl font-extrabold text-slate-900">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>
               <span class="text-xs font-medium px-2 py-1 bg-gray-100 rounded text-gray-600">Stok: <?= $row['stok'] ?></span>
             </div>
@@ -154,11 +159,12 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             </div>
           </div>
         </article>
-        <?php endwhile; ?>
+        </div>
+        <?php $i++; endwhile; ?>
       </div>
 
       <?php if ($total_data > 6): ?>
-      <div class="text-center mt-12">
+      <div class="from-bottom delay-[1s] text-center mt-12">
         <a href="katalog.php" class="inline-block border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white px-8 py-3 rounded-xl font-bold transition-all duration-300">
           Lihat Semua Produk
         </a>
@@ -169,8 +175,6 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   </section>
   <?php endif; ?>
 
-
-
   <?php
   $query_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LIMIT 3");
 
@@ -179,14 +183,17 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   <section id="testimoni" class="py-20 bg-orange-50/50">
     <div class="container mx-auto px-4">
       <div class="text-center mb-12">
-        <h3 class="text-3xl font-bold mb-4">Apa Kata Mereka?</h3>
-        <p class="text-gray-500">
+        <h3 class="from-bottom text-3xl font-bold mb-4">Apa Kata Mereka?</h3>
+        <p class="from-bottom text-gray-500">
           Kepuasan pelanggan adalah prioritas utama kami.
         </p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <?php while ($t = mysqli_fetch_assoc($query_testi)): ?>
-        <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100 flex flex-col">
+        <?php 
+        $in = 0; 
+        while ($t = mysqli_fetch_assoc($query_testi)): 
+        ?>
+        <div style="transition-delay: <?= $in * 0.2 ?>s" class="from-bottom bg-white p-8 rounded-3xl shadow-sm border border-orange-100 flex flex-col">
           <div class="flex text-orange-400 mb-4">
             <?php
             for ($i = 1; $i <= $t['bintang']; $i++):
@@ -211,7 +218,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             </div>
           </div>
         </div>
-        <?php endwhile; ?>
+        <?php $in++; endwhile; ?>
       </div>
     </div>
   </section>
@@ -316,7 +323,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             </div>
             <div>
               <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">WhatsApp (10-14 Digit)</label>
-              <input type="number" name="whatsapp" placeholder="628..." class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
+              <input type="tel" name="whatsapp" placeholder="628..." pattern="[0-9]{10,14}" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required>
             </div>
           </div>
 

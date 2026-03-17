@@ -71,7 +71,7 @@ $isOut = ($p['stok'] <= 0);
               </span>
               <div class="h-6 w-[1px] bg-gray-300"></div>
               <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-lg text-sm font-bold">
-                Stok: <?= $p['stok'] ?> Unit
+                Stok: <?= $p['stok'] ?> Item
               </span>
             </div>
           </div>
