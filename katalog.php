@@ -14,10 +14,15 @@ $result = mysqli_query($koneksi, $sql);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Katalog Produk Lengkap | TokoSaya</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .orange-gradient { background: linear-gradient(135deg, #FF7E5F 0%, #FEB47B 100%); }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .orange-gradient {
+      background: linear-gradient(135deg, #FF7E5F 0%, #FEB47B 100%);
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -25,89 +30,95 @@ $result = mysqli_query($koneksi, $sql);
   <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <a href="index.php" class="text-2xl font-extrabold text-orange-600">Toko<span class="text-slate-900">Saya</span></a>
-      <a href="index.php" class="text-sm font-bold text-gray-500 hover:text-orange-500 transition">← Kembali ke Beranda</a>
+      <a href="/#produk" class="text-sm font-bold text-gray-500 hover:text-orange-500 transition">← Kembali ke Beranda</a>
     </div>
   </nav>
 
   <header class="bg-white py-12 border-b border-gray-50">
     <div class="container mx-auto px-4 text-center">
       <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Semua Produk Kami</h1>
-      <p class="text-gray-500 mb-8 max-w-xl mx-auto">Temukan berbagai pilihan menu terbaik kami dengan mudah melalui fitur pencarian di bawah ini.</p>
-      
+      <p class="text-gray-500 mb-8 max-w-xl mx-auto">
+        Temukan berbagai pilihan menu terbaik kami dengan mudah melalui fitur pencarian di bawah ini.
+      </p>
+
       <form action="" method="GET" class="max-w-2xl mx-auto relative group">
         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-orange-500 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
-        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" 
-          placeholder="Cari nama menu atau deskripsi..." 
-          class="w-full pl-12 pr-32 py-4 rounded-2xl border border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all shadow-sm">
+        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>"
+        placeholder="Cari nama menu atau deskripsi..."
+        class="w-full pl-12 pr-32 py-4 rounded-2xl border border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 outline-none transition-all shadow-sm">
         <button type="submit" class="absolute right-2 top-2 bottom-2 px-6 orange-gradient text-white font-bold rounded-xl shadow-md hover:scale-105 transition-transform active:scale-95">
           Cari
         </button>
       </form>
-      
-      <?php if($search): ?>
-        <p class="mt-4 text-sm text-gray-400 font-medium">
-          Menampilkan hasil untuk: <span class="text-orange-600 font-bold">"<?= htmlspecialchars($search) ?>"</span>
-          <a href="katalog.php" class="ml-2 text-gray-300 hover:text-red-500 underline">Bersihkan</a>
-        </p>
+
+      <?php if ($search): ?>
+      <p class="mt-4 text-sm text-gray-400 font-medium">
+        Menampilkan hasil untuk: <span class="text-orange-600 font-bold">"<?= htmlspecialchars($search) ?>"</span>
+        <a href="katalog.php" class="ml-2 text-gray-300 hover:text-red-500 underline">Bersihkan</a>
+      </p>
       <?php endif; ?>
     </div>
   </header>
 
   <main class="container mx-auto px-4 py-16">
     <?php if (mysqli_num_rows($result) > 0): ?>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        <?php while ($row = mysqli_fetch_assoc($result)): $isOut = ($row['stok'] <= 0); ?>
-          <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
-            <div class="relative overflow-hidden">
-              <img src="<?= (!empty($row['gambar'])) ? 'assets/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>" 
-                alt="<?= htmlspecialchars($row['nama']) ?>" 
-                class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
-              <?php if ($isOut): ?>
-                <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
-                  <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">Stok Habis</span>
-                </div>
-              <?php endif; ?>
-            </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <?php while ($row = mysqli_fetch_assoc($result)): $isOut = ($row['stok'] <= 0); ?>
+      <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+        <div class="relative overflow-hidden">
+          <img src="<?= (!empty($row['gambar'])) ? 'assets/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
+          alt="<?= htmlspecialchars($row['nama']) ?>"
+          class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+          <?php if ($isOut): ?>
+          <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
+            <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">Stok Habis</span>
+          </div>
+          <?php endif; ?>
+        </div>
 
-            <div class="p-6 flex flex-col flex-grow">
-              <div class="mb-4">
-                <h4 class="text-xl font-bold group-hover:text-orange-600 transition-colors duration-300"><?= $row['nama'] ?></h4>
-              </div>
-              
-              <p class="text-gray-500 text-sm line-clamp-3 mb-6 leading-relaxed flex-grow">
-                <?= $row['deskripsi'] ?>
-              </p>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="mb-4">
+            <h4 class="text-xl font-bold group-hover:text-orange-600 transition-colors duration-300"><?= $row['nama'] ?></h4>
+          </div>
 
-              <div class="flex items-center justify-between mb-6 pt-4 border-t border-gray-50">
-                <span class="text-xl font-extrabold text-slate-900">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>
-                <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-md text-slate-500">Stok: <?= $row['stok'] ?></span>
-              </div>
+          <p class="text-gray-500 text-sm line-clamp-3 mb-6 leading-relaxed flex-grow">
+            <?= $row['deskripsi'] ?>
+          </p>
 
-              <div class="grid grid-cols-2 gap-3">
-                <button onclick='openModal(<?= json_encode($row) ?>)'
-                  class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition shadow-md shadow-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                  <?= $isOut ? 'disabled' : '' ?>>
-                  Pesan
-                </button>
-                <a href="detail.php?id=<?= $row['id'] ?>" class="border border-orange-200 text-orange-600 hover:bg-orange-50 py-3 rounded-xl font-bold text-sm text-center shadow-sm transition">
-                  Detail
-                </a>
-              </div>
-            </div>
-          </article>
-        <?php endwhile; ?>
+          <div class="flex items-center justify-between mb-6 pt-4 border-t border-gray-50">
+            <span class="text-xl font-extrabold text-slate-900">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>
+            <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-md text-slate-500">Stok: <?= $row['stok'] ?></span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick='openModal(<?= json_encode($row) ?>)'
+              class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition shadow-md shadow-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              <?= $isOut ? 'disabled' : '' ?>>
+              Pesan
+            </button>
+            <a href="detail.php?id=<?= $row['id'] ?>" class="border border-orange-200 text-orange-600 hover:bg-orange-50 py-3 rounded-xl font-bold text-sm text-center shadow-sm transition">
+              Detail
+            </a>
+          </div>
+        </div>
+      </article>
+      <?php endwhile; ?>
+    </div>
+    <?php else : ?>
+    <div class="text-center py-20">
+      <div class="text-6xl mb-4">
+        🔍
       </div>
-    <?php else: ?>
-      <div class="text-center py-20">
-        <div class="text-6xl mb-4">🔍</div>
-        <h3 class="text-2xl font-bold text-slate-800">Produk Tidak Ditemukan</h3>
-        <p class="text-gray-500 mt-2">Maaf, menu yang Anda cari tidak tersedia dalam katalog kami.</p>
-        <a href="katalog.php" class="mt-8 inline-block text-orange-500 font-bold hover:underline">Tampilkan Semua Produk</a>
-      </div>
+      <h3 class="text-2xl font-bold text-slate-800">Produk Tidak Ditemukan</h3>
+      <p class="text-gray-500 mt-2">
+        Maaf, menu yang Anda cari tidak tersedia dalam katalog kami.
+      </p>
+      <a href="katalog.php" class="mt-8 inline-block text-orange-500 font-bold hover:underline">Tampilkan Semua Produk</a>
+    </div>
     <?php endif; ?>
   </main>
 
@@ -116,7 +127,9 @@ $result = mysqli_query($koneksi, $sql);
     <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all">
       <div class="orange-gradient p-6 text-white text-center">
         <h3 class="text-2xl font-bold">Lengkapi Pesanan</h3>
-        <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">Produk yang anda pilih</p>
+        <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">
+          Produk yang anda pilih
+        </p>
       </div>
 
       <form action="api/create_order.php" method="POST" class="p-8">
@@ -153,6 +166,9 @@ $result = mysqli_query($koneksi, $sql);
             <span class="font-bold text-orange-800 text-lg">Total Pembayaran:</span>
             <span id="total_harga" class="text-2xl font-black text-orange-600">Rp 0</span>
           </div>
+
+          <div class="g-recaptcha" data-sitekey="6LcBT4wsAAAAAMjKbTsmCm6W-tNGyG-3Ah0FNqOS"></div>
+
         </div>
 
         <div class="flex flex-col-reverse md:flex-row justify-end gap-3 mt-8">

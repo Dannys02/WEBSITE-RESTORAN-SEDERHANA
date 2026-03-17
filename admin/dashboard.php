@@ -31,9 +31,9 @@ $all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LI
 
 <header class="flex flex-col md:flex-row md:justify-between md:items-end border-b border-gray-200 pb-4 mb-8">
   <div>
-    <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
+    <a href="/" class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
       Dashboard <span class="text-orange-600"><?= $_SESSION['username']; ?></span>
-    </h1>
+    </a>
     <p class="text-sm text-gray-400 mt-1 hidden md:block">
       Selamat datang kembali di halaman Admin.
     </p>

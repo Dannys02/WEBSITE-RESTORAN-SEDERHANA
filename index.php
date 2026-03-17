@@ -14,6 +14,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   <meta name="description" content="Katalog Produk UMKM Terbaik - Segar, Lezat, dan Berkualitas.">
   <title>Toko Saya | Katalog UMKM Pilihan</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     body {
@@ -185,7 +186,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <?php while ($t = mysqli_fetch_assoc($query_testi)): ?>
-        <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100">
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-orange-100 flex flex-col">
           <div class="flex text-orange-400 mb-4">
             <?php
             for ($i = 1; $i <= $t['bintang']; $i++):
@@ -195,10 +196,10 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             </svg>
             <?php endfor; ?>
           </div>
-          <p class="text-gray-600 italic mb-6">
+          <p class="text-gray-600 italic mb-6 flex-grow">
             "<?= htmlspecialchars($t['isi']) ?>"
           </p>
-          <div class="flex items-center gap-4">
+          <div class="flex items-center gap-4 mt-auto">
             <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-600 uppercase">
               <?= substr($t['nama_pelanggan'], 0, 1) ?>
             </div>
@@ -330,6 +331,8 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             <label class="block text-sm font-semibold mb-1 ml-1 text-gray-700">Alamat Pengiriman (Min. 10 Karakter)</label>
             <textarea name="alamat" maxlength="255" placeholder="Tuliskan alamat lengkap..." rows="3" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition" required></textarea>
           </div>
+
+          <div class="g-recaptcha" data-sitekey="6LcBT4wsAAAAAMjKbTsmCm6W-tNGyG-3Ah0FNqOS"></div>
 
           <input type="hidden" name="harga" id="harga_modal">
 

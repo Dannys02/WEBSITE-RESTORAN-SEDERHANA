@@ -20,6 +20,7 @@ $isOut = ($p['stok'] <= 0);
   <meta name="description" content="Detail produk <?= htmlspecialchars($p['nama']) ?> - UMKM Berkualitas">
   <title><?= $p['nama'] ?> | Detail Produk TokoSaya</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -30,13 +31,13 @@ $isOut = ($p['stok'] <= 0);
 
   <nav class="bg-white/80 backdrop-blur-md border-b border-orange-100 sticky top-0 z-50">
     <div class="container mx-auto px-6 py-4">
-      <a href="index.php" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya</span></a>
+      <a href="/" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya</span></a>
     </div>
   </nav>
 
   <main class="container mx-auto px-4 py-8 md:py-16">
     <nav class="mb-8 flex items-center gap-2 text-sm font-medium text-gray-500">
-      <a href="index.php" class="hover:text-orange-500 transition">Halaman Utama</a>
+      <a href="/#produk" class="hover:text-orange-500 transition">Halaman Utama</a>
       <span>/</span>
       <span class="text-orange-600">Detail Produk</span>
     </nav>
@@ -91,7 +92,7 @@ $isOut = ($p['stok'] <= 0);
               </svg>
               Pesan Sekarang
             </button>
-            <a href="https://wa.me/6285675421889?text=Halo, saya ingin tanya produk <?= urlencode($p['nama']) ?>"
+            <a href="https://wa.me/6285645837298?text=Halo admin, saya ingin tanya produk <?= urlencode($p['nama']) ?>"
               target="_blank"
               class="px-8 py-5 border-2 border-slate-200 text-slate-700 rounded-2xl font-bold hover:bg-slate-50 transition flex items-center justify-center">
               Tanya CS
@@ -145,6 +146,8 @@ $isOut = ($p['stok'] <= 0);
             <span class="font-bold text-orange-800 text-lg">Total Pembayaran:</span>
             <span id="total_harga" class="text-2xl font-black text-orange-600">Rp 0</span>
           </div>
+          
+          <div class="g-recaptcha" data-sitekey="6LcBT4wsAAAAAMjKbTsmCm6W-tNGyG-3Ah0FNqOS"></div>
         </div>
 
         <div class="flex flex-col-reverse md:flex-row justify-end gap-3 mt-8">

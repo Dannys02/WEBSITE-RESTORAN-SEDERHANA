@@ -58,19 +58,19 @@ $page = $_GET['page'] ?? 'dashboard';
 
   <nav class="fixed bottom-0 left-0 z-50 w-full bg-white border-t border-gray-100 shadow-lg">
     <div class="flex justify-around items-center h-16">
-      <a href="index.php?page=dashboard" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'dashboard' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+      <a href="index.php?page=dashboard" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-200 <?= $page == 'dashboard' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Dashboard</span>
       </a>
-      <a href="index.php?page=produk" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'produk' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+      <a href="index.php?page=produk" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-200 <?= $page == 'produk' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Produk</span>
       </a>
-      <a href="index.php?page=testimoni" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'testimoni' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+      <a href="index.php?page=testimoni" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-200 <?= $page == 'testimoni' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Testimoni</span>
       </a>
-      <a href="index.php?page=orders" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'orders' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+      <a href="index.php?page=orders" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-200 <?= $page == 'orders' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Pesanan</span>
       </a>
-      <a href="index.php?page=pengaturan" class="flex-1 flex flex-col items-center justify-center h-full <?= $page == 'pengaturan' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+      <a href="index.php?page=pengaturan" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-200 <?= $page == 'pengaturan' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Pengaturan</span>
       </a>
       <a href="logout.php" class="flex-1 flex flex-col items-center justify-center h-full text-red-500">

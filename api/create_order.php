@@ -5,13 +5,32 @@ include '../config/db.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $user_ip = $_SERVER['REMOTE_ADDR'];
 
-  // 1. SILENT BOT DETECTION
+  // 1. CEK TOKEN CAPTCHA ADA
+  if (!isset($_POST['g-recaptcha-response'])) {
+    die("Captcha wajib diisi.");
+  }
+
+  // VERIFIKASI CAPTCHA
+  $secret = "6LcBT4wsAAAAAL_pBRW0tYfRCa9PQLIhQcb7kbm8";
+  $response = $_POST['g-recaptcha-response'];
+
+  $verify = file_get_contents(
+    "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response"
+  );
+
+  $captcha = json_decode($verify);
+
+  if (!$captcha->success) {
+    echo "<script>alert('Mohon verifikasi bahwa kamu bukan robot.'); history.back();</script>"; exit;
+  }
+
+  // 2. SILENT BOT DETECTION
   if (!empty($_POST['perangkap'])) die("Bot detected!");
 
   $load_time = $_SESSION['load_time'] ?? 0;
   if ((time() - $load_time) < 2) die("Terlalu cepat!");
 
-  // 2. RATE LIMITING (Max 5 order per menit menggunakan SESSION)
+  // 3. RATE LIMITING (Max 5 order per menit menggunakan SESSION)
   if (!isset($_SESSION['order_count'])) {
     $_SESSION['order_count'] = 0;
     $_SESSION['first_order_time'] = time();
@@ -65,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['order_count']++;
     $nama_produk = $data_produk['nama'];
 
-    $nomor_admin = "6285675421889";
+    $nomor_admin = "6285645837298";
     $pesan = "Halo Admin, saya ingin memesan 🙋‍♂️\n"
     . "------------------------------------------\n"
     . "Berikut adalah data pesanan saya:\n\n"
@@ -88,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "<script>
             alert('Pesanan Berhasil Dikirim, hubungi dan tunggu respon Admin!');
             window.location.href = '$url_wa';
-            window.location.href = '../index.php';
+            window.location.href = '/';
           </script>";
   } else {
     echo "Error: Gagal menyimpan pesanan.";
