@@ -30,7 +30,7 @@ $result = mysqli_query($koneksi, $sql);
   <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <a href="index.php" class="text-2xl font-extrabold text-orange-600">Toko<span class="text-slate-900">Saya</span></a>
-      <a href="/#produk" class="text-sm font-bold text-gray-500 hover:text-orange-500 transition">← Kembali ke Beranda</a>
+      <a href="/store#produk" class="text-sm font-bold text-gray-500 hover:text-orange-500 transition">← Kembali ke Beranda</a>
     </div>
   </nav>
 
@@ -66,11 +66,11 @@ $result = mysqli_query($koneksi, $sql);
 
   <main class="container mx-auto px-4 py-16">
     <?php if (mysqli_num_rows($result) > 0): ?>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
       <?php while ($row = mysqli_fetch_assoc($result)): $isOut = ($row['stok'] <= 0); ?>
       <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
         <div class="relative overflow-hidden">
-          <img src="<?= (!empty($row['gambar'])) ? 'assets/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
+          <img src="<?= (!empty($row['gambar'])) ? 'src/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
           alt="<?= htmlspecialchars($row['nama']) ?>"
           class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
           <?php if ($isOut): ?>
@@ -80,17 +80,11 @@ $result = mysqli_query($koneksi, $sql);
           <?php endif; ?>
         </div>
 
-        <div class="p-6 flex flex-col flex-grow">
-          <div class="mb-4">
-            <h4 class="text-xl font-bold group-hover:text-orange-600 transition-colors duration-300"><?= $row['nama'] ?></h4>
-          </div>
+        <div class="p-4 md:p-6 flex flex-col flex-grow">
+          <h4 class="text-xl font-bold group-hover:text-orange-600 transition-colors duration-300"><?= $row['nama'] ?></h4>
 
-          <p class="text-gray-500 text-sm line-clamp-3 mb-6 leading-relaxed flex-grow">
-            <?= $row['deskripsi'] ?>
-          </p>
-
-          <div class="flex items-center justify-between mb-6 pt-4 border-t border-gray-50">
-            <span class="text-xl font-extrabold text-slate-900">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 pt-4 border-t border-gray-50 gap-2">
+            <span class="text-sm md:text-xl font-extrabold text-slate-900">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>
             <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-md text-slate-500">Stok: <?= $row['stok'] ?></span>
           </div>
 
@@ -124,7 +118,7 @@ $result = mysqli_query($koneksi, $sql);
 
   <div id="orderModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 overflow-hidden">
     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
-    <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all">
+    <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all scale-[0.9] md:scale-[1]">
       <div class="orange-gradient p-6 text-white text-center">
         <h3 class="text-2xl font-bold">Lengkapi Pesanan</h3>
         <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">
@@ -185,6 +179,6 @@ $result = mysqli_query($koneksi, $sql);
     </div>
   </footer>
 
-  <script src="assets/js/index.js"></script>
+  <script src="src/js/index.js"></script>
 </body>
 </html>

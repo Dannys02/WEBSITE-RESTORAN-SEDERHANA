@@ -16,7 +16,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="src/css/style.css" />
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -124,41 +124,50 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         $isOut = ($row['stok'] <= 0);
         ?>
         <div style="transition-delay: <?= $i * 0.2 ?>s" class="from-bottom">
-          <article class="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-          <div class="relative overflow-hidden">
-            <img src="<?= (!empty($row['gambar'])) ? 'assets/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
-            alt="<?= htmlspecialchars($row['nama']) ?>"
-            class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
-            <?php if ($isOut): ?>
-            <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
-              <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">Stok Habis</span>
-            </div>
-            <?php endif; ?>
-          </div>
+          <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+            <div class="relative overflow-hidden">
+    <img src="<?= (!empty($row['gambar'])) ? 'src/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
+      alt="<?= htmlspecialchars($row['nama']) ?>"
+      class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
 
-          <div class="p-6">
-            <h4 class="text-xl font-bold mb-2 group-hover:text-orange-600 transition-colors"><?= $row['nama'] ?></h4>
-            <p class="mt-auto text-gray-500 text-sm line-clamp-2 mb-4 leading-relaxed">
-              <?= htmlspecialchars($row['deskripsi']) ?>
-            </p>
+    <?php if ($isOut): ?>
+      <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
+        <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+          Stok Habis
+        </span>
+      </div>
+    <?php endif; ?>
+  </div>
+  
+            <div class="p-4 md:p-6 flex flex-col flex-grow">
+    <h4 class="text-xl font-bold group-hover:text-orange-600 transition-colors duration-300">
+      <?= $row['nama'] ?>
+    </h4>
 
-            <div class="flex flex-col md:flex-row items-start md:items-center gap-2 md:justify-between mb-6">
-              <span class="text-xl font-extrabold text-slate-900">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>
-              <span class="text-xs font-medium px-2 py-1 bg-gray-100 rounded text-gray-600">Stok: <?= $row['stok'] ?></span>
-            </div>
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 pt-4 border-t border-gray-50 gap-2">
+      <span class="text-sm md:text-xl font-extrabold text-slate-900">
+        Rp <?= number_format($row['harga'], 0, ',', '.') ?>
+      </span>
 
-            <div class="grid grid-cols-2 gap-3">
-              <button onclick='openModal(<?= json_encode($row) ?>)'
-                class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition shadow-md shadow-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                <?= $isOut ? 'disabled' : '' ?>>
-                Pesan
-              </button>
-              <a href="detail.php?id=<?= $row['id'] ?>" class="border border-orange-200 text-orange-600 hover:bg-orange-50 py-3 rounded-xl font-bold text-sm text-center transition">
-                Detail
-              </a>
-            </div>
-          </div>
-        </article>
+      <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-md text-slate-500">
+        Stok: <?= $row['stok'] ?>
+      </span>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <button onclick='openModal(<?= json_encode($row) ?>)'
+        class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition shadow-md shadow-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
+        <?= $isOut ? 'disabled' : '' ?>>
+        Pesan
+      </button>
+
+      <a href="detail.php?id=<?= $row['id'] ?>"
+        class="border border-orange-200 text-orange-600 hover:bg-orange-50 py-3 rounded-xl font-bold text-sm text-center shadow-sm transition">
+        Detail
+      </a>
+    </div>
+  </div>
+          </article>
         </div>
         <?php $i++; endwhile; ?>
       </div>
@@ -303,7 +312,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
   <div id="orderModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 overflow-hidden">
     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
-    <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all">
+    <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all scale-[0.9] md:scale-[1]">
       <div class="orange-gradient p-6 text-white text-center">
         <h3 class="text-2xl font-bold">Lengkapi Pesanan</h3>
         <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">
@@ -357,6 +366,6 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
     </div>
   </div>
 
-  <script src="assets/js/index.js"></script>
+  <script src="src/js/index.js"></script>
 </body>
 </html>

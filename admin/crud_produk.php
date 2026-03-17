@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
 
   if (in_array($ext, $allowed)) {
     $new_name = time() . "-" . bin2hex(random_bytes(4)) . "." . $ext; // Nama file acak agar tidak bentrok
-    if (move_uploaded_file($_FILES['gambar']['tmp_name'], "../assets/img/" . $new_name)) {
+    if (move_uploaded_file($_FILES['gambar']['tmp_name'], "../src/img/" . $new_name)) {
       mysqli_query($koneksi, "INSERT INTO produk (nama, harga, deskripsi, gambar, stok) VALUES ('$nama', '$harga', '$deskripsi', '$new_name', '$stok')");
       echo "<script>window.location.href='index.php?page=produk';</script>";
       exit;
@@ -30,8 +30,8 @@ if (isset($_GET['delete'])) {
   $id = (int)$_GET['delete'];
   $res = mysqli_query($koneksi, "SELECT gambar FROM produk WHERE id=$id");
   $data = mysqli_fetch_assoc($res);
-  if ($data && $data['gambar'] && file_exists("../assets/img/".$data['gambar'])) {
-    unlink("../assets/img/".$data['gambar']);
+  if ($data && $data['gambar'] && file_exists("../src/img/".$data['gambar'])) {
+    unlink("../src/img/".$data['gambar']);
   }
   mysqli_query($koneksi, "DELETE FROM produk WHERE id=$id");
   echo "<script>window.location.href='index.php?page=produk';</script>";
@@ -74,7 +74,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
     <tbody class="divide-y divide-slate-100">
       <?php while ($row = mysqli_fetch_assoc($query)): ?>
       <tr class="hover:bg-gray-50">
-        <td class="p-4"><img src="../assets/img/<?= $row['gambar'] ?>" class="w-12 h-12 object-cover rounded shadow-sm"></td>
+        <td class="p-4"><img src="../src/img/<?= $row['gambar'] ?>" class="w-12 h-12 object-cover rounded shadow-sm"></td>
         <td class="p-4 text-sm font-medium"><?= htmlspecialchars($row['nama']) ?></td>
         <td class="p-4 text-sm">Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
         <td class="p-4 text-sm"><?= htmlspecialchars($row['stok']) ?></td>

@@ -31,13 +31,13 @@ $isOut = ($p['stok'] <= 0);
 
   <nav class="bg-white/80 backdrop-blur-md border-b border-orange-100 sticky top-0 z-50">
     <div class="container mx-auto px-6 py-4">
-      <a href="/" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya</span></a>
+      <a href="/store" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya</span></a>
     </div>
   </nav>
 
   <main class="container mx-auto px-4 py-8 md:py-16">
     <nav class="mb-8 flex items-center gap-2 text-sm font-medium text-gray-500">
-      <a href="/#produk" class="hover:text-orange-500 transition">Halaman Utama</a>
+      <a href="/store#produk" class="hover:text-orange-500 transition">Halaman Utama</a>
       <span>/</span>
       <span class="text-orange-600">Detail Produk</span>
     </nav>
@@ -47,7 +47,7 @@ $isOut = ($p['stok'] <= 0);
 
         <div class="lg:w-1/2 p-4 md:p-8">
           <div class="relative group overflow-hidden rounded-[2rem] bg-gray-100 aspect-square">
-            <img src="<?= (!empty($p['gambar'])) ? 'assets/img/' . $p['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800' ?>"
+            <img src="<?= (!empty($p['gambar'])) ? 'src/img/' . $p['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800' ?>"
             alt="<?= htmlspecialchars($p['nama']) ?>"
             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
 
@@ -106,7 +106,7 @@ $isOut = ($p['stok'] <= 0);
 
   <div id="orderModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 overflow-hidden">
     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
-    <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all">
+    <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all scale-[0.9] md:scale-[1]">
       <div class="orange-gradient p-6 text-white text-center">
         <h3 class="text-2xl font-bold">Lengkapi Pesanan</h3>
         <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">Produk yang anda pilih</p>
@@ -158,6 +158,6 @@ $isOut = ($p['stok'] <= 0);
     </div>
   </div>
 
-  <script src="assets/js/index.js"></script>
+  <script src="src/js/index.js"></script>
 </body>
 </html>

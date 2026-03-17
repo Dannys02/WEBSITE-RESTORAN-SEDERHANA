@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "<script>
             alert('Pesanan Berhasil Dikirim, hubungi dan tunggu respon Admin!');
             window.location.href = '$url_wa';
-            window.location.href = '/';
+            window.location.href = '/store';
           </script>";
   } else {
     echo "Error: Gagal menyimpan pesanan.";

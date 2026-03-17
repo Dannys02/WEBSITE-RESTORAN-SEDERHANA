@@ -121,6 +121,6 @@ $page = $_GET['page'] ?? 'dashboard';
 });
 
   </script>
-  <script src="../assets/js/orders.js"></script>
+  <script src="../src/js/orders.js"></script>
 </body>
 </html>

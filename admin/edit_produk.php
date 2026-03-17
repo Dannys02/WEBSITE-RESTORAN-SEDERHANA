@@ -12,12 +12,12 @@ if (isset($_POST['update_produk_ini'])) {
 
     if (!empty($_FILES['gambar']['name'])) {
         $nama_file = time() . '-' . $_FILES['gambar']['name'];
-        if (move_uploaded_file($_FILES['gambar']['tmp_name'], "../assets/img/" . $nama_file)) {
+        if (move_uploaded_file($_FILES['gambar']['tmp_name'], "../src/img/" . $nama_file)) {
             // Hapus gambar lama
             $res_lama = mysqli_query($koneksi, "SELECT gambar FROM produk WHERE id=$id_update");
             $data_lama = mysqli_fetch_assoc($res_lama);
-            if ($data_lama['gambar'] && file_exists("../assets/img/" . $data_lama['gambar'])) {
-                unlink("../assets/img/" . $data_lama['gambar']);
+            if ($data_lama['gambar'] && file_exists("../src/img/" . $data_lama['gambar'])) {
+                unlink("../src/img/" . $data_lama['gambar']);
             }
             $sql = "UPDATE produk SET nama='$nama', harga='$harga', stok='$stok', deskripsi='$deskripsi', gambar='$nama_file' WHERE id=$id_update";
         }
@@ -75,7 +75,7 @@ if (!$p) {
 
         <div>
             <label class="block text-sm font-bold mb-1">Foto (Biarkan jika gak ganti)</label>
-            <img src="../assets/img/<?= $p['gambar'] ?>" class="w-20 h-20 object-cover rounded mb-2 border">
+            <img src="../src/img/<?= $p['gambar'] ?>" class="w-20 h-20 object-cover rounded mb-2 border">
             <input type="file" name="gambar" accept="image/*" class="text-sm">
         </div>
 
