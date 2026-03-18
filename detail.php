@@ -17,8 +17,8 @@ $isOut = ($p['stok'] <= 0);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Detail produk <?= htmlspecialchars($p['nama']) ?> - UMKM Berkualitas">
-  <title><?= $p['nama'] ?> | Detail Produk TokoSaya</title>
+  <meta name="description" content="Detail menu <?= htmlspecialchars($p['nama']) ?> - UMKM Berkualitas">
+  <title><?= $p['nama'] ?> | Detail Menu TokoSaya</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@ $isOut = ($p['stok'] <= 0);
 </head>
 <body class="bg-gray-50 text-slate-800 antialiased">
 
-  <nav class="bg-white/80 backdrop-blur-md border-b border-orange-100 sticky top-0 z-50">
+  <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-orange-100">
     <div class="container mx-auto px-6 py-4">
       <a href="/store" class="text-2xl font-extrabold text-orange-600 tracking-tight">Toko<span class="text-slate-900">Saya</span></a>
     </div>
@@ -37,9 +37,9 @@ $isOut = ($p['stok'] <= 0);
 
   <main class="container mx-auto px-4 py-8 md:py-16">
     <nav class="mb-8 flex items-center gap-2 text-sm font-medium text-gray-500">
-      <a href="/store#produk" class="hover:text-orange-500 transition">Halaman Utama</a>
+      <a href="/store#menu" class="hover:text-orange-500 transition">Halaman Utama</a>
       <span>/</span>
-      <span class="text-orange-600">Detail Produk</span>
+      <span class="text-orange-600">Detail Menu</span>
     </nav>
 
     <div class="bg-white rounded-[2.5rem] shadow-xl shadow-orange-100/50 overflow-hidden border border-orange-50">
@@ -61,7 +61,7 @@ $isOut = ($p['stok'] <= 0);
 
         <div class="lg:w-1/2 p-8 md:p-12 lg:pl-4 flex flex-col justify-center">
           <div class="mb-6">
-            <span class="text-orange-500 font-bold uppercase tracking-widest text-xs">Produk Unggulan</span>
+            <span class="text-orange-500 font-bold uppercase tracking-widest text-xs">Menu Unggulan</span>
             <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mt-2 mb-4 leading-tight">
               <?= htmlspecialchars($p['nama']) ?>
             </h1>
@@ -77,7 +77,7 @@ $isOut = ($p['stok'] <= 0);
           </div>
 
           <div class="border-t border-gray-100 pt-6 mb-8">
-            <h3 class="text-lg font-bold text-slate-800 mb-3 uppercase tracking-wide">Deskripsi Produk</h3>
+            <h3 class="text-lg font-bold text-slate-800 mb-3 uppercase tracking-wide">Deskripsi Menu</h3>
             <p class="text-gray-600 leading-relaxed text-lg">
               <?= nl2br(htmlspecialchars($p['deskripsi'])) ?>
             </p>
@@ -92,7 +92,7 @@ $isOut = ($p['stok'] <= 0);
               </svg>
               Pesan Sekarang
             </button>
-            <a href="https://wa.me/6285645837298?text=Halo admin, saya ingin tanya produk <?= urlencode($p['nama']) ?>"
+            <a href="https://wa.me/6285645837298?text=Halo admin, saya ingin tanya menu <?= urlencode($p['nama']) ?>"
               target="_blank"
               class="px-8 py-5 border-2 border-slate-200 text-slate-700 rounded-2xl font-bold hover:bg-slate-50 transition flex items-center justify-center">
               Tanya CS
@@ -109,7 +109,7 @@ $isOut = ($p['stok'] <= 0);
     <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto transform transition-all scale-[0.9] md:scale-[1]">
       <div class="orange-gradient p-6 text-white text-center">
         <h3 class="text-2xl font-bold">Lengkapi Pesanan</h3>
-        <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">Produk yang anda pilih</p>
+        <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">Menu yang anda pilih</p>
       </div>
 
       <form action="api/create_order.php" method="POST" class="p-8">

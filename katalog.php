@@ -12,7 +12,7 @@ $result = mysqli_query($koneksi, $sql);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katalog Produk Lengkap | TokoSaya</title>
+  <title>Katalog Menu Lengkap | TokoSaya</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -30,13 +30,13 @@ $result = mysqli_query($koneksi, $sql);
   <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <a href="index.php" class="text-2xl font-extrabold text-orange-600">Toko<span class="text-slate-900">Saya</span></a>
-      <a href="/store#produk" class="text-sm font-bold text-gray-500 hover:text-orange-500 transition">← Kembali ke Beranda</a>
+      <a href="/store#menu" class="text-sm font-bold text-gray-500 hover:text-orange-500 transition">← Kembali ke Beranda</a>
     </div>
   </nav>
 
   <header class="bg-white py-12 border-b border-gray-50">
     <div class="container mx-auto px-4 text-center">
-      <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Semua Produk Kami</h1>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Semua Menu Kami</h1>
       <p class="text-gray-500 mb-8 max-w-xl mx-auto">
         Temukan berbagai pilihan menu terbaik kami dengan mudah melalui fitur pencarian di bawah ini.
       </p>
@@ -107,11 +107,11 @@ $result = mysqli_query($koneksi, $sql);
       <div class="text-6xl mb-4">
         🔍
       </div>
-      <h3 class="text-2xl font-bold text-slate-800">Produk Tidak Ditemukan</h3>
+      <h3 class="text-2xl font-bold text-slate-800">Menu Tidak Ditemukan</h3>
       <p class="text-gray-500 mt-2">
         Maaf, menu yang Anda cari tidak tersedia dalam katalog kami.
       </p>
-      <a href="katalog.php" class="mt-8 inline-block text-orange-500 font-bold hover:underline">Tampilkan Semua Produk</a>
+      <a href="katalog.php" class="mt-8 inline-block text-orange-500 font-bold hover:underline">Tampilkan Semua Menu</a>
     </div>
     <?php endif; ?>
   </main>
@@ -122,7 +122,7 @@ $result = mysqli_query($koneksi, $sql);
       <div class="orange-gradient p-6 text-white text-center">
         <h3 class="text-2xl font-bold">Lengkapi Pesanan</h3>
         <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">
-          Produk yang anda pilih
+          Menu yang anda pilih
         </p>
       </div>
 

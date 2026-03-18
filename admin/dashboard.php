@@ -23,10 +23,35 @@ $q_testi_count = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM testimoni
 $count_testi = mysqli_fetch_assoc($q_testi_count)['total'];
 
 // Hitung pendapatan
-$q_pendapatan = mysqli_query($koneksi, "SELECT SUM(harga * stok) as total FROM pesanan WHERE status = 'setuju'");
+$q_pendapatan = mysqli_query($koneksi, "SELECT SUM(harga * stok) as total FROM pesanan WHERE status = 'selesai'");
 $total_pendapatan = mysqli_fetch_assoc($q_pendapatan)['total'] ?? 0;
 
 $all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LIMIT 5");
+
+$query_top = "SELECT pr.nama, SUM(p.stok) as total
+              FROM pesanan p
+              JOIN produk pr ON p.produk_id = pr.id
+              WHERE p.status = 'selesai'
+              GROUP BY p.produk_id
+              ORDER BY total DESC LIMIT 1";
+$res_top = mysqli_query($koneksi, $query_top);
+$top_item = mysqli_fetch_assoc($res_top);
+
+// 1. Pendapatan Harian (Hari ini saja)
+$q_harian = mysqli_query($koneksi, "SELECT SUM(harga * stok) as total FROM pesanan 
+             WHERE status = 'selesai' AND DATE(created_at) = CURDATE()");
+$total_harian = mysqli_fetch_assoc($q_harian)['total'] ?? 0;
+
+// 2. Pendapatan Mingguan (7 hari terakhir)
+$q_mingguan = mysqli_query($koneksi, "SELECT SUM(harga * stok) as total FROM pesanan 
+              WHERE status = 'selesai' AND YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1)");
+$total_mingguan = mysqli_fetch_assoc($q_mingguan)['total'] ?? 0;
+
+// 3. Pendapatan Bulanan (Bulan ini saja)
+$q_bulanan = mysqli_query($koneksi, "SELECT SUM(harga * stok) as total FROM pesanan 
+             WHERE status = 'selesai' AND MONTH(created_at) = MONTH(CURDATE()) 
+             AND YEAR(created_at) = YEAR(CURDATE())");
+$total_bulanan = mysqli_fetch_assoc($q_bulanan)['total'] ?? 0;
 ?>
 
 <header class="flex flex-col md:flex-row md:justify-between md:items-end border-b border-gray-200 pb-4 mb-8">
@@ -56,10 +81,10 @@ $all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LI
   </div>
   <div class="bg-white p-6 rounded-xl border hover:shadow-sm hover:border-orange-500 transition-colors duration-300 ease">
     <p class="text-gray-500 text-sm">
-      Total Produk
+      Total Menu
     </p>
     <h3 class="text-2xl font-bold text-gray-800"><?= $count_produk ?></h3>
-    <span class="text-xs text-gray-400 mt-2 inline-block"><?= $stok_menipis ?> Stok Menipis</span>
+    <span class="text-xs text-gray-400 mt-2 inline-block"><?= $stok_menipis ?> Porsi Menipis</span>
   </div>
   <div class="bg-white p-6 rounded-xl border hover:shadow-sm hover:border-orange-500 transition-colors duration-300 ease">
     <p class="text-gray-500 text-sm">
@@ -70,9 +95,38 @@ $all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LI
   </div>
   <div class="bg-white p-6 rounded-xl border hover:shadow-sm hover:border-orange-500 transition-colors duration-300 ease">
     <p class="text-gray-500 text-sm">
+      Menu Terlaris
+    </p>
+    <?php if ($top_item): ?>
+      <h3 class="text-xl font-bold"><?= strtoupper($top_item['nama']) ?></h3>
+      <span class="text-xs text-green-500 mt-2 inline-block">Top 1 Terlaris</span>
+    <?php else : ?>
+      <p class="text-red-600 text-xl font-bold text-sm italic">Belum ada.</p>
+    <?php endif; ?>
+  </div>
+  <div class="bg-white p-6 rounded-xl border hover:shadow-sm hover:border-orange-500 transition-colors duration-300 ease">
+    <p class="text-gray-500 text-sm">
       Total Pendapatan
     </p>
     <h3 class="text-2xl font-bold text-orange-600">Rp <?= number_format($total_pendapatan, 0, ',', '.') ?></h3>
+  </div>
+  <div class="bg-white p-6 rounded-xl border hover:shadow-sm hover:border-orange-500 transition-colors duration-300 ease">
+    <p class="text-gray-500 text-sm">
+      Pendapatan Harian
+    </p>
+    <h3 class="text-2xl font-bold text-orange-600">Rp <?= number_format($total_harian, 0, ',', '.') ?></h3>
+  </div>
+  <div class="bg-white p-6 rounded-xl border hover:shadow-sm hover:border-orange-500 transition-colors duration-300 ease">
+    <p class="text-gray-500 text-sm">
+      Pendapatan Mingguan
+    </p>
+    <h3 class="text-2xl font-bold text-orange-600">Rp <?= number_format($total_mingguan, 0, ',', '.') ?></h3>
+  </div>
+  <div class="bg-white p-6 rounded-xl border hover:shadow-sm hover:border-orange-500 transition-colors duration-300 ease">
+    <p class="text-gray-500 text-sm">
+      Pendapatan Bulanan
+    </p>
+    <h3 class="text-2xl font-bold text-orange-600">Rp <?= number_format($total_bulanan, 0, ',', '.') ?></h3>
   </div>
 </div>
 

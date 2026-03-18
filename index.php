@@ -11,7 +11,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Katalog Produk UMKM Terbaik - Segar, Lezat, dan Berkualitas.">
+  <meta name="description" content="Katalog Menu UMKM Terbaik - Segar, Lezat, dan Berkualitas.">
   <title>Toko Saya | Katalog UMKM Pilihan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -35,7 +35,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         <a href="#beranda" class="hover:text-orange-500 transition">Beranda</a>
         <a href="#tentang" class="hover:text-orange-500 transition">Tentang</a>
         <?php if (mysqli_num_rows($all_product) > 0): ?>
-        <a href="#produk" class="hover:text-orange-500 transition">Produk</a>
+        <a href="#menu" class="hover:text-orange-500 transition">Menu</a>
         <?php endif; ?>
         <a href="#kontak" class="hover:text-orange-500 transition">Kontak</a>
         <button onclick="handleContactClick()" class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-md">
@@ -55,10 +55,10 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
           Rasakan Kelezatan <span class="text-orange-500">Autentik</span> di Setiap Gigitan.
         </h2>
         <p class="text-gray-600 text-lg mb-8 leading-relaxed">
-          Kami menghadirkan produk UMKM pilihan yang dibuat dengan bahan baku premium dan resep warisan yang menggugah selera.
+          Kami menghadirkan menu UMKM pilihan yang dibuat dengan bahan baku premium dan resep warisan yang menggugah selera.
         </p>
-        <a href="#produk" class="inline-block orange-gradient text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-orange-200 hover:scale-105 transition-transform">
-          Lihat Katalog Produk
+        <a href="#menu" class="inline-block orange-gradient text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-orange-200 hover:scale-105 transition-transform">
+          Lihat Katalog Menu
         </a>
       </div>
       <div class="relative from-bottom">
@@ -81,7 +81,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
           </p>
           <h3 class="from-bottom text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 mb-6">Berawal dari Dapur Rumah, Menuju Meja Anda.</h3>
           <p class="from-bottom text-gray-600 leading-relaxed mb-6">
-            <span class="text-orange-600">Toko</span>Saya lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap produk memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
+            <span class="text-orange-600">Toko</span>Saya lahir dari keinginan sederhana untuk berbagi cita rasa autentik nusantara. Kami percaya bahwa setiap menu memiliki cerita, dan kami berkomitmen untuk hanya menggunakan bahan baku lokal terbaik guna mendukung ekosistem UMKM di sekitar kami.
           </p>
           <div class="grid grid-cols-2 gap-6">
             <div>
@@ -110,10 +110,10 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
   if (mysqli_num_rows($query_limit) > 0):
   ?>
-  <section id="produk" class="py-20 bg-white">
+  <section id="menu" class="py-20 bg-white">
     <div class="container mx-auto px-4">
       <div class="from-bottom text-center mb-16">
-        <h3 class="text-3xl font-bold mb-4">Produk Unggulan Kami</h3>
+        <h3 class="text-3xl font-bold mb-4">Menu Unggulan Kami</h3>
         <div class="w-20 h-1.5 bg-orange-500 mx-auto rounded-full"></div>
       </div>
 
@@ -126,10 +126,9 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         <div style="transition-delay: <?= $i * 0.2 ?>s" class="from-bottom">
           <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
             <div class="relative overflow-hidden">
-    <img src="<?= (!empty($row['gambar'])) ? 'src/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
-      alt="<?= htmlspecialchars($row['nama']) ?>"
-      class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
-
+            <img src="<?= (!empty($row['gambar'])) ? 'src/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
+            alt="<?= htmlspecialchars($row['nama']) ?>"
+            class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
     <?php if ($isOut): ?>
       <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
         <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
@@ -154,19 +153,19 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       </span>
     </div>
 
-    <div class="grid grid-cols-2 gap-3">
-      <button onclick='openModal(<?= json_encode($row) ?>)'
-        class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition shadow-md shadow-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
-        <?= $isOut ? 'disabled' : '' ?>>
+          <div class="grid grid-cols-2 gap-3">
+                <button onclick='openModal(<?= json_encode($row) ?>)'
+                class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition shadow-md shadow-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                <?= $isOut ? 'disabled' : '' ?>>
         Pesan
       </button>
 
-      <a href="detail.php?id=<?= $row['id'] ?>"
-        class="border border-orange-200 text-orange-600 hover:bg-orange-50 py-3 rounded-xl font-bold text-sm text-center shadow-sm transition">
-        Detail
-      </a>
-    </div>
-  </div>
+                <a href="detail.php?id=<?= $row['id'] ?>"
+                class="border border-orange-200 text-orange-600 hover:bg-orange-50 py-3 rounded-xl font-bold text-sm text-center shadow-sm transition">
+                  Detail
+                </a>
+              </div>
+            </div>
           </article>
         </div>
         <?php $i++; endwhile; ?>
@@ -175,7 +174,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       <?php if ($total_data > 6): ?>
       <div class="from-bottom delay-[1s] text-center mt-12">
         <a href="katalog.php" class="inline-block border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white px-8 py-3 rounded-xl font-bold transition-all duration-300">
-          Lihat Semua Produk
+          Lihat Semua Menu
         </a>
       </div>
       <?php endif; ?>
@@ -216,7 +215,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             "<?= htmlspecialchars($t['isi']) ?>"
           </p>
           <div class="flex items-center gap-4 mt-auto">
-            <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-600 uppercase">
+            <div class="h-12 aspect-square bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-600 uppercase">
               <?= substr($t['nama_pelanggan'], 0, 1) ?>
             </div>
             <div>
@@ -300,7 +299,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       <div class="flex flex-col gap-2 text-center">
         <a href="#beranda" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 transation-colors duration-300 ease hover:text-orange-500 hover:bg-orange-100">Beranda</a>
         <a href="#tentang" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 transation-colors duration-300 ease hover:text-orange-500 hover:bg-orange-100">Tentang</a>
-        <a href="#produk" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 transation-colors duration-300 ease hover:text-orange-500 hover:bg-orange-100">Produk</a>
+        <a href="#menu" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 transation-colors duration-300 ease hover:text-orange-500 hover:bg-orange-100">Menu</a>
         <a href="#kontak" onclick="toggleMobileMenu()" class="text-xl font-bold rounded-xl py-2 text-slate-800 transation-colors duration-300 ease hover:text-orange-500 hover:bg-orange-100">Kontak</a>
         <hr class="border-gray-100 my-2">
         <button onclick="handleContactClick()" class="orange-gradient text-white py-4 rounded-2xl font-bold shadow-lg">
@@ -316,7 +315,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
       <div class="orange-gradient p-6 text-white text-center">
         <h3 class="text-2xl font-bold">Lengkapi Pesanan</h3>
         <p class="text-orange-100 text-sm opacity-90" id="modalSubTitle">
-          Produk yang anda pilih
+          Menu yang anda pilih
         </p>
       </div>
 
