@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const observerOptions = {
         root: null, // Mengacu pada viewport
-        threshold: 0.15 // Elemen terlihat 15% langsung trigger
+        threshold: 0.1 // Elemen terlihat 15% langsung trigger
     };
 
     const observer = new IntersectionObserver(entries => {

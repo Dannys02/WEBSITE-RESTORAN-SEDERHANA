@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $data_produk = mysqli_stmt_get_result($stmt_stok)->fetch_assoc();
 
   if (!$data_produk || $data_produk['stok'] < $stok) {
-    echo "<script>alert('Maaf, stok tidak mencukupi!'); window.location.href='../index.php';</script>";
+    echo "<script>alert('Maaf, stok tidak mencukupi!'); window.location.href='../store#menu';</script>";
     exit;
   }
 
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     . "📑 *DETAIL PESANAN*\n"
     . "━━━━━━━━━━━━━━━━━━━━\n"
     . "🍱 *Menu:* " . $nama_produk . "\n"
-    . "🔢 *Jumlah:* " . $stok . " pcs\n"
+    . "🔢 *Jumlah:* " . $stok . " porsi\n"
     . "💰 *Total Estimasi:* Rp " . number_format($harga, 0, ',', '.') . "\n"
     . "━━━━━━━━━━━━━━━━━━━━\n\n"
     . "🚚 *DATA PENGIRIMAN*\n"
@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "<script>
             alert('Pesanan Berhasil Dikirim, hubungi dan tunggu respon Admin!');
             window.location.href = '$url_wa';
-            window.location.href = '/store';
+            window.location.href = '/store#menu';
           </script>";
   } else {
     echo "Error: Gagal menyimpan pesanan.";

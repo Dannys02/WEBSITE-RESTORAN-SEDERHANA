@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
     $new_name = time() . "-" . bin2hex(random_bytes(4)) . "." . $ext; // Nama file acak agar tidak bentrok
     if (move_uploaded_file($_FILES['gambar']['tmp_name'], "../src/img/" . $new_name)) {
       mysqli_query($koneksi, "INSERT INTO produk (nama, harga, deskripsi, gambar, stok) VALUES ('$nama', '$harga', '$deskripsi', '$new_name', '$stok')");
-      echo "<script>window.location.href='index.php?page=produk';</script>";
+      echo "<script>window.location.href='index.php?page=menu';</script>";
       exit;
     }
   } else {
@@ -34,7 +34,7 @@ if (isset($_GET['delete'])) {
     unlink("../src/img/".$data['gambar']);
   }
   mysqli_query($koneksi, "DELETE FROM produk WHERE id=$id");
-  echo "<script>window.location.href='index.php?page=produk';</script>";
+  echo "<script>window.location.href='index.php?page=menu';</script>";
   exit;
 }
 
@@ -80,8 +80,8 @@ $query = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         <td class="p-4 text-sm"><?= htmlspecialchars($row['stok']) ?></td>
         <td class="p-4 text-center">
           <div class="flex justify-center gap-3">
-            <a href="index.php?page=produk_edit&id=<?= $row['id'] ?>" class="text-yellow-600 text-sm font-bold">Edit</a>
-            <a href="index.php?page=produk&delete=<?= $row['id'] ?>" onclick="return confirm('Hapus?')" class="text-red-500 text-sm font-bold">Hapus</a>
+            <a href="index.php?page=menu_edit&id=<?= $row['id'] ?>" class="text-yellow-600 text-sm font-bold">Edit</a>
+            <a href="index.php?page=menu&delete=<?= $row['id'] ?>" onclick="return confirm('Hapus?')" class="text-red-500 text-sm font-bold">Hapus</a>
           </div>
         </td>
       </tr>

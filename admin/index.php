@@ -52,11 +52,17 @@ $page = $_GET['page'] ?? 'dashboard';
         case 'dashboard':
           include 'dashboard.php';
           break;
-        case 'produk':
+        case 'menu':
           include 'crud_produk.php';
           break;
-        case 'produk_edit':
+        case 'menu_edit':
           include 'edit_produk.php';
+          break;
+        case 'testimoni':
+          include 'crud_testimoni.php';
+          break;
+        case 'testimoni_edit':
+          include 'edit_testimoni.php';
           break;
         case 'orders':
           include 'orders.php';
@@ -64,11 +70,8 @@ $page = $_GET['page'] ?? 'dashboard';
         case 'edit_order':
           include 'edit_order.php';
           break;
-        case 'testimoni':
-          include 'crud_testimoni.php';
-          break;
-        case 'testimoni_edit':
-          include 'edit_testimoni.php';
+        case 'cetak_laporan':
+          include 'cetak_laporan.php';
           break;
         case 'pengaturan':
           include 'pengaturan.php';
@@ -86,13 +89,13 @@ $page = $_GET['page'] ?? 'dashboard';
       <a href="index.php?page=dashboard" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-100 <?= $page == 'dashboard' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Dashboard</span>
       </a>
-      <a href="index.php?page=produk" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-100 <?= $page == 'produk' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
-        <span class="text-[10px] font-bold uppercase">Produk</span>
+      <a href="index.php?page=menu" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-100 <?= $page == 'menu' || $page == 'menu_edit' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+        <span class="text-[10px] font-bold uppercase">Menu</span>
       </a>
-      <a href="index.php?page=testimoni" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-100 <?= $page == 'testimoni' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+      <a href="index.php?page=testimoni" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-100 <?= $page == 'testimoni' || $page == 'testimoni_edit' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Testimoni</span>
       </a>
-      <a href="index.php?page=orders" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-100 <?= $page == 'orders' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
+      <a href="index.php?page=orders" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-100 <?= $page == 'orders' || $page == 'edit_order' || $page == 'cetak_laporan' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">
         <span class="text-[10px] font-bold uppercase">Pesanan</span>
       </a>
       <a href="index.php?page=pengaturan" class="flex-1 flex flex-col items-center justify-center h-full bg-slate-50 hover:bg-gray-100 <?= $page == 'pengaturan' ? 'text-blue-600 border-t-2 border-blue-600 bg-blue-50' : 'text-gray-500' ?>">

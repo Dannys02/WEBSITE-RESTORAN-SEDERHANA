@@ -125,44 +125,41 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         ?>
         <div style="transition-delay: <?= $i * 0.2 ?>s" class="from-bottom">
           <article class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
-            <div class="relative overflow-hidden">
-            <img src="<?= (!empty($row['gambar'])) ? 'src/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>"
-            alt="<?= htmlspecialchars($row['nama']) ?>"
-            class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
-    <?php if ($isOut): ?>
-      <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
-        <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
-          Stok Habis
-        </span>
-      </div>
-    <?php endif; ?>
-  </div>
+              <div class="relative overflow-hidden">
+                <img src="<?= (!empty($row['gambar'])) ? 'src/img/' . $row['gambar'] : 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=500' ?>" alt="<?= htmlspecialchars($row['nama']) ?>"
+                class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+                <?php if ($isOut): ?>
+                <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
+                  <span class="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+                    Stok Habis
+                  </span>
+                </div>
+                <?php endif; ?>
+             </div>
   
             <div class="p-4 md:p-6 flex flex-col flex-grow">
-    <h4 class="text-xl font-bold group-hover:text-orange-600 transition-colors duration-300">
-      <?= $row['nama'] ?>
-    </h4>
+              <h4 class="text-xl truncate font-bold group-hover:text-orange-600 transition-colors duration-300">
+                <?= $row['nama'] ?>
+              </h4>
 
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 pt-4 border-t border-gray-50 gap-2">
-      <span class="text-sm md:text-xl font-extrabold text-slate-900">
-        Rp <?= number_format($row['harga'], 0, ',', '.') ?>
-      </span>
+              <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 pt-4 border-t border-gray-50 gap-2">
+                <span class="text-sm md:text-xl font-extrabold text-slate-900">
+                  Rp <?= number_format($row['harga'], 0, ',', '.') ?>
+                </span>
 
-      <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-md text-slate-500">
-        Stok: <?= $row['stok'] ?>
-      </span>
-    </div>
+                <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-md text-slate-500">
+                  Stok: <?= $row['stok'] ?>
+                </span>
+              </div>
 
-          <div class="grid grid-cols-2 gap-3">
-                <button onclick='openModal(<?= json_encode($row) ?>)'
-                class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition shadow-md shadow-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                <?= $isOut ? 'disabled' : '' ?>>
-        Pesan
-      </button>
-
-                <a href="detail.php?id=<?= $row['id'] ?>"
-                class="border border-orange-200 text-orange-600 hover:bg-orange-50 py-3 rounded-xl font-bold text-sm text-center shadow-sm transition">
-                  Detail
+              <div class="grid grid-cols-2 gap-3">
+                <button onclick='openModal(<?= json_encode($row) ?>)' class="bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm transition shadow-md shadow-orange-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                  <?= $isOut ? 'disabled' : '' ?>>
+            Pesan
+          </button>
+    
+                <a href="detail.php?id=<?= $row['id'] ?>" class="border border-orange-200 text-orange-600 hover:bg-orange-50 py-3 rounded-xl font-bold text-sm text-center shadow-sm transition">
+                    Detail
                 </a>
               </div>
             </div>
@@ -261,15 +258,27 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
           <h5 class="text-lg font-bold mb-6">Hubungi Kami</h5>
           <ul class="space-y-4 text-slate-400">
             <li class="flex items-start gap-3">
-              <span class="text-orange-500">📍</span>
+              <span class="text-orange-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+</svg>
+              </span>
               Jl. Nasional No. 3, Jawa Timur
             </li>
             <li class="flex items-center gap-3">
-              <span class="text-orange-500">📞</span>
+              <span class="text-orange-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                  <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                </svg>
+              </span>
               +62 85*-****-****
             </li>
             <li class="flex items-center gap-3">
-              <span class="text-orange-500">✉️</span>
+              <span class="text-orange-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                </svg>
+              </span>
               webToko@gmail.com
             </li>
           </ul>

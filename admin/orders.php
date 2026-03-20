@@ -62,9 +62,9 @@ $all_orders = mysqli_query($koneksi, $query);
 
 <div class="mb-6 w-full flex flex-col md:flex-row md:justify-between">
   <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">Daftar Pesanan Masuk</h1>
-  <button onclick="window.print()" class="bg-indigo-600 mt-2 md:mt-0 w-fit text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-indigo-700 shadow-md">
-    🖨️ Cetak Laporan (PDF)
-  </button>
+  <a href="index.php?page=cetak_laporan" class="bg-orange-600 mt-2 md:mt-0 w-fit text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-orange-700 shadow-md">
+    Laporan Terjual
+  </a>
 </div>
 
 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden overflow-x-auto">
@@ -94,7 +94,7 @@ $all_orders = mysqli_query($koneksi, $query);
         . "📑 *DETAIL PESANAN ANDA*\n"
         . "━━━━━━━━━━━━━━━━━━━━\n"
         . "🍱 *Menu:* {$row['nama_produk']}\n"
-        . "🔢 *Jumlah:* {$row['stok']} pcs\n"
+        . "🔢 *Jumlah:* {$row['stok']} porsi\n"
         . "💰 *Total:* {$format_harga}\n"
         . "━━━━━━━━━━━━━━━━━━━━\n\n"
         . "Tim kami akan segera menghubungi Anda melalui WhatsApp untuk konfirmasi lebih lanjut. Mohon kesabaran Anda ya. Terima kasih! 🙏"
@@ -108,7 +108,7 @@ $all_orders = mysqli_query($koneksi, $query);
         . "📑 *DETAIL PESANAN*\n"
         . "━━━━━━━━━━━━━━━━━━━━\n"
         . "🍱 *Menu:* {$row['nama_produk']}\n"
-        . "🔢 *Jumlah:* {$row['stok']} pcs\n"
+        . "🔢 *Jumlah:* {$row['stok']} porsi\n"
         . "💰 *Total:* {$format_harga}\n"
         . "━━━━━━━━━━━━━━━━━━━━\n\n"
         . "Kami akan segera menginformasikan perkembangan pesanan Anda. Terima kasih atas kepercayaan Anda! 🙏"
@@ -218,7 +218,7 @@ $all_orders = mysqli_query($koneksi, $query);
         class="bg-gray-100 text-gray-500 py-2 rounded-lg text-[10px] font-bold border border-gray-200 hover:bg-emerald-50 hover:text-emerald-600">
         🟢 HUBUNGI WA
       </button>
-      <span class="text-[9px] text-slate-400 font-bold italic mt-1 uppercase"><?= $row['status'] ?></span>
+      <span class="text-[9px] text-red-500 font-bold italic mt-1 uppercase"><?= $row['status'] ?></span>
       <?php endif; ?>
     </div>
   </td>

@@ -81,7 +81,7 @@ $result = mysqli_query($koneksi, $sql);
         </div>
 
         <div class="p-4 md:p-6 flex flex-col flex-grow">
-          <h4 class="text-xl font-bold group-hover:text-orange-600 transition-colors duration-300"><?= $row['nama'] ?></h4>
+          <h4 class="text-xl truncate font-bold group-hover:text-orange-600 transition-colors duration-300"><?= $row['nama'] ?></h4>
 
           <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 pt-4 border-t border-gray-50 gap-2">
             <span class="text-sm md:text-xl font-extrabold text-slate-900">Rp <?= number_format($row['harga'], 0, ',', '.') ?></span>

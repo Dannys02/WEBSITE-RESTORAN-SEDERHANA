@@ -61,7 +61,7 @@ if (!$t) {
         <select name="bintang" class="w-full border border-slate-200 p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 outline-none transition">
           <?php for ($i = 5; $i >= 1; $i--): ?>
           <option value="<?= $i ?>" <?= ($t['bintang'] == $i) ? 'selected' : '' ?>>
-            <?= str_repeat('⭐', $i) ?> (<?= $i ?> Bintang)
+            <?= str_repeat('⭐', $i) ?> 
           </option>
           <?php endfor; ?>
         </select>
