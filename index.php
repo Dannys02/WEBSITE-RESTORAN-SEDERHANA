@@ -4,6 +4,7 @@ $_SESSION['load_time'] = time();
 include 'config/db.php';
 
 $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
+$all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +37,9 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
         <a href="#tentang" class="hover:text-orange-500 transition">Tentang</a>
         <?php if (mysqli_num_rows($all_product) > 0): ?>
         <a href="#menu" class="hover:text-orange-500 transition">Menu</a>
+        <?php endif; ?>
+        <?php if (mysqli_num_rows($all_testi) > 0): ?>
+        <a href="#testimoni" class="hover:text-orange-500 transition">Testimoni</a>
         <?php endif; ?>
         <a href="#kontak" class="hover:text-orange-500 transition">Kontak</a>
         <button onclick="handleContactClick()" class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-md">
@@ -181,7 +185,7 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
   <?php endif; ?>
 
   <?php
-  $query_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC LIMIT 3");
+  $query_testi = mysqli_query($koneksi, "SELECT * FROM testimoni WHERE tampil = 1 LIMIT 3");
 
   if (mysqli_num_rows($query_testi) > 0):
   ?>
@@ -228,8 +232,116 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
     </div>
   </section>
   <?php endif; ?>
+  
+  <section id="kontak" class="py-24 bg-white relative overflow-hidden">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto bg-white rounded-[2.5rem] shadow-2xl shadow-orange-100/50 border border-orange-50">
+        <div class="flex flex-col lg:flex-row">
+          
+          <div class="lg:w-5/12 orange-gradient p-10 md:p-14 text-white flex flex-col justify-between rounded-b rounded-[50px]">
+            <div>
+              <h3 class="from-bottom text-3xl md:text-4xl font-extrabold mb-6">Ayo Ngobrol!</h3>
+              <p class="from-bottom text-orange-50 leading-relaxed mb-10 opacity-90">
+                Punya pertanyaan tentang menu kami atau ingin kerja sama? Kami siap mendengarkan Anda kapan saja.
+              </p>
 
-  <footer id="kontak" class="bg-slate-900 text-white pt-20 pb-10">
+              <div class="space-y-8">
+                <div class="from-bottom flex items-start gap-5">
+                  <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-lg">Lokasi Kami</h5>
+                    <p class="text-orange-100 text-sm">Jl. Nasional No. 3, Jawa Timur, Indonesia</p>
+                  </div>
+                </div>
+
+                <div class="from-bottom flex items-start gap-5">
+                  <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-lg">Email Support</h5>
+                    <p class="text-orange-100 text-sm">webToko.com</p>
+                  </div>
+                </div>
+
+                <div class="from-bottom flex items-start gap-5">
+                  <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-lg">Jam Kerja</h5>
+                    <p class="text-orange-100 text-sm">Senin - Sabtu: 09:00 - 20:00</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="from-bottom mt-12 pt-8 border-t border-white/20 flex gap-4">
+              <span class="text-sm font-medium text-orange-100">Ikuti kami:</span>
+              <div class="flex gap-3">
+                <a href="#" class="rounded-full flex items-center justify-center transition">
+                  <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                  </svg>
+                </a>
+                <a href="#" class="rounded-full flex items-center justify-center transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                    <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z" />
+                  </svg>
+                </a>
+                <a href="#" class="rounded-full flex items-center justify-center transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:w-7/12 p-10 md:p-14 bg-white">
+            <form action="" method="POST" class="space-y-6">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="from-bottom space-y-2">
+                  <label class="text-sm font-bold text-slate-700 ml-1">Nama Lengkap</label>
+                  <input type="text" id="nama" placeholder="Masukkan nama..." class="w-full bg-gray-50 border border-gray-100 p-4 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:bg-white outline-none transition-all" required>
+                </div>
+                <div class="from-bottom space-y-2">
+                  <label class="text-sm font-bold text-slate-700 ml-1">Alamat Email</label>
+                  <input type="email" id="email" placeholder="Contoh: budi@gmail.com" class="w-full bg-gray-50 border border-gray-100 p-4 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:bg-white outline-none transition-all" required>
+                </div>
+              </div>
+
+              <div class="from-bottom space-y-2">
+                <label class="text-sm font-bold text-slate-700 ml-1">Subjek Pesan</label>
+                <select id="subjek" class="w-full bg-gray-50 border border-gray-100 p-4 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:bg-white outline-none transition-all appearance-none">
+                  <option value="Tanya Menu">Tanya Menu</option>
+                  <option value="Kritik & Saran">Kritik & Saran</option>
+                  <option value="Kemitraan UMKM">Kemitraan UMKM</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+
+              <div class="from-bottom space-y-2">
+                <label class="text-sm font-bold text-slate-700 ml-1">Pesan Anda</label>
+                <textarea id="pesan" rows="4" placeholder="Tuliskan pesan Anda di sini..." class="w-full bg-gray-50 border border-gray-100 p-4 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:bg-white outline-none transition-all" required></textarea>
+              </div>
+              
+              <div class="from-bottom">
+                <button type="button" onclick="sendWA()" class="w-full orange-gradient text-white py-4 rounded-2xl font-bold shadow-xl shadow-orange-200 hover:shadow-orange-300 transform hover:-translate-y-1 transition-all duration-300">
+                  Kirim Pesan
+                </button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="bg-slate-900 text-white pt-20 pb-10">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
         <div>
@@ -260,8 +372,8 @@ $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
             <li class="flex items-start gap-3">
               <span class="text-orange-500">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-</svg>
+                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                </svg>
               </span>
               Jl. Nasional No. 3, Jawa Timur
             </li>
