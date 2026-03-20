@@ -2,6 +2,11 @@
 session_start();
 include '../config/db.php';
 
+// Nomor Admin Wa
+$q_wa = mysqli_query($koneksi, "SELECT nomor FROM admins_wa LIMIT 1");
+$row_wa = mysqli_fetch_assoc($q_wa);
+$nomor_tujuan = $row_wa['nomor'] ?? '6285645837298';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $user_ip = $_SERVER['REMOTE_ADDR'];
 
@@ -84,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['order_count']++;
     $nama_produk = $data_produk['nama'];
 
-    $nomor_admin = "6285645837298";
+    $nomor_admin = $nomor_tujuan;
     $pesan = "Halo Admin, saya ingin memesan 🙋‍♂️\n"
     . "------------------------------------------\n"
     . "Berikut adalah data pesanan saya:\n\n"

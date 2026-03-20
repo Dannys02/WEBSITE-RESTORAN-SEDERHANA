@@ -3,6 +3,11 @@ session_start();
 $_SESSION['load_time'] = time();
 include 'config/db.php';
 
+// Nomor Admin Wa
+$q_wa = mysqli_query($koneksi, "SELECT nomor FROM admins_wa LIMIT 1");
+$row_wa = mysqli_fetch_assoc($q_wa);
+$nomor_tujuan = $row_wa['nomor'] ?? '6285645837298';
+
 $all_product = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 $all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
 ?>
@@ -487,5 +492,54 @@ $all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
   </div>
 
   <script src="src/js/index.js"></script>
+  <script>
+    function sendWA() {
+    // 1. Ambil data dari input
+    const nama = document.getElementById('nama').value;
+    const email = document.getElementById('email').value;
+    const subjek = document.getElementById('subjek').value;
+    const pesan = document.getElementById('pesan').value;
+    
+    // Nomor WA Admin
+    const nomorWA = "<?= $nomor_tujuan ?>"; 
+
+    // 2. Validasi sederhana
+    if (nama === "" || pesan === "") {
+        alert("Mohon isi Nama dan Pesan Anda!");
+        return;
+    }
+
+    // 3. Susun format pesan rapi (Gunakan %0A untuk baris baru)
+    const teksPesan = `*📩 PESAN BARU DARI WEBSITE*
+    ------------------------------------------
+*Nama:* ${nama}
+*Email:* ${email}
+*Subjek:* ${subjek}
+    ------------------------------------------
+*Pesan:* ${pesan}
+    
+Dikirim dari *Website Restoran Sederhana*`;
+
+    // 4. Arahkan ke WhatsApp API
+    const url = "https://api.whatsapp.com/send?phone=" + nomorWA + "&text=" + encodeURIComponent(teksPesan);
+    
+    // Buka di tab baru
+    window.open(url, '_blank');
+    }
+    
+    const handleContactClick = () => {
+      const phoneNumber = "<?= $nomor_tujuan ?>";
+      const message =
+          "Halo Admin, saya melihat website Anda dan ingin bertanya lebih lanjut. Mohon infonya ya, terima kasih!";
+  
+      // Encode pesan agar format URL valid
+      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+          message
+      )}`;
+  
+      // Buka WhatsApp di tab baru
+      window.open(url, "_blank");
+    };
+  </script>
 </body>
 </html>

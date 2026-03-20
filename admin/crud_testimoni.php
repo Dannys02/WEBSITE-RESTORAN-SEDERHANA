@@ -115,7 +115,7 @@ $res = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
       </tbody>
     </table>
     <div class="p-4 flex justify-center md:justify-end">
-      <button type="submit" name="simpan_testi" class="bg-orange-500 hover:bg-slate-900 text-white font-bold py-2 px-6 rounded-xl transition shadow-lg">
+      <button type="submit" name="simpan_testi" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-xl transition shadow-lg">
         Konfirmasi Tampilkan
       </button>
     </div>

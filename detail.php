@@ -11,6 +11,11 @@ if (!$p) {
 }
 
 $isOut = ($p['stok'] <= 0);
+
+// Nomor Admin Wa
+$q_wa = mysqli_query($koneksi, "SELECT nomor FROM admins_wa LIMIT 1");
+$row_wa = mysqli_fetch_assoc($q_wa);
+$nomor_tujuan = $row_wa['nomor'] ?? '6285645837298';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -92,7 +97,7 @@ $isOut = ($p['stok'] <= 0);
               </svg>
               Pesan Sekarang
             </button>
-            <a href="https://wa.me/6285645837298?text=Halo admin, saya ingin tanya menu <?= urlencode($p['nama']) ?>"
+            <a href="https://wa.me/<?= $nomor_tujuan ?>?text=Halo admin, saya ingin tanya menu <?= urlencode($p['nama']) ?>"
               target="_blank"
               class="px-8 py-5 border-2 border-slate-200 text-slate-700 rounded-2xl font-bold hover:bg-slate-50 transition flex items-center justify-center">
               Tanya CS
