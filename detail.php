@@ -44,6 +44,8 @@ $nomor_tujuan = $row_wa['nomor'] ?? '6285645837298';
     <nav class="mb-8 flex items-center gap-2 text-sm font-medium text-gray-500">
       <a href="/store#menu" class="hover:text-orange-500 transition">Halaman Utama</a>
       <span>/</span>
+      <a href="katalog.php" class="hover:text-orange-500 transition">Halaman Menu</a>
+      <span>/</span>
       <span class="text-orange-600">Detail Menu</span>
     </nav>
 

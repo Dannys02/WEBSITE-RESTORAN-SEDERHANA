@@ -57,7 +57,7 @@ $all_testi = mysqli_query($koneksi, "SELECT * FROM testimoni ORDER BY id DESC");
     </div>
   </nav>
 
-  <section id="beranda" class="relative overflow-hidden bg-white py-12 md:py-24">
+  <section id="beranda" class="relative overflow-hidden bg-white py-12 md:py-24 lg:py-0">
     <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
       <div class="from-bottom">
         <h2 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">

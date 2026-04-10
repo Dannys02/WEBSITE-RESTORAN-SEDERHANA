@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div class="mb-8">
-  <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">Pengaturan Akun</h1>
+  <h1 class="text-2xl font-bold text-slate-800">Pengaturan Akun</h1>
   <p class="text-slate-500">
     Kelola informasi login dan keamanan panel admin Anda.
   </p>

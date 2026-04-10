@@ -61,7 +61,7 @@ $all_orders = mysqli_query($koneksi, $query);
 ?>
 
 <div class="mb-6 w-full flex flex-col md:flex-row md:justify-between">
-  <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">Daftar Pesanan Masuk</h1>
+  <h1 class="text-2xl font-bold text-slate-800">Daftar Pesanan Masuk</h1>
   <a href="index.php?page=cetak_laporan" class="bg-orange-600 mt-2 md:mt-0 w-fit text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-orange-700 shadow-md">
     Laporan Terjual
   </a>
